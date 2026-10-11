@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- THELORİN OTONOM V5 SİSTEMİ (Güncellenmiş Sıralama) -->
+<!-- THELORİN OTONOM V6 SİSTEMİ (Mini Oyunlu) -->
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -9,168 +9,336 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #07070a;
-            --card-bg: rgba(18, 14, 28, 0.75);
-            --neon-purple: #9d00ff;
-            --neon-cyan: #00f3ff;
-            --text-main: #f0ebf8;
-            --text-muted: #a399b5;
-            --success: #00ff66;
-            --danger: #ff0055;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Rajdhani', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(157, 0, 255, 0.15), transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.08), transparent 40%);
-            background-attachment: fixed;
-        }
-
-        /* Top Bar: Hamburger Menu & Founder Button */
-        .top-bar {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            position: relative;
-            z-index: 100;
-        }
-
-        .menu-btn {
-            font-size: 2rem;
-            color: var(--neon-cyan);
-            cursor: pointer;
-            background: rgba(18, 14, 28, 0.8);
-            border: 1px solid var(--neon-purple);
-            padding: 5px 15px;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(157, 0, 255, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .menu-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px var(--neon-cyan);
-        }
-
-        /* Founder Button */
+        :root { --bg-color: #07070a; --card-bg: rgba(18, 14, 28, 0.75); --neon-purple: #9d00ff; --neon-cyan: #00f3ff; --text-main: #f0ebf8; --text-muted: #a399b5; --success: #00ff66; --danger: #ff0055; }
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Rajdhani', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; background-image: radial-gradient(circle at 50% 0%, rgba(157, 0, 255, 0.15), transparent 50%), radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.08), transparent 40%); background-attachment: fixed; }
+        
+        /* Top Bar & Menu */
+        .top-bar { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; position: relative; z-index: 100; }
+        .menu-btn { font-size: 2rem; color: var(--neon-cyan); cursor: pointer; background: rgba(18, 14, 28, 0.8); border: 1px solid var(--neon-purple); padding: 5px 15px; border-radius: 12px; box-shadow: 0 0 15px rgba(157, 0, 255, 0.4); transition: all 0.3s ease; }
+        .menu-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--neon-cyan); }
         .founder-btn-container { position: relative; }
-        .founder-btn {
-            width: 52px; height: 52px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-            padding: 2px; cursor: pointer;
-            box-shadow: 0 0 15px rgba(157, 0, 255, 0.6);
-            transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;
-        }
+        .founder-btn { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); padding: 2px; cursor: pointer; box-shadow: 0 0 15px rgba(157, 0, 255, 0.6); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
         .founder-btn:hover { transform: scale(1.1); box-shadow: 0 0 25px var(--neon-cyan); }
         .founder-btn img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background-color: #111; }
         .founder-btn .fallback-icon { display: none; font-size: 1.5rem; color: #fff; text-shadow: 0 0 8px var(--neon-purple); }
-        .founder-popup {
-            position: absolute; top: 64px; right: 0; background: rgba(10, 8, 18, 0.95);
-            border: 1px solid var(--neon-cyan); padding: 12px 20px; border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3); white-space: nowrap; display: none;
-            flex-direction: column; align-items: center; gap: 4px; animation: fadeIn 0.3s ease; backdrop-filter: blur(10px);
-        }
+        .founder-popup { position: absolute; top: 64px; right: 0; background: rgba(10, 8, 18, 0.95); border: 1px solid var(--neon-cyan); padding: 12px 20px; border-radius: 12px; box-shadow: 0 0 20px rgba(0, 243, 255, 0.3); white-space: nowrap; display: none; flex-direction: column; align-items: center; gap: 4px; animation: fadeIn 0.3s ease; backdrop-filter: blur(10px); }
         .founder-popup.show { display: flex; }
         .founder-title { font-size: 0.75rem; color: var(--neon-cyan); letter-spacing: 2px; text-transform: uppercase; }
         .founder-name { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff; text-shadow: 0 0 8px var(--neon-purple); }
-
-        /* Sidebar (Yan Menü) */
-        .sidebar {
-            position: fixed;
-            top: 0; left: -300px;
-            width: 280px; height: 100%;
-            background: rgba(10, 8, 18, 0.98);
-            border-right: 2px solid var(--neon-purple);
-            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            transition: left 0.3s ease;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            backdrop-filter: blur(15px);
-        }
-
+        
+        /* Sidebar */
+        .sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: rgba(10, 8, 18, 0.98); border-right: 2px solid var(--neon-purple); box-shadow: 10px 0 30px rgba(0, 0, 0, 0.9); z-index: 1000; transition: left 0.3s ease; padding: 20px; display: flex; flex-direction: column; gap: 20px; backdrop-filter: blur(15px); }
         .sidebar.open { left: 0; }
-
-        .sidebar-header {
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px;
-        }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px; }
         .sidebar-title { font-family: 'Orbitron', sans-serif; color: var(--neon-cyan); font-size: 1.2rem; font-weight: bold; }
         .close-btn { font-size: 1.8rem; color: var(--danger); cursor: pointer; }
-
         .nav-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-        .nav-item {
-            padding: 12px 15px; border-radius: 8px; cursor: pointer;
-            font-size: 1.1rem; font-weight: 600; color: var(--text-main);
-            background: rgba(255, 255, 255, 0.03); border-left: 3px solid transparent;
-            transition: all 0.2s ease; display: flex; align-items: center; gap: 10px;
-        }
-        .nav-item:hover, .nav-item.active {
-            background: rgba(157, 0, 255, 0.15); border-left-color: var(--neon-cyan); color: var(--neon-cyan);
-            transform: translateX(5px);
-        }
-
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6); z-index: 999; display: none;
-            backdrop-filter: blur(3px);
-        }
+        .nav-item { padding: 12px 15px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: 600; color: var(--text-main); background: rgba(255, 255, 255, 0.03); border-left: 3px solid transparent; transition: all 0.2s ease; display: flex; align-items: center; gap: 10px; }
+        .nav-item:hover, .nav-item.active { background: rgba(157, 0, 255, 0.15); border-left-color: var(--neon-cyan); color: var(--neon-cyan); transform: translateX(5px); }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 999; display: none; backdrop-filter: blur(3px); }
         .overlay.show { display: block; }
-
-        /* Header Section */
+        
+        /* Header */
         header { text-align: center; margin-top: 10px; margin-bottom: 35px; }
         .clan-logo { width: 150px; height: 150px; margin: 0 auto 10px; position: relative; display: flex; align-items: center; justify-content: center; }
         .logo-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 15px var(--neon-purple)) drop-shadow(0 0 25px var(--neon-cyan)); animation: pulse 3s infinite alternate; }
         h1 { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; font-weight: 900; letter-spacing: 8px; text-transform: uppercase; background: linear-gradient(90deg, var(--neon-purple), #fff, var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(157, 0, 255, 0.5); }
-
-        /* Main Container & Tabs */
-        .container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 30px; }
         
+        /* Main Container */
+        .container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 30px; }
         .tab-content { display: none; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: flex; flex-direction: column; gap: 30px; }
-
-        /* Card Styles */
-        .card {
-            background: var(--card-bg); border-radius: 16px; padding: 25px;
-            border: 1px solid rgba(157, 0, 255, 0.3); box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(157, 0, 255, 0.1);
-            position: relative; overflow: hidden; backdrop-filter: blur(8px);
-        }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 25px; border: 1px solid rgba(157, 0, 255, 0.3); box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(157, 0, 255, 0.1); position: relative; overflow: hidden; backdrop-filter: blur(8px); }
         .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--neon-purple), var(--neon-cyan), transparent); }
         .card-title { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: var(--neon-cyan); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; letter-spacing: 2px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; }
-
-        /* 🏆 Kürsü (Podium) CSS Ayarları */
+        
+        /* Kürsü (Podium) */
         .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin: 10px auto 20px auto; max-width: 600px; height: 180px; }
         .podium { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width: 30%; border-radius: 10px 10px 0 0; padding-top: 15px; transition: transform 0.3s ease; }
         .podium:hover { transform: translateY(-10px); }
         .rank { font-size: 35px; margin-bottom: 5px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
         .name { font-size: 16px; font-weight: 700; margin-bottom: 5px; color: #fff; word-break: break-all; text-align: center; font-family: 'Orbitron', sans-serif;}
         .xp { font-size: 13px; font-weight: 700; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 5px; color: var(--neon-cyan); border: 1px solid rgba(0, 243, 255, 0.3);}
-        
         .p2 { height: 65%; background: linear-gradient(to top, rgba(42,42,42,0.8), rgba(192,192,192,0.8)); border-top: 3px solid silver; box-shadow: 0 0 20px rgba(192,192,192,0.15);}
         .p1 { height: 85%; background: linear-gradient(to top, rgba(58,42,0,0.8), rgba(255,215,0,0.8)); border-top: 3px solid gold; box-shadow: 0 -5px 25px rgba(255,215,0,0.3); z-index: 10; }
         .p3 { height: 50%; background: linear-gradient(to top, rgba(42,21,5,0.8), rgba(205,127,50,0.8)); border-top: 3px solid #cd7f32; box-shadow: 0 0 20px rgba(205,127,50,0.15);}
-
-        /* Rules Section */
+        
+        /* Kurallar & Tablo */
         .rules-list { list-style: none; display: flex; flex-direction: column; gap: 15px; }
-        .rule-item { display: flex; align-items: flex-
+        .rule-item { display: flex; align-items: flex-start; gap: 12px; font-size: 1.15rem; line-height: 1.5; background: rgba(255, 255, 255, 0.03); padding: 12px 16px; border-radius: 8px; border-left: 3px solid var(--neon-purple); }
+        .rule-icon { color: var(--neon-cyan); font-weight: bold; font-size: 1.3rem; }
+        .highlight-gold { color: #ffd700; font-weight: 700; }
+        .highlight-diamond { color: #00ffff; font-weight: 700; }
+        .table-container { overflow-x: auto; max-height: 500px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { font-family: 'Orbitron', sans-serif; color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; padding: 12px 15px; border-bottom: 1px solid rgba(157, 0, 255, 0.3); text-transform: uppercase; position: sticky; top: 0; background: var(--card-bg); z-index: 10; }
+        td { padding: 16px 15px; font-size: 1.15rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600; }
+        tr:hover td { background: rgba(0, 243, 255, 0.03); }
+        .player-name { font-size: 1.25rem; font-weight: 700; color: #fff; }
+        .status-badge { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; }
+        .status-success { background: rgba(0, 255, 102, 0.15); color: var(--success); border: 1px solid var(--success); }
+        .status-danger { background: rgba(255, 0, 85, 0.15); color: var(--danger); border: 1px solid var(--danger); }
+        .info-bar { margin-top: 15px; font-size: 0.95rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; background: rgba(0, 0, 0, 0.4); padding: 10px 15px; border-radius: 8px; border: 1px dashed rgba(157, 0, 255, 0.4); }
+        .info-bar span { color: var(--neon-cyan); font-weight: 700; }
+        
+        /* 🎮 MİNİ OYUN CSS */
+        .game-stats { display: flex; justify-content: space-between; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin-bottom: 15px; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px solid rgba(157, 0, 255, 0.3); }
+        .game-board { width: 100%; height: 350px; background: rgba(0,0,0,0.6); border: 2px dashed var(--neon-purple); border-radius: 10px; position: relative; overflow: hidden; cursor: crosshair; }
+        .target-entity { position: absolute; font-size: 45px; cursor: pointer; transition: transform 0.1s; user-select: none; }
+        .target-entity:active { transform: scale(0.7); }
+        .start-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 40px; background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); color: white; border: none; font-family: 'Orbitron'; font-size: 1.5rem; border-radius: 10px; cursor: pointer; box-shadow: 0 0 20px rgba(157, 0, 255, 0.6); z-index: 10; }
+        .start-btn:hover { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 30px var(--neon-cyan); }
+        .floating-score { position: absolute; font-weight: bold; font-size: 22px; animation: floatUp 0.8s ease-out forwards; pointer-events: none; }
+        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-30px); } }
+        @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 600px) { h1 { font-size: 2.5rem; letter-spacing: 4px; } .card { padding: 15px; } td, th { padding: 10px 8px; font-size: 1rem; } .game-board { height: 280px; } }
+    </style>
+</head>
+<body>
+
+    <!-- Yan Menü (Sidebar) -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="sidebar-title">⚡ MENÜ</span>
+            <span class="close-btn" onclick="toggleSidebar()">×</span>
+        </div>
+        <ul class="nav-list">
+            <li class="nav-item active" onclick="switchTab('tab-xp', this)">⚡ XP Takibi & Kurallar</li>
+            <li class="nav-item" onclick="switchTab('tab-outfits', this)">👕 Wov. Kıyafetler</li>
+            <!-- 🎮 YENİ EKLENEN OYUN SEKMESİ -->
+            <li class="nav-item" onclick="switchTab('tab-game', this)">🎮 Mini Oyun (Kurt Avı)</li>
+        </ul>
+    </div>
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="menu-btn" onclick="toggleSidebar()" title="Menüyü Aç">☰</div>
+        <div class="founder-btn-container">
+            <div class="founder-btn" onclick="toggleFounder()" title="Kurucu Bilgisi">
+                <img src="kurucu_pp.jpg" alt="Founder" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="fallback-icon">Y</span>
+            </div>
+            <div class="founder-popup" id="founderPopup">
+                <span class="founder-title">Kurucu</span>
+                <span class="founder-name">Yusuf</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header & Logo -->
+    <header>
+        <div class="clan-logo"><img class="logo-img" src="klan_logosu.png" alt="THELORIN Logo"></div>
+        <h1>THELORİN</h1>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+
+        <!-- ⚡ 1. SEKME: XP TAKİBİ -->
+        <div id="tab-xp" class="tab-content active">
+            <div class="card">
+                <div class="card-title"><span>🛡️</span> GENEL KURALLAR</div>
+                <ul class="rules-list">
+                    <li class="rule-item"><span class="rule-icon">✧</span><div>Irkçılık ve siyaset yapmak kesinlikle yasaktır.</div></li>
+                    <li class="rule-item"><span class="rule-icon">✧</span><div>Haftalık minimum <strong>1000 XP</strong> sınırını geçmeyenler klan kasasına <span class="highlight-gold">300 Altın</span> atmak zorundadır.</div></li>
+                    <li class="rule-item"><span class="rule-icon">✧</span><div><strong>Görev Ücretleri:</strong> Altınlı görev <span class="highlight-gold">600 Altın</span>, Elmaslı görev <span class="highlight-diamond">170 Elmas</span>'tır.</div></li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-title"><span>🏆</span> AYIN KAHRAMANLARI</div>
+                <div class="podium-container" id="podium"><p style="color: var(--neon-cyan);">⚡ Veriler Klan Merkezinden Çekiliyor...</p></div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span>⚡</span> HAFTALIK & AYLIK XP TAKİBİ</div>
+                <div class="table-container">
+                    <table id="xpTable">
+                        <thead><tr><th>Oyuncu</th><th>Haftalık XP</th><th>Aylık XP</th><th style="text-align: center;">Durum</th></tr></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+                <div class="info-bar"><div>Haftalık Baraj: <span>1.000 XP</span></div><div>Durum otomatik denetlenir: <span>✔ Başarılı / ✖ Başarısız</span></div></div>
+            </div>
+        </div>
+
+        <!-- 👕 2. SEKME: WOV. KIYAFETLER -->
+        <div id="tab-outfits" class="tab-content">
+            <div class="card">
+                <div class="card-title"><span>👕</span> WOLVESVILLE KIYAFETLERİ</div>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Wolvesville evrenindeki en yeni kıyafetler ve kostüm setleri:</p>
+                <script src="https://elfsightcdn.com/platform.js" async></script>
+                <div class="elfsight-app-3ceb0adb-0777-42a0-9e96-72353fc511cc" data-elfsight-app-lazy></div>
+            </div>
+        </div>
+
+        <!-- 🎮 3. SEKME: MİNİ OYUN (KURT AVI) -->
+        <div id="tab-game" class="tab-content">
+            <div class="card">
+                <div class="card-title"><span>🎮</span> KURT AVI - MİNİ OYUN</div>
+                <p style="color: var(--text-muted); margin-bottom: 15px;">30 saniye içinde kaç kurt avlayabilirsin? Köylülere tıklarsan eksi puan yersin!</p>
+                
+                <div class="game-stats">
+                    <span id="gameScore" style="color: var(--neon-cyan);">Skor: 0</span>
+                    <span id="gameTime" style="color: #fff;">Süre: 30s</span>
+                    <span id="gameHigh" style="color: gold;">En İyi: 0</span>
+                </div>
+                
+                <div class="game-board" id="gameBoard">
+                    <button class="start-btn" id="startBtn" onclick="startMiniGame()">OYUNA BAŞLA</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Yan Menü & Sekme Değiştirme
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+            toggleSidebar();
+        }
+        function toggleFounder() { document.getElementById('founderPopup').classList.toggle('show'); }
+        document.addEventListener('click', function(e) { if (!document.querySelector('.founder-btn-container').contains(e.target)) { document.getElementById('founderPopup').classList.remove('show'); } });
+
+        // ⚡ OTONOM XP SİSTEMİ ⚡
+        const XP_BARAJI = 1000;
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPoVetii7Ck-DcY03kidQzMjaC-Vc3qH51bK7kRWxJrkCoro1-aOgTpOpUjfKEWMlYyOZRxRp3A0bs/pub?output=csv";
+
+        async function loadTableData() {
+            const tbody = document.getElementById('tableBody');
+            const podiumDiv = document.getElementById('podium');
+            try {
+                const response = await fetch(sheetUrl);
+                const data = await response.text();
+                const rows = data.split(/\r?\n/);
+                let uyeler = [];
+                for (let i = 0; i < rows.length; i++) {
+                    if (!rows[i].trim()) continue; 
+                    const cols = rows[i].split(',');
+                    if (cols.length < 3) continue; 
+                    const playerName = cols[0].trim();
+                    if (playerName.toLowerCase() === 'oyuncu' || playerName.toLowerCase() === 'üye adı' || playerName.toLowerCase() === 'haftalık xp') continue;
+                    const weeklyXP = parseInt(cols[1].replace(/\D/g, ''), 10) || 0;
+                    const monthlyXP = parseInt(cols[2].replace(/\D/g, ''), 10) || 0;
+                    uyeler.push({ name: playerName, week: weeklyXP, month: monthlyXP });
+                }
+                
+                // Kürsü
+                let aylikSiralama = [...uyeler].sort((a, b) => b.month - a.month);
+                if (aylikSiralama.length >= 3) {
+                    podiumDiv.innerHTML = `
+                        <div class="podium p2"><div class="rank">🥈</div><div class="name">${aylikSiralama[1].name}</div><div class="xp">${aylikSiralama[1].month.toLocaleString('tr-TR')} XP</div></div>
+                        <div class="podium p1"><div class="rank">👑</div><div class="name">${aylikSiralama[0].name}</div><div class="xp">${aylikSiralama[0].month.toLocaleString('tr-TR')} XP</div></div>
+                        <div class="podium p3"><div class="rank">🥉</div><div class="name">${aylikSiralama[2].name}</div><div class="xp">${aylikSiralama[2].month.toLocaleString('tr-TR')} XP</div></div>
+                    `;
+                } else { podiumDiv.innerHTML = '<p style="color: var(--text-muted);">Yeterli veri yok.</p>'; }
+
+                // Tablo
+                tbody.innerHTML = ''; 
+                uyeler.forEach(uye => {
+                    const isPassed = uye.week >= XP_BARAJI;
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><div class="player-name">${uye.name}</div></td>
+                        <td class="xp-val" style="color: ${isPassed ? '#fff' : 'var(--danger)'};">${uye.week.toLocaleString('tr-TR')}</td>
+                        <td class="xp-val" style="color: var(--text-muted);">${uye.month.toLocaleString('tr-TR')}</td>
+                        <td style="text-align: center;"><div class="status-badge ${isPassed ? 'status-success' : 'status-danger'}">${isPassed ? '✔' : '✖'}</div></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="4">Bağlantı hatası.</td></tr>';
+            }
+        }
+        
+        // 🎮 MİNİ OYUN SİSTEMİ (KURT AVI) 🎮
+        let gameScore = 0; let gameTimeLeft = 30; let gameInterval, spawnInterval;
+        let highScore = localStorage.getItem('thelorinWolfHuntScore') || 0;
+        
+        window.onload = () => { 
+            loadTableData(); 
+            document.getElementById('gameHigh').innerText = 'En İyi: ' + highScore;
+        };
+
+        function startMiniGame() {
+            gameScore = 0; gameTimeLeft = 30;
+            document.getElementById('gameScore').innerText = 'Skor: 0';
+            document.getElementById('gameTime').innerText = 'Süre: 30s';
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('gameBoard').innerHTML = ''; // Temizle
+            
+            gameInterval = setInterval(() => {
+                gameTimeLeft--;
+                document.getElementById('gameTime').innerText = 'Süre: ' + gameTimeLeft + 's';
+                if(gameTimeLeft <= 0) endMiniGame();
+            }, 1000);
+
+            spawnTarget();
+            spawnInterval = setInterval(spawnTarget, 700); // Her 0.7 saniyede yeni hedef
+        }
+
+        function spawnTarget() {
+            const board = document.getElementById('gameBoard');
+            board.innerHTML = ''; // Eski hedefi sil
+            
+            const isWolf = Math.random() > 0.3; // %70 Kurt, %30 Köylü
+            const entity = document.createElement('div');
+            entity.className = 'target-entity';
+            entity.innerText = isWolf ? '🐺' : '👨‍🌾';
+            
+            // Rastgele konum (taşmayı engelle)
+            const maxX = board.clientWidth - 50;
+            const maxY = board.clientHeight - 50;
+            entity.style.left = Math.floor(Math.random() * maxX) + 'px';
+            entity.style.top = Math.floor(Math.random() * maxY) + 'px';
+            
+            entity.onmousedown = function(e) {
+                e.preventDefault(); // Seçilmeyi önle
+                if(isWolf) {
+                    gameScore += 10;
+                    showFloatingScore('+10', entity.style.left, entity.style.top, '#00ff66');
+                } else {
+                    gameScore -= 15; // Köylü vurmak daha büyük ceza
+                    showFloatingScore('-15', entity.style.left, entity.style.top, '#ff0055');
+                }
+                document.getElementById('gameScore').innerText = 'Skor: ' + gameScore;
+                board.removeChild(entity); // Vurunca kaybolsun
+            };
+            board.appendChild(entity);
+        }
+
+        function showFloatingScore(text, left, top, color) {
+            const board = document.getElementById('gameBoard');
+            const float = document.createElement('div');
+            float.className = 'floating-score';
+            float.style.color = color; float.style.left = left; float.style.top = top;
+            float.innerText = text;
+            board.appendChild(float);
+            setTimeout(() => float.remove(), 800);
+        }
+
+        function endMiniGame() {
+            clearInterval(gameInterval); clearInterval(spawnInterval);
+            const board = document.getElementById('gameBoard');
+            
+            if(gameScore > highScore) {
+                highScore = gameScore;
+                localStorage.setItem('thelorinWolfHuntScore', highScore);
+                document.getElementById('gameHigh').innerText = 'En İyi: ' + highScore;
+            }
+            
+            board.innerHTML = `
+                <div style="position:absolute; top:20px; width:100%; text-align:center; font-size:1.8rem; color:gold; font-family:'Orbitron';">SÜRE BİTTİ!</div>
+                <div style="position:absolute; top:60px; width:100%; text-align:center; font-size:1.2rem; color:#fff;">Toplanan Skor: <span style="color:var(--neon-cyan); font-weight:bold;">${gameScore}</span></div>
+                <button class="start-btn" id="startBtn" onclick="startMiniGame()" style="margin-top: 40px;">TEKRAR OYNA</button>
+            `;
+        }
+    </script>
+</body>
+</html>

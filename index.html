@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- sistem yenileme test -->
+<!-- THELORİN OTONOM V5 SİSTEMİ -->
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -159,6 +159,18 @@
         .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--neon-purple), var(--neon-cyan), transparent); }
         .card-title { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: var(--neon-cyan); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; letter-spacing: 2px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; }
 
+        /* 🏆 YENİ EKLENEN: Kürsü (Podium) CSS Ayarları */
+        .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin: 10px auto 20px auto; max-width: 600px; height: 180px; }
+        .podium { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width: 30%; border-radius: 10px 10px 0 0; padding-top: 15px; transition: transform 0.3s ease; }
+        .podium:hover { transform: translateY(-10px); }
+        .rank { font-size: 35px; margin-bottom: 5px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+        .name { font-size: 16px; font-weight: 700; margin-bottom: 5px; color: #fff; word-break: break-all; text-align: center; font-family: 'Orbitron', sans-serif;}
+        .xp { font-size: 13px; font-weight: 700; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 5px; color: var(--neon-cyan); border: 1px solid rgba(0, 243, 255, 0.3);}
+        
+        .p2 { height: 65%; background: linear-gradient(to top, rgba(42,42,42,0.8), rgba(192,192,192,0.8)); border-top: 3px solid silver; box-shadow: 0 0 20px rgba(192,192,192,0.15);}
+        .p1 { height: 85%; background: linear-gradient(to top, rgba(58,42,0,0.8), rgba(255,215,0,0.8)); border-top: 3px solid gold; box-shadow: 0 -5px 25px rgba(255,215,0,0.3); z-index: 10; }
+        .p3 { height: 50%; background: linear-gradient(to top, rgba(42,21,5,0.8), rgba(205,127,50,0.8)); border-top: 3px solid #cd7f32; box-shadow: 0 0 20px rgba(205,127,50,0.15);}
+
         /* Rules Section */
         .rules-list { list-style: none; display: flex; flex-direction: column; gap: 15px; }
         .rule-item { display: flex; align-items: flex-start; gap: 12px; font-size: 1.15rem; line-height: 1.5; background: rgba(255, 255, 255, 0.03); padding: 12px 16px; border-radius: 8px; border-left: 3px solid var(--neon-purple); }
@@ -228,6 +240,15 @@
         <!-- ⚡ 1. SEKME: XP TAKİBİ VE KURALLAR (ANA EKRAN) -->
         <!-- ========================================================= -->
         <div id="tab-xp" class="tab-content active">
+            
+            <!-- 🏆 YENİ EKLENEN: KÜRSÜ KARTI -->
+            <div class="card">
+                <div class="card-title"><span>🏆</span> AYIN KAHRAMANLARI</div>
+                <div class="podium-container" id="podium">
+                    <p style="color: var(--neon-cyan);">⚡ Veriler Klan Merkezinden Çekiliyor...</p>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-title"><span>🛡️</span> GENEL KURALLAR</div>
                 <ul class="rules-list">
@@ -300,43 +321,90 @@
             }
         });
 
-        // E-Tablodan Veri Çekme
+        // ⚡ TAM OTONOM E-TABLO VE KÜRSÜ VERİ ÇEKME SİSTEMİ ⚡
         const XP_BARAJI = 1000;
         const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPoVetii7Ck-DcY03kidQzMjaC-Vc3qH51bK7kRWxJrkCoro1-aOgTpOpUjfKEWMlYyOZRxRp3A0bs/pub?output=csv";
 
         async function loadTableData() {
             const tbody = document.getElementById('tableBody');
+            const podiumDiv = document.getElementById('podium');
+            
             tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--neon-cyan); padding: 20px;">⚡ Veriler Klan Merkezinden Çekiliyor...</td></tr>';
+            
             try {
                 const response = await fetch(sheetUrl);
                 const data = await response.text();
                 const rows = data.split(/\r?\n/);
-                tbody.innerHTML = ''; 
-                for (let i = 1; i < rows.length; i++) {
+                
+                let uyeler = [];
+                
+                // Verileri Excel'den okuyup temizleme (Otomatik Script uyumlu, 0'dan başlar)
+                for (let i = 0; i < rows.length; i++) {
                     if (!rows[i].trim()) continue; 
                     const cols = rows[i].split(',');
                     if (cols.length < 3) continue; 
+                    
                     const playerName = cols[0].trim();
+                    // Eğer tablonun ilk satırında yanlışlıkla başlık kalmışsa onu es geç
+                    if (playerName.toLowerCase() === 'oyuncu' || playerName.toLowerCase() === 'üye adı' || playerName.toLowerCase() === 'haftalık xp') continue;
+
                     const weeklyXP = parseInt(cols[1].replace(/\D/g, ''), 10) || 0;
                     const monthlyXP = parseInt(cols[2].replace(/\D/g, ''), 10) || 0;
-                    const isPassed = weeklyXP >= XP_BARAJI;
+                    
+                    uyeler.push({ name: playerName, week: weeklyXP, month: monthlyXP });
+                }
+
+                // === 1. KÜRSÜ (AYIN KAHRAMANLARI) MANTIĞI ===
+                // Üyeleri Aylık XP'ye göre büyükten küçüğe sırala
+                let aylikSiralama = [...uyeler].sort((a, b) => b.month - a.month);
+                
+                if (aylikSiralama.length >= 3) {
+                    podiumDiv.innerHTML = `
+                        <div class="podium p2">
+                            <div class="rank">🥈</div>
+                            <div class="name">${aylikSiralama[1].name}</div>
+                            <div class="xp">${aylikSiralama[1].month.toLocaleString('tr-TR')} XP</div>
+                        </div>
+                        <div class="podium p1">
+                            <div class="rank">👑</div>
+                            <div class="name">${aylikSiralama[0].name}</div>
+                            <div class="xp">${aylikSiralama[0].month.toLocaleString('tr-TR')} XP</div>
+                        </div>
+                        <div class="podium p3">
+                            <div class="rank">🥉</div>
+                            <div class="name">${aylikSiralama[2].name}</div>
+                            <div class="xp">${aylikSiralama[2].month.toLocaleString('tr-TR')} XP</div>
+                        </div>
+                    `;
+                } else {
+                    podiumDiv.innerHTML = '<p style="color: var(--text-muted);">Yeterli oyuncu verisi bulunamadı.</p>';
+                }
+
+                // === 2. TABLO MANTIĞI ===
+                tbody.innerHTML = ''; 
+                uyeler.forEach(uye => {
+                    const isPassed = uye.week >= XP_BARAJI;
                     const badgeClass = isPassed ? 'status-success' : 'status-danger';
                     const badgeIcon = isPassed ? '✔' : '✖';
                     const badgeTitle = isPassed ? 'Barajı Geçti' : 'Baraj Altında (300 Altın Ceza)';
                     
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td><div class="player-name">${playerName}</div></td>
-                        <td class="xp-val" style="color: ${isPassed ? '#fff' : 'var(--danger)'};">${weeklyXP.toLocaleString('tr-TR')}</td>
-                        <td class="xp-val" style="color: var(--text-muted);">${monthlyXP.toLocaleString('tr-TR')}</td>
+                        <td><div class="player-name">${uye.name}</div></td>
+                        <td class="xp-val" style="color: ${isPassed ? '#fff' : 'var(--danger)'};">${uye.week.toLocaleString('tr-TR')}</td>
+                        <td class="xp-val" style="color: var(--text-muted);">${uye.month.toLocaleString('tr-TR')}</td>
                         <td style="text-align: center;"><div class="status-badge ${badgeClass}" title="${badgeTitle}">${badgeIcon}</div></td>
                     `;
                     tbody.appendChild(tr);
-                }
+                });
+
             } catch (error) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--danger); padding: 20px;">✖ Veri bağlantısında hata oluştu.</td></tr>';
+                console.error('Veri Çekme Hatası:', error);
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--danger); padding: 20px;">✖ Sunucu bağlantısında hata oluştu.</td></tr>';
+                podiumDiv.innerHTML = '<p style="color: var(--danger);">Veri yüklenemedi.</p>';
             }
         }
+        
         window.onload = loadTableData;
     </script>
 </body>

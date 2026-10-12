@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- THELORİN OTONOM V6 SİSTEMİ (Mini Oyunlu) -->
+<!-- THELORİN OTONOM V7 SİSTEMİ (LİDERLİK TABLOLU & GÖRSEL ROLLERLİ) -->
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -13,15 +13,13 @@
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
         body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Rajdhani', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; background-image: radial-gradient(circle at 50% 0%, rgba(157, 0, 255, 0.15), transparent 50%), radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.08), transparent 40%); background-attachment: fixed; }
         
-        /* Top Bar & Menu */
+        /* UI Elementler & Hamburger */
         .top-bar { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; position: relative; z-index: 100; }
         .menu-btn { font-size: 2rem; color: var(--neon-cyan); cursor: pointer; background: rgba(18, 14, 28, 0.8); border: 1px solid var(--neon-purple); padding: 5px 15px; border-radius: 12px; box-shadow: 0 0 15px rgba(157, 0, 255, 0.4); transition: all 0.3s ease; }
         .menu-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--neon-cyan); }
         .founder-btn-container { position: relative; }
         .founder-btn { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); padding: 2px; cursor: pointer; box-shadow: 0 0 15px rgba(157, 0, 255, 0.6); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
-        .founder-btn:hover { transform: scale(1.1); box-shadow: 0 0 25px var(--neon-cyan); }
         .founder-btn img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background-color: #111; }
-        .founder-btn .fallback-icon { display: none; font-size: 1.5rem; color: #fff; text-shadow: 0 0 8px var(--neon-purple); }
         .founder-popup { position: absolute; top: 64px; right: 0; background: rgba(10, 8, 18, 0.95); border: 1px solid var(--neon-cyan); padding: 12px 20px; border-radius: 12px; box-shadow: 0 0 20px rgba(0, 243, 255, 0.3); white-space: nowrap; display: none; flex-direction: column; align-items: center; gap: 4px; animation: fadeIn 0.3s ease; backdrop-filter: blur(10px); }
         .founder-popup.show { display: flex; }
         .founder-title { font-size: 0.75rem; color: var(--neon-cyan); letter-spacing: 2px; text-transform: uppercase; }
@@ -36,7 +34,7 @@
         .nav-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
         .nav-item { padding: 12px 15px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: 600; color: var(--text-main); background: rgba(255, 255, 255, 0.03); border-left: 3px solid transparent; transition: all 0.2s ease; display: flex; align-items: center; gap: 10px; }
         .nav-item:hover, .nav-item.active { background: rgba(157, 0, 255, 0.15); border-left-color: var(--neon-cyan); color: var(--neon-cyan); transform: translateX(5px); }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 999; display: none; backdrop-filter: blur(3px); }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 999; display: none; }
         .overlay.show { display: block; }
         
         /* Header */
@@ -45,15 +43,15 @@
         .logo-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 15px var(--neon-purple)) drop-shadow(0 0 25px var(--neon-cyan)); animation: pulse 3s infinite alternate; }
         h1 { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; font-weight: 900; letter-spacing: 8px; text-transform: uppercase; background: linear-gradient(90deg, var(--neon-purple), #fff, var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(157, 0, 255, 0.5); }
         
-        /* Main Container */
+        /* Cards */
         .container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 30px; }
         .tab-content { display: none; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: flex; flex-direction: column; gap: 30px; }
-        .card { background: var(--card-bg); border-radius: 16px; padding: 25px; border: 1px solid rgba(157, 0, 255, 0.3); box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(157, 0, 255, 0.1); position: relative; overflow: hidden; backdrop-filter: blur(8px); }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 25px; border: 1px solid rgba(157, 0, 255, 0.3); box-shadow: 0 0 25px rgba(0, 0, 0, 0.8); position: relative; overflow: hidden; backdrop-filter: blur(8px); }
         .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--neon-purple), var(--neon-cyan), transparent); }
         .card-title { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: var(--neon-cyan); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; letter-spacing: 2px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; }
         
-        /* Kürsü (Podium) */
+        /* 🏆 Kürsü (Podium) */
         .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin: 10px auto 20px auto; max-width: 600px; height: 180px; }
         .podium { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width: 30%; border-radius: 10px 10px 0 0; padding-top: 15px; transition: transform 0.3s ease; }
         .podium:hover { transform: translateY(-10px); }
@@ -82,23 +80,38 @@
         .info-bar { margin-top: 15px; font-size: 0.95rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; background: rgba(0, 0, 0, 0.4); padding: 10px 15px; border-radius: 8px; border: 1px dashed rgba(157, 0, 255, 0.4); }
         .info-bar span { color: var(--neon-cyan); font-weight: 700; }
         
-        /* 🎮 MİNİ OYUN CSS */
+        /* 🎮 MİNİ OYUN V7 CSS */
+        .player-selector-container { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; text-align: left; }
+        .player-selector-container label { font-family: 'Orbitron'; font-size: 0.9rem; color: var(--neon-cyan); letter-spacing: 1px; }
+        .player-select { width: 100%; padding: 12px; background: rgba(18,14,28,0.9); border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-family: 'Rajdhani'; font-size: 1.2rem; font-weight: 600; cursor: pointer; outline: none; }
         .game-stats { display: flex; justify-content: space-between; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin-bottom: 15px; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px solid rgba(157, 0, 255, 0.3); }
         .game-board { width: 100%; height: 350px; background: rgba(0,0,0,0.6); border: 2px dashed var(--neon-purple); border-radius: 10px; position: relative; overflow: hidden; cursor: crosshair; }
-        .target-entity { position: absolute; font-size: 45px; cursor: pointer; transition: transform 0.1s; user-select: none; }
+        .target-entity { position: absolute; cursor: pointer; transition: transform 0.1s; user-select: none; width: 64px; height: 64px; object-fit: contain; }
         .target-entity:active { transform: scale(0.7); }
         .start-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 40px; background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); color: white; border: none; font-family: 'Orbitron'; font-size: 1.5rem; border-radius: 10px; cursor: pointer; box-shadow: 0 0 20px rgba(157, 0, 255, 0.6); z-index: 10; }
         .start-btn:hover { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 30px var(--neon-cyan); }
-        .floating-score { position: absolute; font-weight: bold; font-size: 22px; animation: floatUp 0.8s ease-out forwards; pointer-events: none; }
+        .start-btn:disabled { background: #333; box-shadow: none; cursor: not-allowed; }
+        .floating-score { position: absolute; font-weight: bold; font-family: 'Orbitron'; font-size: 24px; animation: floatUp 0.8s ease-out forwards; pointer-events: none; text-shadow: 0 0 8px rgba(0,0,0,1); }
+        .frenzy-warn { color: var(--danger); font-weight: 900; animation: blink 0.5s infinite alternate; }
+        
+        /* 🏆 Liderlik Tablosu CSS */
+        .leaderboard-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .leaderboard-table th { border-bottom: 1px solid rgba(0, 243, 255, 0.3); }
+        .leaderboard-table td { padding: 12px; font-family: 'Orbitron'; font-size: 1rem; }
+        .leader-row-1 { color: gold; text-shadow: 0 0 8px rgba(255,215,0,0.5); }
+        .leader-row-2 { color: silver; }
+        .leader-row-3 { color: #cd7f32; }
+
         @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-30px); } }
         @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes blink { from { opacity: 0.4; } to { opacity: 1; } }
         @media (max-width: 600px) { h1 { font-size: 2.5rem; letter-spacing: 4px; } .card { padding: 15px; } td, th { padding: 10px 8px; font-size: 1rem; } .game-board { height: 280px; } }
     </style>
 </head>
 <body>
 
-    <!-- Yan Menü (Sidebar) -->
+    <!-- Yan Menü -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <span class="sidebar-title">⚡ MENÜ</span>
@@ -107,7 +120,6 @@
         <ul class="nav-list">
             <li class="nav-item active" onclick="switchTab('tab-xp', this)">⚡ XP Takibi & Kurallar</li>
             <li class="nav-item" onclick="switchTab('tab-outfits', this)">👕 Wov. Kıyafetler</li>
-            <!-- 🎮 YENİ EKLENEN OYUN SEKMESİ -->
             <li class="nav-item" onclick="switchTab('tab-game', this)">🎮 Mini Oyun (Kurt Avı)</li>
         </ul>
     </div>
@@ -128,13 +140,13 @@
         </div>
     </div>
 
-    <!-- Header & Logo -->
+    <!-- Header -->
     <header>
         <div class="clan-logo"><img class="logo-img" src="klan_logosu.png" alt="THELORIN Logo"></div>
         <h1>THELORİN</h1>
     </header>
 
-    <!-- Main Content -->
+    <!-- Ana Panel -->
     <div class="container">
 
         <!-- ⚡ 1. SEKME: XP TAKİBİ -->
@@ -173,28 +185,50 @@
             </div>
         </div>
 
-        <!-- 🎮 3. SEKME: MİNİ OYUN (KURT AVI) -->
+        <!-- 🎮 3. SEKME: V7 MİNİ OYUN -->
         <div id="tab-game" class="tab-content">
             <div class="card">
                 <div class="card-title"><span>🎮</span> KURT AVI - MİNİ OYUN</div>
-                <p style="color: var(--text-muted); margin-bottom: 15px;">30 saniye içinde kaç kurt avlayabilirsin? Köylülere tıklarsan eksi puan yersin!</p>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Klanını gururlandır! Dostları es geç (Dedektif, Hemşire), kurtları avla. Frenzy Moduna dikkat et!</p>
                 
+                <!-- 👤 OYUNCU SEÇME DROPDOWN -->
+                <div class="player-selector-container">
+                    <label for="gamePlayerSelect">OYNAYACAK KLAN ÜYESİ SEÇİN:</label>
+                    <select id="gamePlayerSelect" class="player-select">
+                        <option value="">Klan Listesi Yükleniyor...</option>
+                    </select>
+                </div>
+
                 <div class="game-stats">
                     <span id="gameScore" style="color: var(--neon-cyan);">Skor: 0</span>
                     <span id="gameTime" style="color: #fff;">Süre: 30s</span>
-                    <span id="gameHigh" style="color: gold;">En İyi: 0</span>
+                    <span id="gameSpeedState" style="color: gold;">FRENZY: %0</span>
                 </div>
                 
                 <div class="game-board" id="gameBoard">
-                    <button class="start-btn" id="startBtn" onclick="startMiniGame()">OYUNA BAŞLA</button>
+                    <button class="start-btn" id="startBtn" onclick="startMiniGame()" disabled>OYUNCU SEÇİN</button>
+                </div>
+            </div>
+
+            <!-- 🏆 HAFTALIK LİDERLİK TABLOSU -->
+            <div class="card">
+                <div class="card-title"><span>🏆</span> HAFTALIK EN İYİ AVCILAR</div>
+                <div class="table-container">
+                    <table class="leaderboard-table">
+                        <thead><tr><th>Sıra</th><th>Avcı</th><th>Skor</th></tr></thead>
+                        <tbody id="leaderboardBody">
+                            <tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Yükleniyor...</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
 
     </div>
 
+    <!-- JavaScript - V7 Gelişmiş Motor -->
     <script>
-        // Yan Menü & Sekme Değiştirme
+        // Yan Menü
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
@@ -202,13 +236,17 @@
             document.getElementById(tabId).classList.add('active');
             element.classList.add('active');
             toggleSidebar();
+            if(tabId === 'tab-game') { loadLeaderboard(); }
         }
         function toggleFounder() { document.getElementById('founderPopup').classList.toggle('show'); }
         document.addEventListener('click', function(e) { if (!document.querySelector('.founder-btn-container').contains(e.target)) { document.getElementById('founderPopup').classList.remove('show'); } });
 
-        // ⚡ OTONOM XP SİSTEMİ ⚡
+        // 🔗 DAĞITIM LİNKİNİ BURAYA KOY REİS:
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbzAjxOUVihdQtPoxILQPXUYIZCNtVBGeocmGuFCLA5u5KIvSL1iqwT3qu39rVrAB2EX1A/exec";
+        
         const XP_BARAJI = 1000;
         const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPoVetii7Ck-DcY03kidQzMjaC-Vc3qH51bK7kRWxJrkCoro1-aOgTpOpUjfKEWMlYyOZRxRp3A0bs/pub?output=csv";
+        let klanUyeleri = [];
 
         async function loadTableData() {
             const tbody = document.getElementById('tableBody');
@@ -229,6 +267,9 @@
                     uyeler.push({ name: playerName, week: weeklyXP, month: monthlyXP });
                 }
                 
+                klanUyeleri = uyeler;
+                populatePlayerSelector();
+
                 // Kürsü
                 let aylikSiralama = [...uyeler].sort((a, b) => b.month - a.month);
                 if (aylikSiralama.length >= 3) {
@@ -256,61 +297,134 @@
                 tbody.innerHTML = '<tr><td colspan="4">Bağlantı hatası.</td></tr>';
             }
         }
-        
-        // 🎮 MİNİ OYUN SİSTEMİ (KURT AVI) 🎮
+
+        // Dropdown doldur
+        function populatePlayerSelector() {
+            const select = document.getElementById('gamePlayerSelect');
+            select.innerHTML = '<option value="">-- Bir İsim Seç --</option>';
+            klanUyeleri.forEach(u => {
+                const opt = document.createElement('option');
+                opt.value = u.name; opt.innerText = u.name;
+                select.appendChild(opt);
+            });
+            select.onchange = () => {
+                const btn = document.getElementById('startBtn');
+                if(select.value) { btn.innerText = "OYUNA BAŞLA"; btn.disabled = false; }
+                else { btn.innerText = "OYUNCU SEÇİN"; btn.disabled = true; }
+            };
+        }
+
+        window.onload = () => { loadTableData(); loadLeaderboard(); };
+
+        // 🎮 V7 KURT AVI (GÖRSEL ROLLER & GELİŞMİŞ HIZ & HAREKETLİ) 🎮
         let gameScore = 0; let gameTimeLeft = 30; let gameInterval, spawnInterval;
-        let highScore = localStorage.getItem('thelorinWolfHuntScore') || 0;
+        let activePlayer = "";
         
-        window.onload = () => { 
-            loadTableData(); 
-            document.getElementById('gameHigh').innerText = 'En İyi: ' + highScore;
+        // Rollerin Resim Haritası
+        const roles = {
+            vahsikurt: "image_4.png", // Düşman (+10)
+            karanlikkurt: "image_5.png", // Düşman (+10)
+            goldkurt: "image_6.png", // Altın Boss (+50, Nadir)
+            hemsire: "image_2.png", // Dost Dost (-15)
+            dedektif: "image_3.png" // Dost Dost (-15)
         };
 
         function startMiniGame() {
+            activePlayer = document.getElementById('gamePlayerSelect').value;
+            if(!activePlayer) return;
+            
+            // Seçimi kilitle
+            document.getElementById('gamePlayerSelect').disabled = true;
+            
             gameScore = 0; gameTimeLeft = 30;
             document.getElementById('gameScore').innerText = 'Skor: 0';
             document.getElementById('gameTime').innerText = 'Süre: 30s';
+            document.getElementById('gameSpeedState').innerText = 'FRENZY: %0';
+            document.getElementById('gameSpeedState').style.color = 'gold';
+            
             document.getElementById('startBtn').style.display = 'none';
-            document.getElementById('gameBoard').innerHTML = ''; // Temizle
+            document.getElementById('gameBoard').innerHTML = '';
             
             gameInterval = setInterval(() => {
                 gameTimeLeft--;
                 document.getElementById('gameTime').innerText = 'Süre: ' + gameTimeLeft + 's';
-                if(gameTimeLeft <= 0) endMiniGame();
+                
+                // 🔥 FRENZY MODU (Son 10 Saniye Artan Panik)
+                if(gameTimeLeft <= 10 && gameTimeLeft > 0) {
+                    document.getElementById('gameSpeedState').innerHTML = '<span class="frenzy-warn">FRENZY! (SÜRATLİ)</span>';
+                    clearInterval(spawnInterval);
+                    spawnInterval = setInterval(spawnTarget, 400); // 400ms'de bir hedef fırlar!
+                }
+                
+                if(gameTimeLeft <= 0) { endMiniGame(); }
             }, 1000);
 
             spawnTarget();
-            spawnInterval = setInterval(spawnTarget, 700); // Her 0.7 saniyede yeni hedef
+            spawnInterval = setInterval(spawnTarget, 750); // İlk başta 750ms'de bir
         }
 
         function spawnTarget() {
             const board = document.getElementById('gameBoard');
-            board.innerHTML = ''; // Eski hedefi sil
+            if(gameTimeLeft <= 0) return;
             
-            const isWolf = Math.random() > 0.3; // %70 Kurt, %30 Köylü
-            const entity = document.createElement('div');
+            const entity = document.createElement('img');
             entity.className = 'target-entity';
-            entity.innerText = isWolf ? '🐺' : '👨‍🌾';
             
-            // Rastgele konum (taşmayı engelle)
-            const maxX = board.clientWidth - 50;
-            const maxY = board.clientHeight - 50;
+            // Rastgele Rol Ataması
+            const rand = Math.random();
+            let roleType = "";
+            
+            if(rand < 0.08) { roleType = "goldkurt"; } // %8 Şansla Boss (Altın)
+            else if(rand < 0.40) { roleType = "vahsikurt"; } // %32 Şansla Normal
+            else if(rand < 0.65) { roleType = "karanlikkurt"; } // %25 Şansla Karanlık
+            else if(rand < 0.82) { roleType = "hemsire"; } // %17 Şansla Dost
+            else { roleType = "dedektif"; } // %18 Şansla Dost
+            
+            entity.src = roles[roleType];
+            
+            // Rastgele Doğuş Konumu
+            const maxX = board.clientWidth - 70;
+            const maxY = board.clientHeight - 70;
             entity.style.left = Math.floor(Math.random() * maxX) + 'px';
             entity.style.top = Math.floor(Math.random() * maxY) + 'px';
             
-            entity.onmousedown = function(e) {
-                e.preventDefault(); // Seçilmeyi önle
-                if(isWolf) {
+            // 🌀 HAREKETLİLİK (Sızma/Yürüme)
+            const speedX = (Math.random() - 0.5) * (gameTimeLeft <= 10 ? 4 : 2);
+            const speedY = (Math.random() - 0.5) * (gameTimeLeft <= 10 ? 4 : 2);
+            
+            let moveInterval = setInterval(() => {
+                if(gameTimeLeft <= 0 || !entity.parentNode) { clearInterval(moveInterval); return; }
+                let currentLeft = parseFloat(entity.style.left);
+                let currentTop = parseFloat(entity.style.top);
+                entity.style.left = (currentLeft + speedX) + 'px';
+                entity.style.top = (currentTop + speedY) + 'px';
+            }, 30);
+            
+            // Vuruş Dinamikleri
+            entity.onmousedown = (e) => {
+                e.preventDefault();
+                clearInterval(moveInterval);
+                
+                if(roleType === "goldkurt") {
+                    gameScore += 50;
+                    showFloatingScore('+50 GOLD!', entity.style.left, entity.style.top, 'gold');
+                } else if(roleType === "vahsikurt" || roleType === "karanlikkurt") {
                     gameScore += 10;
                     showFloatingScore('+10', entity.style.left, entity.style.top, '#00ff66');
                 } else {
-                    gameScore -= 15; // Köylü vurmak daha büyük ceza
+                    // Masum roller (Hata Cezası)
+                    gameScore -= 15;
                     showFloatingScore('-15', entity.style.left, entity.style.top, '#ff0055');
                 }
+                
                 document.getElementById('gameScore').innerText = 'Skor: ' + gameScore;
-                board.removeChild(entity); // Vurunca kaybolsun
+                entity.remove();
             };
+            
             board.appendChild(entity);
+            
+            // Ekranda kalma süresi (Frenzy'de hedefler daha çabuk uçar)
+            setTimeout(() => { if(entity.parentNode) { entity.remove(); clearInterval(moveInterval); } }, gameTimeLeft <= 10 ? 1000 : 1500);
         }
 
         function showFloatingScore(text, left, top, color) {
@@ -323,21 +437,74 @@
             setTimeout(() => float.remove(), 800);
         }
 
-        function endMiniGame() {
+        async function endMiniGame() {
             clearInterval(gameInterval); clearInterval(spawnInterval);
             const board = document.getElementById('gameBoard');
             
-            if(gameScore > highScore) {
-                highScore = gameScore;
-                localStorage.setItem('thelorinWolfHuntScore', highScore);
-                document.getElementById('gameHigh').innerText = 'En İyi: ' + highScore;
-            }
-            
             board.innerHTML = `
                 <div style="position:absolute; top:20px; width:100%; text-align:center; font-size:1.8rem; color:gold; font-family:'Orbitron';">SÜRE BİTTİ!</div>
-                <div style="position:absolute; top:60px; width:100%; text-align:center; font-size:1.2rem; color:#fff;">Toplanan Skor: <span style="color:var(--neon-cyan); font-weight:bold;">${gameScore}</span></div>
-                <button class="start-btn" id="startBtn" onclick="startMiniGame()" style="margin-top: 40px;">TEKRAR OYNA</button>
+                <div style="position:absolute; top:60px; width:100%; text-align:center; font-size:1.2rem; color:#fff;">Gönderilen Skor: <span style="color:var(--neon-cyan); font-weight:bold;">${gameScore}</span></div>
+                <div style="position:absolute; top:90px; width:100%; text-align:center; font-size:0.95rem; color:#aaa;" id="substatus">Skor Veritabanına Yazılıyor...</div>
+                <button class="start-btn" id="startBtn" onclick="startMiniGame()" style="margin-top: 40px;" disabled>TEKRAR OYNA</button>
             `;
+            
+            // Skoru Google Excel (Web App)'e Gönderme (POST)
+            if(webAppUrl !== "BURAYA_DAĞITIM_LİNKİNİ_YAPIŞTIR") {
+                try {
+                    const res = await fetch(webAppUrl, {
+                        method: 'POST',
+                        body: JSON.stringify({ oyuncu: activePlayer, skor: gameScore })
+                    });
+                    const status = await res.json();
+                    if(status.status === "success") {
+                        document.getElementById('substatus').innerText = "Skor Başarıyla Kaydedildi! Liderler Güncelleniyor.";
+                        loadLeaderboard();
+                    } else {
+                        document.getElementById('substatus').innerText = "Skor kaydedilemedi.";
+                    }
+                } catch(e) {
+                    document.getElementById('substatus').innerText = "Bağlantı kesildi, skor yerel kaydedildi.";
+                }
+            } else {
+                document.getElementById('substatus').innerText = "Web App URL ayarlanmamış.";
+            }
+            
+            // Tekrar oynamayı aç
+            document.getElementById('gamePlayerSelect').disabled = false;
+            const retry = document.querySelector('#gameBoard .start-btn');
+            retry.disabled = false;
+        }
+
+        // Liderlik Tablosunu Getirme (GET)
+        async function loadLeaderboard() {
+            const body = document.getElementById('leaderboardBody');
+            if(webAppUrl === "BURAYA_DAĞITIM_LİNKİNİ_YAPIŞTIR") {
+                body.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--danger)">Web App linkini ekleyin!</td></tr>';
+                return;
+            }
+            try {
+                const res = await fetch(webAppUrl);
+                const scores = await res.json();
+                body.innerHTML = '';
+                
+                if(scores.length === 0) {
+                    body.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-muted)">Henüz skor kaydedilmedi. Haftanın ilk avcısı sen ol!</td></tr>';
+                    return;
+                }
+                
+                scores.forEach((s, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'leader-row-' + (idx + 1);
+                    tr.innerHTML = `
+                        <td><strong>${idx + 1}.</strong></td>
+                        <td>${s.oyuncu}</td>
+                        <td>${s.skor.toLocaleString('tr-TR')}</td>
+                    `;
+                    body.appendChild(tr);
+                });
+            } catch (e) {
+                body.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--danger)">Puan tablosu yüklenemedi.</td></tr>';
+            }
         }
     </script>
 </body>

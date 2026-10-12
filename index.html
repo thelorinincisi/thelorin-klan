@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- THELORİN OTONOM V10 (EKSİKSİZ SÜRÜM: KURUCU + KIYAFETLER + KURALLAR + SUIKASTÇI PRATİK) -->
+<!-- THELORİN OTONOM V11 (MOBİL UYUMLU KLAVYE & HİZALAMA DÜZELTMESİ) -->
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -18,7 +18,7 @@
         .menu-btn { font-size: 2rem; color: var(--neon-cyan); cursor: pointer; background: rgba(18, 14, 28, 0.8); border: 1px solid var(--neon-purple); padding: 5px 15px; border-radius: 12px; box-shadow: 0 0 15px rgba(157, 0, 255, 0.4); transition: all 0.3s ease; }
         .menu-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--neon-cyan); }
         
-        /* Kurucu Butonu (Geri Getirildi) */
+        /* Kurucu Butonu */
         .founder-btn-container { position: relative; }
         .founder-btn { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); padding: 2px; cursor: pointer; box-shadow: 0 0 15px rgba(157, 0, 255, 0.6); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
         .founder-btn img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background-color: #111; }
@@ -65,7 +65,7 @@
         .p1 { height: 85%; background: linear-gradient(to top, rgba(58,42,0,0.8), rgba(255,215,0,0.8)); border-top: 3px solid gold; box-shadow: 0 -5px 25px rgba(255,215,0,0.3); z-index: 10; }
         .p3 { height: 50%; background: linear-gradient(to top, rgba(42,21,5,0.8), rgba(205,127,50,0.8)); border-top: 3px solid #cd7f32; box-shadow: 0 0 20px rgba(205,127,50,0.15);}
         
-        /* Kurallar (Görev Ücretleri Geri Getirildi) */
+        /* Kurallar */
         .rules-list { list-style: none; display: flex; flex-direction: column; gap: 15px; }
         .rule-item { display: flex; align-items: flex-start; gap: 12px; font-size: 1.15rem; line-height: 1.5; background: rgba(255, 255, 255, 0.03); padding: 12px 16px; border-radius: 8px; border-left: 3px solid var(--neon-purple); }
         .rule-icon { color: var(--neon-cyan); font-weight: bold; font-size: 1.3rem; }
@@ -94,9 +94,9 @@
         .floating-score { position: absolute; font-weight: bold; font-family: 'Orbitron'; font-size: 20px; animation: floatUp 0.8s ease-out forwards; pointer-events: none; text-shadow: 0 0 8px rgba(0,0,0,1); white-space: nowrap; z-index: 100;}
         .frenzy-warn { color: var(--danger); font-weight: 900; animation: blink 0.5s infinite alternate; }
 
-        /* 🔤 ADAM ASMACA CSS */
-        .hm-container { display: flex; flex-direction: column; align-items: center; background: #1a1a24; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); padding: 20px 10px; position: relative; overflow: hidden; box-shadow: inset 0 0 30px rgba(0,0,0,0.8); }
-        .hm-top-bar { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-family: 'Orbitron'; font-size: 1.2rem; }
+        /* 🔤 ADAM ASMACA CSS (YENİ MOBİL TASARIM) */
+        .hm-container { display: flex; flex-direction: column; align-items: center; background: #1a1a24; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); padding: 20px 10px; position: relative; overflow: hidden; box-shadow: inset 0 0 30px rgba(0,0,0,0.8); width: 100%; }
+        .hm-top-bar { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-family: 'Orbitron'; font-size: 1.2rem; padding: 0 10px;}
         .hm-timer { color: var(--neon-cyan); }
         .hm-lives { display: flex; gap: 5px; }
         .hm-life { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #fff; transition: all 0.3s; }
@@ -106,25 +106,33 @@
         .hm-visual::after { content: '🐺'; position: absolute; bottom: -10px; right: -20px; font-size: 2.5rem; filter: drop-shadow(0 0 5px rgba(0,0,0,0.8)); }
         .hm-visual::before { content: '🧑‍🌾'; position: absolute; bottom: -10px; left: -20px; font-size: 2.5rem; filter: drop-shadow(0 0 5px rgba(0,0,0,0.8)); }
 
-        .hm-word-display { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 30px; min-height: 40px; padding: 0 10px; }
-        .hm-letter-box { width: 30px; height: 40px; border-bottom: 3px solid #fff; display: flex; align-items: flex-end; justify-content: center; font-size: 1.8rem; font-family: 'Orbitron'; font-weight: bold; color: #fff; text-transform: uppercase; }
-        .hm-space-box { width: 15px; border-bottom: none; }
+        .hm-word-display { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 8px; margin-bottom: 30px; min-height: 45px; padding: 0 10px; }
+        .hm-letter-box { width: 26px; height: 40px; border-bottom: 3px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-family: 'Orbitron'; font-weight: bold; color: #fff; text-transform: uppercase; }
+        .hm-space-box { width: 15px; border-bottom: none; height: 40px;}
         
-        .hm-keyboard { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 500px; }
-        .hm-row { display: flex; justify-content: center; gap: 6px; }
-        .hm-key { background: #333440; border: none; color: #fff; font-family: 'Orbitron'; font-size: 1.1rem; font-weight: bold; padding: 12px 0; flex: 1; border-radius: 6px; cursor: pointer; transition: all 0.1s; box-shadow: 0 4px 0 #1b1b24; max-width: 45px; }
+        /* KLAVYE GÜNCELLEMESİ (TAM GENİŞLİK, DAR BOŞLUK) */
+        .hm-keyboard { display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: 600px; padding: 0 2px; }
+        .hm-row { display: flex; justify-content: center; gap: 4px; width: 100%; }
+        .hm-key { background: #333440; border: none; color: #fff; font-family: 'Orbitron'; font-size: clamp(1rem, 3.5vw, 1.2rem); font-weight: bold; padding: 12px 0; flex: 1; border-radius: 6px; cursor: pointer; transition: all 0.1s; box-shadow: 0 4px 0 #1b1b24; min-width: 0; }
         .hm-key:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 0 0 #1b1b24; }
         .hm-key:disabled { cursor: not-allowed; transform: translateY(4px); box-shadow: 0 0 0 #1b1b24; }
         .hm-key.correct { background: var(--success); color: #000; }
         .hm-key.wrong { background: var(--danger); opacity: 0.3; }
 
         .hm-overlay-msg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; display: none; backdrop-filter: blur(5px); }
-        .hm-msg-title { font-family: 'Orbitron'; font-size: 2rem; margin-bottom: 10px; text-transform: uppercase; }
-        .hm-msg-word { font-size: 1.3rem; color: #fff; margin-bottom: 25px; }
+        .hm-msg-title { font-family: 'Orbitron'; font-size: 2rem; margin-bottom: 10px; text-transform: uppercase; text-align: center;}
+        .hm-msg-word { font-size: 1.3rem; color: #fff; margin-bottom: 25px; text-align: center;}
         .hm-play-btn { padding: 12px 30px; background: var(--neon-cyan); color: #000; font-family: 'Orbitron'; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; }
 
         @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-40px) scale(1.2); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* MOBİL EKRANLAR İÇİN UFAK KÜÇÜLTMELER */
+        @media (max-width: 400px) {
+            .hm-key { padding: 10px 0; font-size: 0.95rem; }
+            .hm-letter-box { width: 22px; font-size: 1.5rem; height: 35px; }
+            .hm-space-box { width: 10px; height: 35px; }
+        }
     </style>
 </head>
 <body>
@@ -148,7 +156,7 @@
     <div class="top-bar">
         <div class="menu-btn" onclick="toggleSidebar()" title="Menüyü Aç">☰</div>
         
-        <!-- Kurucu Butonu (Düzeltildi) -->
+        <!-- Kurucu Butonu (Yusuf Olarak Güncellendi) -->
         <div class="founder-btn-container">
             <div class="founder-btn" onclick="toggleFounder()" title="Kurucu Bilgisi">
                 <img src="kurucu_pp.jpg" alt="Founder" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -156,7 +164,7 @@
             </div>
             <div class="founder-popup" id="founderPopup">
                 <span class="founder-title">Kurucu</span>
-                <span class="founder-name">Yusuf Emre</span>
+                <span class="founder-name">Yusuf</span>
             </div>
         </div>
     </div>
@@ -174,7 +182,6 @@
         <div id="tab-xp" class="tab-content active">
             <div class="card">
                 <div class="card-title"><span>🛡️</span> GENEL KURALLAR</div>
-                <!-- Kurallar (Görev ücretleri dahil hepsi yerli yerinde) -->
                 <ul class="rules-list">
                     <li class="rule-item"><span class="rule-icon">✧</span><div>Irkçılık ve siyaset yapmak kesinlikle yasaktır.</div></li>
                     <li class="rule-item"><span class="rule-icon">✧</span><div>Haftalık minimum <strong>1000 XP</strong> sınırını geçmeyenler klan kasasına <span class="highlight-gold">300 Altın</span> atmak zorundadır.</div></li>
@@ -196,12 +203,11 @@
             </div>
         </div>
 
-        <!-- 👕 2. SEKME: WOV. KIYAFETLER (GERİ GETİRİLDİ) -->
+        <!-- 👕 2. SEKME: WOV. KIYAFETLER -->
         <div id="tab-outfits" class="tab-content">
             <div class="card">
                 <div class="card-title"><span>👕</span> WOLVESVILLE KIYAFETLERİ</div>
                 <p style="color: var(--text-muted); margin-bottom: 20px;">Wolvesville evrenindeki en yeni kıyafetler ve kostüm setleri:</p>
-                <!-- Elfsight Kıyafet Eklentisi -->
                 <script src="https://elfsightcdn.com/platform.js" async></script>
                 <div class="elfsight-app-3ceb0adb-0777-42a0-9e96-72353fc511cc" data-elfsight-app-lazy></div>
             </div>
@@ -289,7 +295,7 @@
             if(tabId === 'tab-hangman') { if(!hmCurrentWord) hmStartGame(); }
         }
 
-        // --- KURUCU BUTON JS (Geri Getirildi) ---
+        // --- KURUCU BUTON JS ---
         function toggleFounder() { document.getElementById('founderPopup').classList.toggle('show'); }
         document.addEventListener('click', function(e) { 
             if (!document.querySelector('.founder-btn-container').contains(e.target)) { 
@@ -441,7 +447,7 @@
             } catch (e) { body.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--danger)">Hata.</td></tr>'; }
         }
 
-        // --- 🔤 ADAM ASMACA MOTORU ---
+        // --- 🔤 ADAM ASMACA MOTORU (Hizalama Düzeltmeli) ---
         const rolePool = [
             "AYLAKÇI", "AYRIK KURT", "BALKABAĞI KRALI", "BARIŞSEVER", "BARIŞSEVER KURT", "BÜYÜCÜ", "CADI", 
             "CANAVAR AVCISI", "DENİZ KIZI", "DOKTOR", "FALCI", "FIRINCI", "GARDİYAN", "GECE BEKÇİSİ", "GEVEZE", 
@@ -503,6 +509,8 @@
                     if(hmGuessedChars.has(char)) {
                         box.innerText = char;
                     } else {
+                        // Kutu boş kaldığında esnememesi için görünmez boşluk (nbsp) ekliyoruz
+                        box.innerHTML = "&nbsp;"; 
                         isWon = false;
                     }
                     container.appendChild(box);

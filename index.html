@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- THELORİN OTONOM V7 SİSTEMİ (LİDERLİK TABLOLU & GÖRSEL ROLLERLİ) -->
+<!-- THELORİN OTONOM V8 SİSTEMİ (LİDERLİK TABLOSU + KOMBO MEKANİĞİ) -->
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -80,18 +80,21 @@
         .info-bar { margin-top: 15px; font-size: 0.95rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; background: rgba(0, 0, 0, 0.4); padding: 10px 15px; border-radius: 8px; border: 1px dashed rgba(157, 0, 255, 0.4); }
         .info-bar span { color: var(--neon-cyan); font-weight: 700; }
         
-        /* 🎮 MİNİ OYUN V7 CSS */
+        /* 🎮 MİNİ OYUN V8 KOMBO CSS */
         .player-selector-container { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; text-align: left; }
         .player-selector-container label { font-family: 'Orbitron'; font-size: 0.9rem; color: var(--neon-cyan); letter-spacing: 1px; }
         .player-select { width: 100%; padding: 12px; background: rgba(18,14,28,0.9); border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-family: 'Rajdhani'; font-size: 1.2rem; font-weight: 600; cursor: pointer; outline: none; }
-        .game-stats { display: flex; justify-content: space-between; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin-bottom: 15px; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px solid rgba(157, 0, 255, 0.3); }
+        
+        /* V8 Yenilik: Kombo ızgarası */
+        .game-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 15px; background: rgba(0,0,0,0.5); padding: 12px; border-radius: 8px; border: 1px solid rgba(157, 0, 255, 0.3); text-align: center; }
+        
         .game-board { width: 100%; height: 350px; background: rgba(0,0,0,0.6); border: 2px dashed var(--neon-purple); border-radius: 10px; position: relative; overflow: hidden; cursor: crosshair; }
         .target-entity { position: absolute; cursor: pointer; transition: transform 0.1s; user-select: none; width: 64px; height: 64px; object-fit: contain; }
         .target-entity:active { transform: scale(0.7); }
         .start-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 40px; background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); color: white; border: none; font-family: 'Orbitron'; font-size: 1.5rem; border-radius: 10px; cursor: pointer; box-shadow: 0 0 20px rgba(157, 0, 255, 0.6); z-index: 10; }
         .start-btn:hover { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 30px var(--neon-cyan); }
         .start-btn:disabled { background: #333; box-shadow: none; cursor: not-allowed; }
-        .floating-score { position: absolute; font-weight: bold; font-family: 'Orbitron'; font-size: 24px; animation: floatUp 0.8s ease-out forwards; pointer-events: none; text-shadow: 0 0 8px rgba(0,0,0,1); }
+        .floating-score { position: absolute; font-weight: bold; font-family: 'Orbitron'; font-size: 20px; animation: floatUp 0.8s ease-out forwards; pointer-events: none; text-shadow: 0 0 8px rgba(0,0,0,1); white-space: nowrap; z-index: 100;}
         .frenzy-warn { color: var(--danger); font-weight: 900; animation: blink 0.5s infinite alternate; }
         
         /* 🏆 Liderlik Tablosu CSS */
@@ -102,7 +105,7 @@
         .leader-row-2 { color: silver; }
         .leader-row-3 { color: #cd7f32; }
 
-        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-30px); } }
+        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-40px) scale(1.2); } }
         @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes blink { from { opacity: 0.4; } to { opacity: 1; } }
@@ -185,11 +188,11 @@
             </div>
         </div>
 
-        <!-- 🎮 3. SEKME: V7 MİNİ OYUN -->
+        <!-- 🎮 3. SEKME: V8 MİNİ OYUN KOMBO SİSTEMİ -->
         <div id="tab-game" class="tab-content">
             <div class="card">
                 <div class="card-title"><span>🎮</span> KURT AVI - MİNİ OYUN</div>
-                <p style="color: var(--text-muted); margin-bottom: 20px;">Klanını gururlandır! Dostları es geç (Dedektif, Hemşire), kurtları avla. Frenzy Moduna dikkat et!</p>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Klanını gururlandır! Kurtları peş peşe avla, komboyu katla! Masumlara tıklarsan kombon SIFIRLANIR.</p>
                 
                 <!-- 👤 OYUNCU SEÇME DROPDOWN -->
                 <div class="player-selector-container">
@@ -199,10 +202,12 @@
                     </select>
                 </div>
 
+                <!-- V8 KOMBO EKRANI (4'lü Grid) -->
                 <div class="game-stats">
-                    <span id="gameScore" style="color: var(--neon-cyan);">Skor: 0</span>
-                    <span id="gameTime" style="color: #fff;">Süre: 30s</span>
-                    <span id="gameSpeedState" style="color: gold;">FRENZY: %0</span>
+                    <div style="color: var(--neon-cyan);" id="gameScore">Skor: 0</div>
+                    <div id="gameCombo" style="color: #fff;">Kombo: x1</div>
+                    <div id="gameTime" style="color: #fff;">Süre: 30s</div>
+                    <div id="gameSpeedState" style="color: gold;">FRENZY: %0</div>
                 </div>
                 
                 <div class="game-board" id="gameBoard">
@@ -226,7 +231,7 @@
 
     </div>
 
-    <!-- JavaScript - V7 Gelişmiş Motor -->
+    <!-- JavaScript - V8 Gelişmiş Kombo Motoru -->
     <script>
         // Yan Menü
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
@@ -241,11 +246,10 @@
         function toggleFounder() { document.getElementById('founderPopup').classList.toggle('show'); }
         document.addEventListener('click', function(e) { if (!document.querySelector('.founder-btn-container').contains(e.target)) { document.getElementById('founderPopup').classList.remove('show'); } });
 
-        // 🔗 DAĞITIM LİNKİNİ BURAYA KOY REİS:
+        // 🔗 SENİN E-TABLO VE DAĞITIM LİNKİN (DEĞİŞTİRİLMEDİ)
         const webAppUrl = "https://script.google.com/macros/s/AKfycbzAjxOUVihdQtPoxILQPXUYIZCNtVBGeocmGuFCLA5u5KIvSL1iqwT3qu39rVrAB2EX1A/exec";
-        
-        const XP_BARAJI = 1000;
         const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPoVetii7Ck-DcY03kidQzMjaC-Vc3qH51bK7kRWxJrkCoro1-aOgTpOpUjfKEWMlYyOZRxRp3A0bs/pub?output=csv";
+        const XP_BARAJI = 1000;
         let klanUyeleri = [];
 
         async function loadTableData() {
@@ -298,7 +302,6 @@
             }
         }
 
-        // Dropdown doldur
         function populatePlayerSelector() {
             const select = document.getElementById('gamePlayerSelect');
             select.innerHTML = '<option value="">-- Bir İsim Seç --</option>';
@@ -316,27 +319,43 @@
 
         window.onload = () => { loadTableData(); loadLeaderboard(); };
 
-        // 🎮 V7 KURT AVI (GÖRSEL ROLLER & GELİŞMİŞ HIZ & HAREKETLİ) 🎮
+        // 🎮 V8 KURT AVI (KOMBO & HAREKETLİ) 🎮
         let gameScore = 0; let gameTimeLeft = 30; let gameInterval, spawnInterval;
         let activePlayer = "";
+        let comboStreak = 0; let comboMultiplier = 1;
         
-        // Rollerin Resim Haritası
+        // SENİN DOSYANDAKİ RESİM İSİMLERİ (DEĞİŞTİRİLMEDİ)
         const roles = {
-            vahsikurt: "vahsikurt.jpg", // Düşman (+10)
-            karanlikkurt: "karanlikkurt.jpg", // Düşman (+10)
-            goldkurt: "goldkurt.jpg", // Altın Boss (+50, Nadir)
-            hemsire: "hemsire.png.png", // Dost Dost (-15)
-            dedektif: "dedektif.png.png" // Dost Dost (-15)
+            vahsikurt: "vahsikurt.jpg", 
+            karanlikkurt: "karanlikkurt.jpg", 
+            goldkurt: "goldkurt.jpg", 
+            hemsire: "hemsire.png.png", 
+            dedektif: "dedektif.png.png" 
         };
+
+        // KOMBO ARAYÜZ GÜNCELLEYİCİ
+        function updateComboUI() {
+            if(comboStreak >= 10) comboMultiplier = 4;
+            else if(comboStreak >= 6) comboMultiplier = 3;
+            else if(comboStreak >= 3) comboMultiplier = 2;
+            else comboMultiplier = 1;
+
+            const comboEl = document.getElementById('gameCombo');
+            if(comboMultiplier > 1) {
+                comboEl.innerHTML = `<span style="color:#ff9900; text-shadow:0 0 15px #ff9900;">🔥 KOMBO x${comboMultiplier}</span>`;
+            } else {
+                comboEl.innerHTML = `Kombo: x1`;
+            }
+        }
 
         function startMiniGame() {
             activePlayer = document.getElementById('gamePlayerSelect').value;
             if(!activePlayer) return;
-            
-            // Seçimi kilitle
             document.getElementById('gamePlayerSelect').disabled = true;
             
-            gameScore = 0; gameTimeLeft = 30;
+            // Başlangıç Ayarları Sıfırlama
+            gameScore = 0; gameTimeLeft = 30; comboStreak = 0; updateComboUI();
+            
             document.getElementById('gameScore').innerText = 'Skor: 0';
             document.getElementById('gameTime').innerText = 'Süre: 30s';
             document.getElementById('gameSpeedState').innerText = 'FRENZY: %0';
@@ -349,18 +368,18 @@
                 gameTimeLeft--;
                 document.getElementById('gameTime').innerText = 'Süre: ' + gameTimeLeft + 's';
                 
-                // 🔥 FRENZY MODU (Son 10 Saniye Artan Panik)
+                // 🔥 FRENZY MODU 
                 if(gameTimeLeft <= 10 && gameTimeLeft > 0) {
                     document.getElementById('gameSpeedState').innerHTML = '<span class="frenzy-warn">FRENZY! (SÜRATLİ)</span>';
                     clearInterval(spawnInterval);
-                    spawnInterval = setInterval(spawnTarget, 400); // 400ms'de bir hedef fırlar!
+                    spawnInterval = setInterval(spawnTarget, 400); 
                 }
                 
                 if(gameTimeLeft <= 0) { endMiniGame(); }
             }, 1000);
 
             spawnTarget();
-            spawnInterval = setInterval(spawnTarget, 750); // İlk başta 750ms'de bir
+            spawnInterval = setInterval(spawnTarget, 750); 
         }
 
         function spawnTarget() {
@@ -370,25 +389,22 @@
             const entity = document.createElement('img');
             entity.className = 'target-entity';
             
-            // Rastgele Rol Ataması
             const rand = Math.random();
             let roleType = "";
             
-            if(rand < 0.08) { roleType = "goldkurt"; } // %8 Şansla Boss (Altın)
-            else if(rand < 0.40) { roleType = "vahsikurt"; } // %32 Şansla Normal
-            else if(rand < 0.65) { roleType = "karanlikkurt"; } // %25 Şansla Karanlık
-            else if(rand < 0.82) { roleType = "hemsire"; } // %17 Şansla Dost
-            else { roleType = "dedektif"; } // %18 Şansla Dost
+            if(rand < 0.08) { roleType = "goldkurt"; } 
+            else if(rand < 0.40) { roleType = "vahsikurt"; } 
+            else if(rand < 0.65) { roleType = "karanlikkurt"; } 
+            else if(rand < 0.82) { roleType = "hemsire"; } 
+            else { roleType = "dedektif"; } 
             
             entity.src = roles[roleType];
             
-            // Rastgele Doğuş Konumu
             const maxX = board.clientWidth - 70;
             const maxY = board.clientHeight - 70;
             entity.style.left = Math.floor(Math.random() * maxX) + 'px';
             entity.style.top = Math.floor(Math.random() * maxY) + 'px';
             
-            // 🌀 HAREKETLİLİK (Sızma/Yürüme)
             const speedX = (Math.random() - 0.5) * (gameTimeLeft <= 10 ? 4 : 2);
             const speedY = (Math.random() - 0.5) * (gameTimeLeft <= 10 ? 4 : 2);
             
@@ -400,21 +416,26 @@
                 entity.style.top = (currentTop + speedY) + 'px';
             }, 30);
             
-            // Vuruş Dinamikleri
+            // Vuruş (Kombo) Dinamikleri
             entity.onmousedown = (e) => {
                 e.preventDefault();
                 clearInterval(moveInterval);
                 
-                if(roleType === "goldkurt") {
-                    gameScore += 50;
-                    showFloatingScore('+50 GOLD!', entity.style.left, entity.style.top, 'gold');
-                } else if(roleType === "vahsikurt" || roleType === "karanlikkurt") {
-                    gameScore += 10;
-                    showFloatingScore('+10', entity.style.left, entity.style.top, '#00ff66');
+                if(roleType === "goldkurt" || roleType === "vahsikurt" || roleType === "karanlikkurt") {
+                    comboStreak++;
+                    updateComboUI();
+                    
+                    let basePts = (roleType === "goldkurt") ? 50 : 10;
+                    let earned = basePts * comboMultiplier;
+                    gameScore += earned;
+                    
+                    showFloatingScore(`+${earned}` + (comboMultiplier > 1 ? ` (x${comboMultiplier})` : ''), entity.style.left, entity.style.top, '#00ff66');
                 } else {
-                    // Masum roller (Hata Cezası)
+                    // Masum roller (Kombo Sıfırlanır)
+                    comboStreak = 0;
+                    updateComboUI();
                     gameScore -= 15;
-                    showFloatingScore('-15', entity.style.left, entity.style.top, '#ff0055');
+                    showFloatingScore('-15 SIFIRLANDI!', entity.style.left, entity.style.top, '#ff0055');
                 }
                 
                 document.getElementById('gameScore').innerText = 'Skor: ' + gameScore;
@@ -422,8 +443,6 @@
             };
             
             board.appendChild(entity);
-            
-            // Ekranda kalma süresi (Frenzy'de hedefler daha çabuk uçar)
             setTimeout(() => { if(entity.parentNode) { entity.remove(); clearInterval(moveInterval); } }, gameTimeLeft <= 10 ? 1000 : 1500);
         }
 
@@ -448,7 +467,6 @@
                 <button class="start-btn" id="startBtn" onclick="startMiniGame()" style="margin-top: 40px;" disabled>TEKRAR OYNA</button>
             `;
             
-            // Skoru Google Excel (Web App)'e Gönderme (POST)
             if(webAppUrl !== "BURAYA_DAĞITIM_LİNKİNİ_YAPIŞTIR") {
                 try {
                     const res = await fetch(webAppUrl, {
@@ -469,13 +487,11 @@
                 document.getElementById('substatus').innerText = "Web App URL ayarlanmamış.";
             }
             
-            // Tekrar oynamayı aç
             document.getElementById('gamePlayerSelect').disabled = false;
             const retry = document.querySelector('#gameBoard .start-btn');
             retry.disabled = false;
         }
 
-        // Liderlik Tablosunu Getirme (GET)
         async function loadLeaderboard() {
             const body = document.getElementById('leaderboardBody');
             if(webAppUrl === "BURAYA_DAĞITIM_LİNKİNİ_YAPIŞTIR") {

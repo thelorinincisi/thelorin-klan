@@ -763,31 +763,123 @@
             comboEl.innerHTML = comboMultiplier > 1 ? `<span style="color:#ff9900; text-shadow:0 0 15px #ff9900;">🔥 KOMBO x${comboMultiplier}</span>` : `Kombo: x1`;
         }
 
-        function startMiniGame() {
-            activePlayer = document.getElementById('gamePlayerSelect').value;
-            activeKurtAviPin = document.getElementById('kurtAviPinInput').value;
+// 🎮 KURT AVI - CANLI PIN DOĞRULAMALI BAŞLATMA
+async function startMiniGame() {
+    activePlayer = document.getElementById('gamePlayerSelect').value;
+    activeKurtAviPin = document.getElementById('kurtAviPinInput').value;
 
-            if(!activePlayer) { alert("Lütfen önce oyuncu adınızı seçin!"); return; }
-            if(activeKurtAviPin.length < 4) { alert("Lütfen 4 haneli Klan PIN kodunuzu girin!"); return; }
+    if(!activePlayer) { alert("Lütfen önce oyuncu adınızı seçin!"); return; }
+    if(activeKurtAviPin.length < 4) { alert("Lütfen 4 haneli Klan PIN kodunuzu girin!"); return; }
 
-            document.getElementById('gamePlayerSelect').disabled = true;
-            document.getElementById('kurtAviPinInput').disabled = true;
-            
-            gameScore = 0; gameTimeLeft = 30; comboStreak = 0; updateComboUI();
-            document.getElementById('gameScore').innerText = 'Skor: 0'; document.getElementById('gameTime').innerText = 'Süre: 30s';
-            document.getElementById('gameSpeedState').innerHTML = 'FRENZY: %0'; document.getElementById('gameSpeedState').style.color = 'gold';
-            document.getElementById('startBtn').style.display = 'none'; document.getElementById('gameBoard').innerHTML = '';
-            
-            gameInterval = setInterval(() => {
-                gameTimeLeft--; document.getElementById('gameTime').innerText = 'Süre: ' + gameTimeLeft + 's';
-                if(gameTimeLeft <= 10 && gameTimeLeft > 0) {
-                    document.getElementById('gameSpeedState').innerHTML = '<span class="frenzy-warn">FRENZY!</span>';
-                    clearInterval(spawnInterval); spawnInterval = setInterval(spawnTarget, 400); 
-                }
-                if(gameTimeLeft <= 0) endMiniGame();
-            }, 1000);
-            spawnTarget(); spawnInterval = setInterval(spawnTarget, 750); 
+    const startBtn = document.getElementById('startBtn');
+    startBtn.disabled = true;
+    startBtn.innerText = "KONTROL EDİLİYOR...";
+
+    // SUNUCUDAN CANLI PIN DOĞRULAMA
+    try {
+        const res = await fetch(webAppUrl, {
+            method: 'POST',
+            body: JSON.stringify({ action: "verify_pin", oyuncu: activePlayer, pin: activeKurtAviPin })
+        });
+        const data = await res.json();
+
+        if(data.status !== "success") {
+            alert(`❌ HATALI PIN: ${data.message || 'Girdiğiniz PIN kodu bu oyuncuya ait değil!'}`);
+            startBtn.disabled = false;
+            startBtn.innerText = "OYUNA BAŞLA";
+            return;
         }
+    } catch(e) {
+        alert("Bağlantı hatası! PIN doğrulanamadı.");
+        startBtn.disabled = false;
+        startBtn.innerText = "OYUNA BAŞLA";
+        return;
+    }
+
+    // PIN DOĞRULANDI, OYUN BAŞLIYOR
+    document.getElementById('gamePlayerSelect').disabled = true;
+    document.getElementById('kurtAviPinInput').disabled = true;
+    
+    gameScore = 0; gameTimeLeft = 30; comboStreak = 0; updateComboUI();
+    document.getElementById('gameScore').innerText = 'Skor: 0'; document.getElementById('gameTime').innerText = 'Süre: 30s';
+    document.getElementById('gameSpeedState').innerHTML = 'FRENZY: %0'; document.getElementById('gameSpeedState').style.color = 'gold';
+    startBtn.style.display = 'none'; document.getElementById('gameBoard').innerHTML = '';
+    
+    gameInterval = setInterval(() => {
+        gameTimeLeft--; document.getElementById('gameTime').innerText = 'Süre: ' + gameTimeLeft + 's';
+        if(gameTimeLeft <= 10 && gameTimeLeft > 0) {
+            document.getElementById('gameSpeedState').innerHTML = '<span class="frenzy-warn">FRENZY!</span>';
+            clearInterval(spawnInterval); spawnInterval = setInterval(spawnTarget, 400); 
+        }
+        if(gameTimeLeft <= 0) endMiniGame();
+    }, 1000);
+    spawnTarget(); spawnInterval = setInterval(spawnTarget, 750); 
+}
+
+// 💣 MAYIN TARLASI - CANLI PIN DOĞRULAMALI BAŞLATMA
+async function startMinesGame() {
+    const player = document.getElementById('minesPlayerSelect').value;
+    const pin = document.getElementById('minesPinInput').value;
+
+    if(!player) { alert("Lütfen klan üyesi seçin!"); return; }
+    if(pin.length < 4) { alert("Lütfen 4 haneli PIN kodunuzu girin!"); return; }
+
+    const today = new Date().toISOString().split('T')[0];
+    const storageKey = `mines_limit_${player}_${today}`;
+    let playedCount = parseInt(localStorage.getItem(storageKey) || "0", 10);
+
+    if(playedCount >= 3) {
+        alert(`Bugünkü 3/3 oyun hakkınızı tamamladınız, ${player}! Gece 03:00'te yenilenecektir.`);
+        return;
+    }
+
+    // SUNUCUDAN CANLI PIN DOĞRULAMA
+    try {
+        const res = await fetch(webAppUrl, {
+            method: 'POST',
+            body: JSON.stringify({ action: "verify_pin", oyuncu: player, pin: pin })
+        });
+        const data = await res.json();
+
+        if(data.status !== "success") {
+            alert(`❌ HATALI PIN: Girdiğiniz PIN kodu ${player} kullanıcısına ait değil!`);
+            return;
+        }
+    } catch(e) {
+        alert("Bağlantı hatası! PIN doğrulanamadı.");
+        return;
+    }
+
+    // PIN DOĞRULANDI, OYUN BAŞLIYOR
+    playedCount++;
+    localStorage.setItem(storageKey, playedCount);
+    document.getElementById('minesDailyStatus').innerText = `Günlük Hak: ${3 - playedCount} / 3`;
+
+    activeMinesPlayer = player;
+    activeMinesPin = pin;
+    minesGameActive = true;
+    openedCount = 0;
+    currentMultiplier = 1.0;
+    minePositions.clear();
+
+    while(minePositions.size < 3) {
+        minePositions.add(Math.floor(Math.random() * 25));
+    }
+
+    const grid = document.getElementById('minesGrid');
+    grid.innerHTML = '';
+    for(let i=0; i<25; i++) {
+        const tile = document.createElement('div');
+        tile.className = 'mine-tile';
+        tile.innerText = '❓';
+        tile.onclick = () => revealTile(tile, i);
+        grid.appendChild(tile);
+    }
+
+    document.getElementById('minesMultiplier').innerText = '1.00x';
+    document.getElementById('minesCurrentProfit').innerText = '0 LK';
+    document.getElementById('cashoutBtn').disabled = true;
+}        
 
         function spawnTarget() {
             const board = document.getElementById('gameBoard');

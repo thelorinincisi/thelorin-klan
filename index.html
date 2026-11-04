@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- THELORİN OTONOM V16 (KATEGORİZE OYUNLAR + PIN KORUMASI + MARKET BAKİYE LİSTESİ) -->
+<!-- THELORİN OTONOM V17 (CANLI BAKIYE & SİSTEM ENTEGRASYONLU TAM SÜRÜM) -->
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
         body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Rajdhani', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; background-image: radial-gradient(circle at 50% 0%, rgba(157, 0, 255, 0.15), transparent 50%), radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.08), transparent 40%); background-attachment: fixed; }
         
-        /* UI Elementler & Hamburger */
+        /* UI Elementler & Top Bar */
         .top-bar { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; position: relative; z-index: 100; gap: 10px; }
         .menu-btn { font-size: 2rem; color: var(--neon-cyan); cursor: pointer; background: rgba(18, 14, 28, 0.8); border: 1px solid var(--neon-purple); padding: 5px 15px; border-radius: 12px; box-shadow: 0 0 15px rgba(157, 0, 255, 0.4); transition: all 0.3s ease; }
         .menu-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--neon-cyan); }
@@ -65,14 +65,14 @@
         .progress-bar-bg { width: 100%; height: 28px; background: rgba(0, 0, 0, 0.6); border-radius: 14px; border: 1px solid var(--neon-purple); overflow: hidden; position: relative; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
         .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #9d00ff, #00f3ff); width: 0%; border-radius: 14px; box-shadow: 0 0 15px var(--neon-cyan); transition: width 2s cubic-bezier(0.25, 1, 0.5, 1); display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; font-family: 'Orbitron'; color: #000; font-weight: 900; font-size: 0.9rem; }
         
-        /* OYUNLAR ALT SEKMELERİ */
+        /* Oyunlar Alt Sekmeleri */
         .game-nav-container { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .game-nav-btn { flex: 1; min-width: 130px; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 0.95rem; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.2s; }
         .game-nav-btn.active, .game-nav-btn:hover { background: rgba(157, 0, 255, 0.3); border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: 0 0 12px rgba(0, 243, 255, 0.3); }
         .game-subview { display: none; }
         .game-subview.active { display: block; }
 
-        /* Kürsü & Rules */
+        /* Kürsü & Kurallar */
         .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin: 10px auto 20px auto; max-width: 600px; height: 180px; }
         .podium { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width: 30%; border-radius: 10px 10px 0 0; padding-top: 15px; transition: transform 0.3s ease; }
         .podium:hover { transform: translateY(-10px); }
@@ -89,7 +89,7 @@
         .highlight-gold { color: #ffd700; font-weight: 700; }
         .highlight-diamond { color: #00ffff; font-weight: 700; }
         
-        /* Tables */
+        /* Tablolar */
         .table-container { overflow-x: auto; max-height: 500px; }
         table { width: 100%; border-collapse: collapse; text-align: left; }
         th { font-family: 'Orbitron', sans-serif; color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; padding: 12px 15px; border-bottom: 1px solid rgba(157, 0, 255, 0.3); position: sticky; top: 0; background: var(--card-bg); z-index: 10; }
@@ -100,7 +100,7 @@
         .status-success { background: rgba(0, 255, 102, 0.15); color: var(--success); border: 1px solid var(--success); }
         .status-danger { background: rgba(255, 0, 85, 0.15); color: var(--danger); border: 1px solid var(--danger); }
 
-        /* KLAN MARKETİ */
+        /* Klan Marketi Grid */
         .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 15px; }
         .market-item-card { background: rgba(18, 14, 28, 0.9); border: 1px solid var(--neon-purple); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; gap: 12px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .market-item-card:hover { border-color: var(--neon-cyan); transform: translateY(-5px); box-shadow: 0 0 20px rgba(0, 243, 255, 0.3); }
@@ -109,7 +109,8 @@
         .item-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.3; }
         .item-price { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: gold; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255, 215, 0, 0.3); }
         .buy-btn { width: 100%; padding: 10px; background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); color: #fff; font-family: 'Orbitron', sans-serif; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; }
-        .buy-btn:hover { box-shadow: 0 0 15px var(--neon-cyan); }
+        .buy-btn:hover:not(:disabled) { box-shadow: 0 0 15px var(--neon-cyan); }
+        .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* Oyunlar İç Kontroller */
         .mines-controls { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
@@ -276,7 +277,7 @@
             </div>
         </div>
 
-        <!-- 🎮 3. SEKME: OYUNLAR (KATEGORİZE EDİLDİ) -->
+        <!-- 🎮 3. SEKME: OYUNLAR -->
         <div id="tab-games" class="tab-content">
             <div class="game-nav-container">
                 <button class="game-nav-btn active" onclick="switchGameSubtab('sub-kurtavi', this)">🎮 Kurt Avı</button>
@@ -403,7 +404,7 @@
                         <div class="item-title">[Efsane] VIP Rozeti</div>
                         <div class="item-desc">XP tablosunda isminin yanında 1 hafta boyunca parlak altın rozet görünür.</div>
                         <div class="item-price">100 LK</div>
-                        <button class="buy-btn" onclick="buyMarketItem('[Efsane] VIP Rozeti', 100)">SATIN AL</button>
+                        <button class="buy-btn" onclick="buyMarketItem('[Efsane] VIP Rozeti', 100, this)">SATIN AL</button>
                     </div>
 
                     <div class="market-item-card">
@@ -411,7 +412,7 @@
                         <div class="item-title">Neon İsim Efekti</div>
                         <div class="item-desc">1 hafta boyunca sitede isminin etrafında parlak neon ışıma açılır.</div>
                         <div class="item-price">150 LK</div>
-                        <button class="buy-btn" onclick="buyMarketItem('Neon İsim Efekti', 150)">SATIN AL</button>
+                        <button class="buy-btn" onclick="buyMarketItem('Neon İsim Efekti', 150, this)">SATIN AL</button>
                     </div>
 
                     <div class="market-item-card">
@@ -419,7 +420,7 @@
                         <div class="item-title">Görev Destek Kuponu</div>
                         <div class="item-desc">Klan görevindeki 200 altın veya 40 elmas indirim kasadan karşılanır.</div>
                         <div class="item-price">200 LK</div>
-                        <button class="buy-btn" onclick="buyMarketItem('Görev Destek Kuponu', 200)">SATIN AL</button>
+                        <button class="buy-btn" onclick="buyMarketItem('Görev Destek Kuponu', 200, this)">SATIN AL</button>
                     </div>
 
                     <div class="market-item-card">
@@ -427,7 +428,7 @@
                         <div class="item-title">Özel Profil İkonu</div>
                         <div class="item-desc">Sitedeki adının soluna koyabileceğin özel klan simgesi (1 Hafta).</div>
                         <div class="item-price">60 LK</div>
-                        <button class="buy-btn" onclick="buyMarketItem('Özel Profil İkonu', 60)">SATIN AL</button>
+                        <button class="buy-btn" onclick="buyMarketItem('Özel Profil İkonu', 60, this)">SATIN AL</button>
                     </div>
 
                     <div class="market-item-card">
@@ -435,7 +436,7 @@
                         <div class="item-title">Klan Radyosu Müzik Seçimi</div>
                         <div class="item-desc">Sitede çalan Klan Radyosu müziğini 1 gün boyunca sen belirlersin.</div>
                         <div class="item-price">50 LK</div>
-                        <button class="buy-btn" onclick="buyMarketItem('Radyo Şarkı Seçimi', 50)">SATIN AL</button>
+                        <button class="buy-btn" onclick="buyMarketItem('Radyo Şarkı Seçimi', 50, this)">SATIN AL</button>
                     </div>
                 </div>
             </div>
@@ -447,7 +448,7 @@
                     <table>
                         <thead><tr><th>Oyuncu</th><th style="text-align:right;">Bakiye (LK)</th></tr></thead>
                         <tbody id="marketBalanceBody">
-                            <tr><td>Klan Üyesi Yükleniyor...</td><td style="text-align:right;">0 LK</td></tr>
+                            <tr><td colspan="2">Klan Üyesi Yükleniyor...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -457,8 +458,14 @@
     </div>
 
     <script>
+        // 🔗 WEB APP URL (BURAYA KENDİ APPS SCRIPT URL'NİZİ YAPIŞTIRIN)
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbwsUEbftVlTr9rBg-e8O6Fuvjor8En-RPmxa2sOqWU-w7ZB0L-c2TEIpQGwjCdyejXr6w/exec";
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPoVetii7Ck-DcY03kidQzMjaC-Vc3qH51bK7kRWxJrkCoro1-aOgTpOpUjfKEWMlYyOZRxRp3A0bs/pub?output=csv";
+        
         const guncelKlanXP = 6150000; 
         const hedefKlanXP = 10000000;
+        const XP_BARAJI = 1000;
+        let klanUyeleri = [];
 
         function updateProgressBar() {
             const percentage = Math.min((guncelKlanXP / hedefKlanXP) * 100, 100).toFixed(1);
@@ -517,33 +524,57 @@
             } 
         });
 
-        // MARKET SATIN ALMA SİSTEMİ
-        function buyMarketItem(itemName, price) {
+        // KLAN MARKETİ SATIN ALMA (VERİTABANI ENTEGRELİ)
+        async function buyMarketItem(itemName, price, btnEl) {
             const player = document.getElementById('marketPlayerSelect').value;
             const pin = document.getElementById('marketPinInput').value;
 
             if(!player) { alert("Lütfen önce listeden kendi isminizi seçin!"); return; }
             if(pin.length < 4) { alert("Lütfen işlemi onaylamak için 4 haneli Klan PIN kodunuzu girin!"); return; }
 
-            alert(`SİPARİŞ ALINDI!\n\nOyuncu: ${player}\nEşya: ${itemName}\nTutar: ${price} LK\n\nPIN doğrulandı. İşleminiz klan yönetimi tarafından incelenip aktif edilecektir.`);
-        }
+            btnEl.disabled = true;
+            btnEl.innerText = "İŞLENİYOR...";
 
-        function renderMarketBalances() {
-            const body = document.getElementById('marketBalanceBody');
-            body.innerHTML = '';
-            if(klanUyeleri.length === 0) {
-                body.innerHTML = '<tr><td colspan="2">Yükleniyor...</td></tr>';
-                return;
+            try {
+                const res = await fetch(webAppUrl, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "buy_item", oyuncu: player, pin: pin, price: price, itemName: itemName })
+                });
+                const data = await res.json();
+                
+                if(data.status === "success") {
+                    alert(`✅ BAŞARILI!\n\n${data.message}\nYeni Bakiye: ${data.newBalance} LK`);
+                    renderMarketBalances();
+                } else {
+                    alert(`❌ HATA: ${data.message}`);
+                }
+            } catch(e) {
+                alert("Bağlantı hatası oluştu!");
+            } finally {
+                btnEl.disabled = false;
+                btnEl.innerText = "SATIN AL";
             }
-            klanUyeleri.forEach(u => {
-                body.innerHTML += `<tr><td class="player-name">${u.name}</td><td style="text-align:right; color:gold; font-family:'Orbitron';">0 LK</td></tr>`;
-            });
         }
 
-        const webAppUrl = "https://script.google.com/macros/s/AKfycbzAjxOUVihdQtPoxILQPXUYIZCNtVBGeocmGuFCLA5u5KIvSL1iqwT3qu39rVrAB2EX1A/exec";
-        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPoVetii7Ck-DcY03kidQzMjaC-Vc3qH51bK7kRWxJrkCoro1-aOgTpOpUjfKEWMlYyOZRxRp3A0bs/pub?output=csv";
-        const XP_BARAJI = 1000;
-        let klanUyeleri = [];
+        // CANLI BAKIYE ÇEKME
+        async function renderMarketBalances() {
+            const body = document.getElementById('marketBalanceBody');
+            body.innerHTML = '<tr><td colspan="2">Bakiyeler Yükleniyor...</td></tr>';
+            try {
+                const res = await fetch(webAppUrl + "?action=balances");
+                const balances = await res.json();
+                body.innerHTML = '';
+                if(!balances || balances.length === 0) {
+                    body.innerHTML = '<tr><td colspan="2">Bakiye verisi bulunamadı.</td></tr>';
+                    return;
+                }
+                balances.forEach(b => {
+                    body.innerHTML += `<tr><td class="player-name">${b.oyuncu}</td><td style="text-align:right; color:gold; font-family:'Orbitron'; font-weight:bold;">${b.lk} LK</td></tr>`;
+                });
+            } catch(e) {
+                body.innerHTML = '<tr><td colspan="2" style="color:var(--danger)">Bakiyeler yüklenemedi.</td></tr>';
+            }
+        }
 
         async function loadTableData() {
             const tbody = document.getElementById('tableBody');
@@ -592,13 +623,14 @@
 
         window.onload = () => { loadTableData(); loadLeaderboard(); updateProgressBar(); buildEmptyMinesGrid(); };
 
-        // LORİN MAYIN TARLASI MOTORU
+        // MAYIN TARLASI MOTORU
         const multipliers = [1.12, 1.28, 1.48, 1.72, 2.05, 2.48, 3.05, 3.82, 4.88, 6.35, 8.45, 11.5, 16.2, 23.5, 35.8, 57.0, 96.0, 175.0, 350.0, 800.0, 2200.0, 10000.0];
         let minesGameActive = false;
         let minePositions = new Set();
         let openedCount = 0;
         let currentMultiplier = 1.0;
         let activeMinesPlayer = "";
+        let activeMinesPin = "";
 
         function buildEmptyMinesGrid() {
             const grid = document.getElementById('minesGrid');
@@ -632,6 +664,7 @@
             document.getElementById('minesDailyStatus').innerText = `Günlük Hak: ${3 - playedCount} / 3`;
 
             activeMinesPlayer = player;
+            activeMinesPin = pin;
             minesGameActive = true;
             openedCount = 0;
             currentMultiplier = 1.0;
@@ -689,20 +722,36 @@
             }
         }
 
-        function cashoutMines() {
+        async function cashoutMines() {
             if(!minesGameActive || openedCount === 0) return;
             minesGameActive = false;
             const wonLK = Math.floor(10 * currentMultiplier);
 
-            alert(`TEBRİKLER ${activeMinesPlayer}! ${wonLK} LK kâr ile güvenli bir şekilde çekildiniz!`);
-            document.getElementById('cashoutBtn').disabled = true;
+            const btn = document.getElementById('cashoutBtn');
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(webAppUrl, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "update_lk", oyuncu: activeMinesPlayer, pin: activeMinesPin, deltaLK: wonLK })
+                });
+                const data = await res.json();
+                if(data.status === "success") {
+                    alert(`TEBRİKLER ${activeMinesPlayer}!\n\n${wonLK} LK kâr hesabınıza eklendi!\nYeni Bakiye: ${data.newBalance} LK`);
+                } else {
+                    alert(`UYARI: ${data.message}`);
+                }
+            } catch(e) {
+                alert("Bağlantı hatası oluştu!");
+            }
+
             document.getElementById('minesMultiplier').innerText = 'BOZDURULDU';
             document.getElementById('minesMultiplier').style.color = 'var(--success)';
         }
 
         // KURT AVI MOTORU
         let gameScore = 0; let gameTimeLeft = 30; let gameInterval, spawnInterval;
-        let activePlayer = ""; let comboStreak = 0; let comboMultiplier = 1;
+        let activePlayer = ""; let activeKurtAviPin = ""; let comboStreak = 0; let comboMultiplier = 1;
         const roles = { vahsikurt: "vahsikurt.jpg", karanlikkurt: "karanlikkurt.jpg", goldkurt: "goldkurt.jpg", hemsire: "hemsire.png.png", dedektif: "dedektif.png.png" };
 
         function updateComboUI() {
@@ -716,10 +765,10 @@
 
         function startMiniGame() {
             activePlayer = document.getElementById('gamePlayerSelect').value;
-            const pin = document.getElementById('kurtAviPinInput').value;
+            activeKurtAviPin = document.getElementById('kurtAviPinInput').value;
 
             if(!activePlayer) { alert("Lütfen önce oyuncu adınızı seçin!"); return; }
-            if(pin.length < 4) { alert("Lütfen 4 haneli Klan PIN kodunuzu girin!"); return; }
+            if(activeKurtAviPin.length < 4) { alert("Lütfen 4 haneli Klan PIN kodunuzu girin!"); return; }
 
             document.getElementById('gamePlayerSelect').disabled = true;
             document.getElementById('kurtAviPinInput').disabled = true;
@@ -784,10 +833,13 @@
             clearInterval(gameInterval); clearInterval(spawnInterval);
             document.getElementById('gameBoard').innerHTML = `<div style="position:absolute; top:20px; width:100%; text-align:center; font-size:1.8rem; color:gold; font-family:'Orbitron';">SÜRE BİTTİ!</div><div style="position:absolute; top:60px; width:100%; text-align:center; font-size:1.2rem; color:#fff;">Skor: <span style="color:var(--neon-cyan); font-weight:bold;">${gameScore}</span></div><div style="position:absolute; top:90px; width:100%; text-align:center; font-size:0.95rem; color:#aaa;" id="substatus">Kaydediliyor...</div><button class="start-btn" id="startBtn" onclick="startMiniGame()" style="margin-top: 40px;" disabled>TEKRAR OYNA</button>`;
             try {
-                const res = await fetch(webAppUrl, { method: 'POST', body: JSON.stringify({ oyuncu: activePlayer, skor: gameScore }) });
+                const res = await fetch(webAppUrl, { 
+                    method: 'POST', 
+                    body: JSON.stringify({ action: "save_score", oyuncu: activePlayer, skor: gameScore, pin: activeKurtAviPin }) 
+                });
                 const status = await res.json();
                 if(status.status === "success") { document.getElementById('substatus').innerText = "Kaydedildi!"; loadLeaderboard(); }
-                else { document.getElementById('substatus').innerText = "Kaydedilemedi."; }
+                else { document.getElementById('substatus').innerText = "Hata: " + status.message; }
             } catch(e) { document.getElementById('substatus').innerText = "Bağlantı kesildi."; }
             document.getElementById('gamePlayerSelect').disabled = false;
             document.getElementById('kurtAviPinInput').disabled = false;

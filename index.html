@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- THELORİN OTONOM V12 (GENİŞ MOBİL KLAVYE + DÜZEN SEÇENEKLERİ + RENKLİ LİDERLİK) -->
+<!-- THELORİN OTONOM V13 (CANLI İLERLEME ÇUBUĞU + TAM KOD) -->
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -18,7 +18,7 @@
         .menu-btn { font-size: 2rem; color: var(--neon-cyan); cursor: pointer; background: rgba(18, 14, 28, 0.8); border: 1px solid var(--neon-purple); padding: 5px 15px; border-radius: 12px; box-shadow: 0 0 15px rgba(157, 0, 255, 0.4); transition: all 0.3s ease; }
         .menu-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--neon-cyan); }
         
-        /* Kurucu Butonu (Yusuf) */
+        /* Kurucu Butonu */
         .founder-btn-container { position: relative; }
         .founder-btn { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); padding: 2px; cursor: pointer; box-shadow: 0 0 15px rgba(157, 0, 255, 0.6); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
         .founder-btn img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background-color: #111; }
@@ -54,6 +54,12 @@
         .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--neon-purple), var(--neon-cyan), transparent); }
         .card-title { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: var(--neon-cyan); margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; letter-spacing: 2px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; }
         
+        /* 🚀 YENİ: İLERLEME ÇUBUĞU CSS */
+        .progress-container { width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 5px; }
+        .progress-info { display: flex; justify-content: space-between; font-family: 'Orbitron'; font-size: 1.1rem; color: #fff; font-weight: bold; }
+        .progress-bar-bg { width: 100%; height: 28px; background: rgba(0, 0, 0, 0.6); border-radius: 14px; border: 1px solid var(--neon-purple); overflow: hidden; position: relative; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #9d00ff, #00f3ff); width: 0%; border-radius: 14px; box-shadow: 0 0 15px var(--neon-cyan); transition: width 2s cubic-bezier(0.25, 1, 0.5, 1); display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; font-family: 'Orbitron'; color: #000; font-weight: 900; font-size: 0.9rem; }
+        
         /* 🏆 Kürsü */
         .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin: 10px auto 20px auto; max-width: 600px; height: 180px; }
         .podium { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width: 30%; border-radius: 10px 10px 0 0; padding-top: 15px; transition: transform 0.3s ease; }
@@ -72,7 +78,7 @@
         .highlight-gold { color: #ffd700; font-weight: 700; }
         .highlight-diamond { color: #00ffff; font-weight: 700; }
         
-        /* Tablolar & Liderlik Renklendirmesi */
+        /* Tablolar */
         .table-container { overflow-x: auto; max-height: 500px; }
         table { width: 100%; border-collapse: collapse; text-align: left; }
         th { font-family: 'Orbitron', sans-serif; color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; padding: 12px 15px; border-bottom: 1px solid rgba(157, 0, 255, 0.3); position: sticky; top: 0; background: var(--card-bg); z-index: 10; }
@@ -82,8 +88,6 @@
         .status-badge { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; }
         .status-success { background: rgba(0, 255, 102, 0.15); color: var(--success); border: 1px solid var(--success); }
         .status-danger { background: rgba(255, 0, 85, 0.15); color: var(--danger); border: 1px solid var(--danger); }
-        
-        /* KURT AVI LİDERLİK RENKLERİ (Zorunlu CSS) */
         .leaderboard-table tr:nth-child(1) td { color: gold !important; text-shadow: 0 0 10px rgba(255,215,0,0.5); font-size: 1.3rem; }
         .leaderboard-table tr:nth-child(2) td { color: silver !important; font-size: 1.2rem; }
         .leaderboard-table tr:nth-child(3) td { color: #cd7f32 !important; font-size: 1.15rem; }
@@ -99,7 +103,7 @@
         .floating-score { position: absolute; font-weight: bold; font-family: 'Orbitron'; font-size: 20px; animation: floatUp 0.8s ease-out forwards; pointer-events: none; text-shadow: 0 0 8px rgba(0,0,0,1); white-space: nowrap; z-index: 100;}
         .frenzy-warn { color: var(--danger); font-weight: 900; animation: blink 0.5s infinite alternate; }
 
-        /* 🔤 ADAM ASMACA CSS (YENİ EKSTRA GENİŞ MOBİL TASARIM) */
+        /* 🔤 ADAM ASMACA CSS */
         .hm-container { display: flex; flex-direction: column; align-items: center; background: #1a1a24; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); padding: 20px 5px; position: relative; overflow: hidden; box-shadow: inset 0 0 30px rgba(0,0,0,0.8); width: 100%; }
         .hm-top-bar { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-family: 'Orbitron'; font-size: 1.3rem; padding: 0 15px;}
         .hm-timer { color: var(--neon-cyan); font-weight: bold; }
@@ -115,7 +119,6 @@
         .hm-letter-box { width: 28px; height: 40px; border-bottom: 3px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-family: 'Orbitron'; font-weight: bold; color: #fff; text-transform: uppercase; }
         .hm-space-box { width: 12px; border-bottom: none; height: 40px;}
         
-        /* AYARLAR BUTONU */
         .hm-settings-btn { cursor: pointer; font-size: 1.5rem; transition: transform 0.2s; }
         .hm-settings-btn:hover { transform: rotate(90deg); }
         .hm-settings-modal { position: absolute; top: 50px; right: 15px; background: rgba(18,14,28,0.95); border: 1px solid var(--neon-purple); border-radius: 8px; padding: 15px; z-index: 200; display: none; flex-direction: column; gap: 10px; backdrop-filter: blur(10px); }
@@ -123,7 +126,6 @@
         .hm-settings-modal label { color: var(--neon-cyan); font-family: 'Orbitron'; font-size: 0.9rem; }
         .hm-settings-modal select { padding: 8px; background: #000; color: #fff; border: 1px solid var(--neon-purple); border-radius: 4px; outline: none; font-family: 'Rajdhani'; font-size: 1.1rem; }
         
-        /* KLAVYE GÜNCELLEMESİ (TAM GENİŞLİK, DİKEY UZUN TUŞLAR) */
         .hm-keyboard { display: flex; flex-direction: column; gap: 4px; width: 100%; max-width: 600px; padding: 0 2px; }
         .hm-row { display: flex; justify-content: center; gap: 3px; width: 100%; }
         .hm-key { background: #333440; border: none; color: #fff; font-family: 'Orbitron'; font-size: clamp(1rem, 4vw, 1.3rem); font-weight: bold; height: 48px; flex: 1; border-radius: 6px; cursor: pointer; transition: all 0.1s; box-shadow: 0 4px 0 #1b1b24; min-width: 8%; display: flex; align-items: center; justify-content: center;}
@@ -176,17 +178,32 @@
         </div>
     </div>
 
-    <!-- Header -->
     <header>
         <div class="clan-logo"><img class="logo-img" src="klan_logosu.png" alt="THELORIN Logo" onerror="this.style.display='none';"></div>
         <h1>THELORİN</h1>
     </header>
 
-    <!-- Ana Panel -->
     <div class="container">
 
         <!-- ⚡ 1. SEKME: XP TAKİBİ -->
         <div id="tab-xp" class="tab-content active">
+            
+            <!-- 🚀 YENİ: 10 MİLYON XP İLERLEME ÇUBUĞU -->
+            <div class="card">
+                <div class="card-title">
+                    <div><span>🔥</span> KLAN HEDEFİ: 10 MİLYON XP</div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span id="currentXpText">Mevcut: Yükleniyor...</span>
+                        <span>Hedef: 10.000.000 XP</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="xpProgressBar">0%</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-title"><span>🛡️</span> GENEL KURALLAR</div>
                 <ul class="rules-list">
@@ -260,13 +277,9 @@
                 <div class="hm-container">
                     <div class="hm-top-bar">
                         <div class="hm-timer" id="hmTimerDisplay">0.0s</div>
-                        <div class="hm-lives" id="hmLivesContainer">
-                            <!-- Canlar JavaScript ile basılacak -->
-                        </div>
+                        <div class="hm-lives" id="hmLivesContainer"></div>
                         <span class="hm-settings-btn" onclick="toggleHmSettings()">⚙️</span>
                     </div>
-
-                    <!-- Ayarlar Penceresi -->
                     <div class="hm-settings-modal" id="hmSettingsModal">
                         <label for="layoutSelect">KLAVYE DÜZENİ</label>
                         <select id="layoutSelect" onchange="changeLayout()">
@@ -278,12 +291,7 @@
                     
                     <div class="hm-visual">🌕</div>
                     <div class="hm-word-display" id="hmWordDisplay"></div>
-                    
-                    <!-- Dinamik Klavye Alanı -->
-                    <div class="hm-keyboard" id="hmKeyboardContainer">
-                        <!-- JS ile Doldurulacak -->
-                    </div>
-
+                    <div class="hm-keyboard" id="hmKeyboardContainer"></div>
                     <div class="hm-overlay-msg" id="hmEndScreen">
                         <div class="hm-msg-title" id="hmEndTitle"></div>
                         <div class="hm-msg-word" id="hmEndWord"></div>
@@ -296,7 +304,21 @@
     </div>
 
     <script>
-        // --- MENÜ YÖNETİMİ ---
+        // İLERLEME ÇUBUĞU AYARI (Klan XP'si arttıkça buradaki 6150000 değerini artırabilirsin)
+        const guncelKlanXP = 6150000; 
+        const hedefKlanXP = 10000000;
+
+        function updateProgressBar() {
+            const percentage = Math.min((guncelKlanXP / hedefKlanXP) * 100, 100).toFixed(1);
+            document.getElementById('currentXpText').innerText = `Mevcut: ${guncelKlanXP.toLocaleString('tr-TR')} XP`;
+            const bar = document.getElementById('xpProgressBar');
+            
+            setTimeout(() => {
+                bar.style.width = percentage + "%";
+                bar.innerText = percentage + "%";
+            }, 500);
+        }
+
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
@@ -311,7 +333,6 @@
             }
         }
 
-        // --- KURUCU BUTON JS ---
         function toggleFounder() { document.getElementById('founderPopup').classList.toggle('show'); }
         document.addEventListener('click', function(e) { 
             if (!document.querySelector('.founder-btn-container').contains(e.target)) { 
@@ -326,7 +347,6 @@
         const XP_BARAJI = 1000;
         let klanUyeleri = [];
 
-        // --- EXCEL VERİ ÇEKME ---
         async function loadTableData() {
             const tbody = document.getElementById('tableBody');
             const podiumDiv = document.getElementById('podium');
@@ -367,7 +387,7 @@
             } catch (error) { tbody.innerHTML = '<tr><td colspan="4">Bağlantı hatası.</td></tr>'; }
         }
 
-        window.onload = () => { loadTableData(); loadLeaderboard(); };
+        window.onload = () => { loadTableData(); loadLeaderboard(); updateProgressBar(); };
 
         // --- 🎮 KURT AVI MOTORU ---
         let gameScore = 0; let gameTimeLeft = 30; let gameInterval, spawnInterval;
@@ -464,7 +484,7 @@
             } catch (e) { body.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--danger)">Hata.</td></tr>'; }
         }
 
-        // --- 🔤 ADAM ASMACA MOTORU (Dinamik Klavyeli) ---
+        // --- 🔤 ADAM ASMACA MOTORU ---
         const rolePool = [
             "AYLAKÇI", "AYRIK KURT", "BALKABAĞI KRALI", "BARIŞSEVER", "BARIŞSEVER KURT", "BÜYÜCÜ", "CADI", 
             "CANAVAR AVCISI", "DENİZ KIZI", "DOKTOR", "FALCI", "FIRINCI", "GARDİYAN", "GECE BEKÇİSİ", "GEVEZE", 
@@ -478,7 +498,6 @@
             "VUDU KURT ADAM", "FIRTINA KURT", "BATIK KURT", "DÜZENBAZ KURT", "YAZAR KURT"
         ];
 
-        // Klavye Düzenleri
         const layouts = {
             'qwerty-tr': [
                 ['Q','W','E','R','T','Y','U','I','O','P','Ğ','Ü'],
@@ -494,7 +513,7 @@
                 ['Q','W','E','R','T','Y','U','I','O','P'],
                 ['A','S','D','F','G','H','J','K','L'],
                 ['Z','X','C','V','B','N','M'],
-                ['Ă','Â','Đ','Ê','Ô','Ơ','Ư', 'Ç','Ö','Ş','Ü','Ğ','İ'] // TR kilitlenmemesi için
+                ['Ă','Â','Đ','Ê','Ô','Ơ','Ư', 'Ç','Ö','Ş','Ü','Ğ','İ']
             ]
         };
 
@@ -529,7 +548,6 @@
                     btn.className = 'hm-key';
                     btn.innerText = char;
                     
-                    // Önceki basılma durumlarını hatırla
                     if(hmGuessedChars.has(char)) {
                         btn.disabled = true;
                         if(hmCurrentWord.includes(char)) btn.classList.add('correct');

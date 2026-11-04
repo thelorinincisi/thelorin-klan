@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- THELORİN OTONOM V15 (6 SEKMELİ KLAN MARKETİ + PIN GÜVENLİĞİ + MÜZİK) -->
+<!-- THELORİN OTONOM V16 (KATEGORİZE OYUNLAR + PIN KORUMASI + MARKET BAKİYE LİSTESİ) -->
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -65,6 +65,13 @@
         .progress-bar-bg { width: 100%; height: 28px; background: rgba(0, 0, 0, 0.6); border-radius: 14px; border: 1px solid var(--neon-purple); overflow: hidden; position: relative; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
         .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #9d00ff, #00f3ff); width: 0%; border-radius: 14px; box-shadow: 0 0 15px var(--neon-cyan); transition: width 2s cubic-bezier(0.25, 1, 0.5, 1); display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; font-family: 'Orbitron'; color: #000; font-weight: 900; font-size: 0.9rem; }
         
+        /* OYUNLAR ALT SEKMELERİ */
+        .game-nav-container { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .game-nav-btn { flex: 1; min-width: 130px; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 0.95rem; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.2s; }
+        .game-nav-btn.active, .game-nav-btn:hover { background: rgba(157, 0, 255, 0.3); border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: 0 0 12px rgba(0, 243, 255, 0.3); }
+        .game-subview { display: none; }
+        .game-subview.active { display: block; }
+
         /* Kürsü & Rules */
         .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin: 10px auto 20px auto; max-width: 600px; height: 180px; }
         .podium { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width: 30%; border-radius: 10px 10px 0 0; padding-top: 15px; transition: transform 0.3s ease; }
@@ -93,7 +100,7 @@
         .status-success { background: rgba(0, 255, 102, 0.15); color: var(--success); border: 1px solid var(--success); }
         .status-danger { background: rgba(255, 0, 85, 0.15); color: var(--danger); border: 1px solid var(--danger); }
 
-        /* 🛒 6. SEKME: KLAN MARKETİ CSS */
+        /* KLAN MARKETİ */
         .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 15px; }
         .market-item-card { background: rgba(18, 14, 28, 0.9); border: 1px solid var(--neon-purple); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; gap: 12px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .market-item-card:hover { border-color: var(--neon-cyan); transform: translateY(-5px); box-shadow: 0 0 20px rgba(0, 243, 255, 0.3); }
@@ -104,8 +111,8 @@
         .buy-btn { width: 100%; padding: 10px; background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); color: #fff; font-family: 'Orbitron', sans-serif; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; }
         .buy-btn:hover { box-shadow: 0 0 15px var(--neon-cyan); }
 
-        /* Mayın Tarlası & Oyunlar */
-        .mines-controls { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        /* Oyunlar İç Kontroller */
+        .mines-controls { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
         .mines-pin-box { display: flex; gap: 10px; }
         .mines-input { padding: 12px; background: rgba(0,0,0,0.6); border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-family: 'Orbitron'; font-size: 1.1rem; width: 100%; text-align: center; outline: none; }
         .mines-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; max-width: 450px; margin: 0 auto; }
@@ -117,7 +124,7 @@
         .cashout-btn { padding: 12px 25px; background: linear-gradient(90deg, #00ff66, #00b347); color: #000; font-family: 'Orbitron'; font-weight: 900; font-size: 1.1rem; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 0 15px rgba(0, 255, 102, 0.4); transition: all 0.2s; }
         .cashout-btn:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(1); }
 
-        .player-selector-container { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; text-align: left; }
+        .player-selector-container { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; text-align: left; }
         .player-select { width: 100%; padding: 12px; background: rgba(18,14,28,0.9); border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-family: 'Rajdhani'; font-size: 1.2rem; font-weight: 600; cursor: pointer; outline: none; }
         .game-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 15px; background: rgba(0,0,0,0.5); padding: 12px; border-radius: 8px; border: 1px solid rgba(157, 0, 255, 0.3); text-align: center; }
         .game-board { width: 100%; height: 350px; background: rgba(0,0,0,0.6); border: 2px dashed var(--neon-purple); border-radius: 10px; position: relative; overflow: hidden; cursor: crosshair; }
@@ -175,7 +182,7 @@
 </head>
 <body>
 
-    <!-- Yan Menü (6 Sekmeli) -->
+    <!-- Yan Menü -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <span class="sidebar-title">⚡ MENÜ</span>
@@ -184,9 +191,7 @@
         <ul class="nav-list">
             <li class="nav-item active" onclick="switchTab('tab-xp', this)">⚡ XP Takibi & Kurallar</li>
             <li class="nav-item" onclick="switchTab('tab-outfits', this)">👕 Wov. Kıyafetler</li>
-            <li class="nav-item" onclick="switchTab('tab-game', this)">🎮 Kurt Avı (Klan Maçı)</li>
-            <li class="nav-item" onclick="switchTab('tab-mines', this)">💣 Lorin Mayın Tarlası (Risk)</li>
-            <li class="nav-item" onclick="switchTab('tab-hangman', this)">🔤 Suikastçi (Pratik)</li>
+            <li class="nav-item" onclick="switchTab('tab-games', this)">🎮 Oyunlar</li>
             <li class="nav-item" onclick="switchTab('tab-market', this)">🛒 Klan Marketi</li>
         </ul>
     </div>
@@ -271,105 +276,117 @@
             </div>
         </div>
 
-        <!-- 🎮 3. SEKME: KURT AVI -->
-        <div id="tab-game" class="tab-content">
-            <div class="card">
-                <div class="card-title"><span>🎮</span> KURT AVI - MİNİ OYUN</div>
-                <p style="color: var(--text-muted); margin-bottom: 20px;">Kurtları peş peşe avla, komboyu katla! Masumlara tıklarsan kombon SIFIRLANIR.</p>
-                <div class="player-selector-container">
-                    <select id="gamePlayerSelect" class="player-select"><option value="">Klan Listesi Yükleniyor...</option></select>
-                </div>
-                <div class="game-stats">
-                    <div style="color: var(--neon-cyan);" id="gameScore">Skor: 0</div>
-                    <div id="gameCombo" style="color: #fff;">Kombo: x1</div>
-                    <div id="gameTime" style="color: #fff;">Süre: 30s</div>
-                    <div id="gameSpeedState" style="color: gold;">FRENZY: %0</div>
-                </div>
-                <div class="game-board" id="gameBoard">
-                    <button class="start-btn" id="startBtn" onclick="startMiniGame()" disabled>OYUNCU SEÇİN</button>
-                </div>
+        <!-- 🎮 3. SEKME: OYUNLAR (KATEGORİZE EDİLDİ) -->
+        <div id="tab-games" class="tab-content">
+            <div class="game-nav-container">
+                <button class="game-nav-btn active" onclick="switchGameSubtab('sub-kurtavi', this)">🎮 Kurt Avı</button>
+                <button class="game-nav-btn" onclick="switchGameSubtab('sub-mines', this)">💣 Mayın Tarlası</button>
+                <button class="game-nav-btn" onclick="switchGameSubtab('sub-hangman', this)">🔤 Suikastçi</button>
             </div>
-            <div class="card">
-                <div class="card-title"><span>🏆</span> HAFTALIK EN İYİ AVCILAR</div>
-                <div class="table-container">
-                    <table class="leaderboard-table">
-                        <thead><tr><th>Sıra</th><th>Avcı</th><th>Skor</th></tr></thead>
-                        <tbody id="leaderboardBody"><tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Yükleniyor...</td></tr></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
-        <!-- 💣 4. SEKME: LORİN MAYIN TARLASI (RİSK) -->
-        <div id="tab-mines" class="tab-content">
-            <div class="card">
-                <div class="card-title"><span>💣</span> LORİN MAYIN TARLASI (RİSK)</div>
-                <p style="color: var(--text-muted); margin-bottom: 15px;">25 kutuda 3 mayın gizli! Kutuları açarak çarpanı katla. Bombaya basmadan kârını çekip tüymeyi başarabilecek misin?</p>
-                
-                <div class="mines-controls">
-                    <select id="minesPlayerSelect" class="player-select"><option value="">Klan Üyesi Seçin...</option></select>
-                    <div class="mines-pin-box">
-                        <input type="password" id="minesPinInput" class="mines-input" placeholder="4 Haneli Klan PIN Girin" maxlength="4">
-                        <button class="cashout-btn" style="background:var(--neon-purple); color:#fff;" onclick="startMinesGame()">BAŞLA</button>
-                    </div>
-                </div>
-
-                <div style="text-align:center; font-family:'Orbitron'; font-size:0.95rem; color:gold; margin-bottom:15px;" id="minesDailyStatus">
-                    Günlük Hak: 3 / 3
-                </div>
-
-                <div class="mines-grid" id="minesGrid"></div>
-
-                <div class="mines-action-panel">
-                    <div>
-                        <div style="font-size:0.85rem; color:var(--text-muted);">MEVCUT ÇARPAN</div>
-                        <div style="font-family:'Orbitron'; font-size:1.6rem; color:var(--neon-cyan);" id="minesMultiplier">1.00x</div>
-                    </div>
-                    <div>
-                        <div style="font-size:0.85rem; color:var(--text-muted);">BİRİKEN KÂR</div>
-                        <div style="font-family:'Orbitron'; font-size:1.6rem; color:var(--success);" id="minesCurrentProfit">0 LK</div>
-                    </div>
-                    <button class="cashout-btn" id="cashoutBtn" onclick="cashoutMines()" disabled>BOZDUR & ÇEKİL</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 🔤 5. SEKME: SUIKASTÇI KONGRESI -->
-        <div id="tab-hangman" class="tab-content">
-            <div class="card">
-                <div class="card-title" style="margin-bottom:5px;">
-                    <div><span>🔤</span> SUİKASTÇİLER KONGRESİ (PRATİK)</div>
-                </div>
-                <p style="color: var(--text-muted); margin-bottom: 20px;">Klavye hızını geliştir, İnekler Tacını kap! Oyundaki tüm roller havuzda mevcuttur.</p>
-                
-                <div class="hm-container">
-                    <div class="hm-top-bar">
-                        <div class="hm-timer" id="hmTimerDisplay">0.0s</div>
-                        <div class="hm-lives" id="hmLivesContainer"></div>
-                        <span class="hm-settings-btn" onclick="toggleHmSettings()">⚙️</span>
-                    </div>
-                    <div class="hm-settings-modal" id="hmSettingsModal">
-                        <label for="layoutSelect">KLAVYE DÜZENİ</label>
-                        <select id="layoutSelect" onchange="changeLayout()">
-                            <option value="qwerty-tr">Türkçe - QWERTY</option>
-                            <option value="alfabetik">Alfabetik</option>
-                            <option value="vietnam">Vietnam Dili</option>
-                        </select>
-                    </div>
+            <!-- OYUN 1: KURT AVI -->
+            <div id="sub-kurtavi" class="game-subview active">
+                <div class="card">
+                    <div class="card-title"><span>🎮</span> KURT AVI (KLAN MAÇI)</div>
+                    <p style="color: var(--text-muted); margin-bottom: 15px;">Kurtları peş peşe avla, komboyu katla! Masumlara tıklarsan kombon SIFIRLANIR.</p>
                     
-                    <div class="hm-visual">🌕</div>
-                    <div class="hm-word-display" id="hmWordDisplay"></div>
-                    <div class="hm-keyboard" id="hmKeyboardContainer"></div>
-                    <div class="hm-overlay-msg" id="hmEndScreen">
-                        <div class="hm-msg-title" id="hmEndTitle"></div>
-                        <div class="hm-msg-word" id="hmEndWord"></div>
-                        <button class="hm-play-btn" onclick="hmStartGame()">TEKRAR OYNA</button>
+                    <div class="mines-controls">
+                        <select id="gamePlayerSelect" class="player-select"><option value="">Klan Listesi Yükleniyor...</option></select>
+                        <input type="password" id="kurtAviPinInput" class="mines-input" placeholder="4 Haneli Klan PIN Girin" maxlength="4">
+                    </div>
+
+                    <div class="game-stats">
+                        <div style="color: var(--neon-cyan);" id="gameScore">Skor: 0</div>
+                        <div id="gameCombo" style="color: #fff;">Kombo: x1</div>
+                        <div id="gameTime" style="color: #fff;">Süre: 30s</div>
+                        <div id="gameSpeedState" style="color: gold;">FRENZY: %0</div>
+                    </div>
+                    <div class="game-board" id="gameBoard">
+                        <button class="start-btn" id="startBtn" onclick="startMiniGame()">OYUNA BAŞLA</button>
+                    </div>
+                </div>
+                <div class="card" style="margin-top:20px;">
+                    <div class="card-title"><span>🏆</span> HAFTALIK EN İYİ AVCILAR</div>
+                    <div class="table-container">
+                        <table class="leaderboard-table">
+                            <thead><tr><th>Sıra</th><th>Avcı</th><th>Skor</th></tr></thead>
+                            <tbody id="leaderboardBody"><tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Yükleniyor...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OYUN 2: LORİN MAYIN TARLASI -->
+            <div id="sub-mines" class="game-subview">
+                <div class="card">
+                    <div class="card-title"><span>💣</span> LORİN MAYIN TARLASI (RİSK)</div>
+                    <p style="color: var(--text-muted); margin-bottom: 15px;">25 kutuda 3 mayın gizli! Kutuları açarak çarpanı katla. Bombaya basmadan kârını çekip tüymeyi başarabilecek misin?</p>
+                    
+                    <div class="mines-controls">
+                        <select id="minesPlayerSelect" class="player-select"><option value="">Klan Üyesi Seçin...</option></select>
+                        <div class="mines-pin-box">
+                            <input type="password" id="minesPinInput" class="mines-input" placeholder="4 Haneli Klan PIN Girin" maxlength="4">
+                            <button class="cashout-btn" style="background:var(--neon-purple); color:#fff;" onclick="startMinesGame()">BAŞLA</button>
+                        </div>
+                    </div>
+
+                    <div style="text-align:center; font-family:'Orbitron'; font-size:0.95rem; color:gold; margin-bottom:15px;" id="minesDailyStatus">
+                        Günlük Hak: 3 / 3
+                    </div>
+
+                    <div class="mines-grid" id="minesGrid"></div>
+
+                    <div class="mines-action-panel">
+                        <div>
+                            <div style="font-size:0.85rem; color:var(--text-muted);">MEVCUT ÇARPAN</div>
+                            <div style="font-family:'Orbitron'; font-size:1.6rem; color:var(--neon-cyan);" id="minesMultiplier">1.00x</div>
+                        </div>
+                        <div>
+                            <div style="font-size:0.85rem; color:var(--text-muted);">BİRİKEN KÂR</div>
+                            <div style="font-family:'Orbitron'; font-size:1.6rem; color:var(--success);" id="minesCurrentProfit">0 LK</div>
+                        </div>
+                        <button class="cashout-btn" id="cashoutBtn" onclick="cashoutMines()" disabled>BOZDUR & ÇEKİL</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OYUN 3: SUİKASTÇİ -->
+            <div id="sub-hangman" class="game-subview">
+                <div class="card">
+                    <div class="card-title" style="margin-bottom:5px;">
+                        <div><span>🔤</span> SUİKASTÇİLER KONGRESİ (PRATİK)</div>
+                    </div>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Klavye hızını geliştir, İnekler Tacını kap! Oyundaki tüm roller havuzda mevcuttur.</p>
+                    
+                    <div class="hm-container">
+                        <div class="hm-top-bar">
+                            <div class="hm-timer" id="hmTimerDisplay">0.0s</div>
+                            <div class="hm-lives" id="hmLivesContainer"></div>
+                            <span class="hm-settings-btn" onclick="toggleHmSettings()">⚙️</span>
+                        </div>
+                        <div class="hm-settings-modal" id="hmSettingsModal">
+                            <label for="layoutSelect">KLAVYE DÜZENİ</label>
+                            <select id="layoutSelect" onchange="changeLayout()">
+                                <option value="qwerty-tr">Türkçe - QWERTY</option>
+                                <option value="alfabetik">Alfabetik</option>
+                                <option value="vietnam">Vietnam Dili</option>
+                            </select>
+                        </div>
+                        
+                        <div class="hm-visual">🌕</div>
+                        <div class="hm-word-display" id="hmWordDisplay"></div>
+                        <div class="hm-keyboard" id="hmKeyboardContainer"></div>
+                        <div class="hm-overlay-msg" id="hmEndScreen">
+                            <div class="hm-msg-title" id="hmEndTitle"></div>
+                            <div class="hm-msg-word" id="hmEndWord"></div>
+                            <button class="hm-play-btn" onclick="hmStartGame()">TEKRAR OYNA</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 🛒 6. SEKME: KLAN MARKETİ -->
+        <!-- 🛒 4. SEKME: KLAN MARKETİ -->
         <div id="tab-market" class="tab-content">
             <div class="card">
                 <div class="card-title"><span>🛒</span> KLAN MARKETİ</div>
@@ -381,7 +398,6 @@
                 </div>
 
                 <div class="market-grid">
-                    <!-- ÜRÜN 1 -->
                     <div class="market-item-card">
                         <div class="item-icon">👑</div>
                         <div class="item-title">[Efsane] VIP Rozeti</div>
@@ -390,7 +406,6 @@
                         <button class="buy-btn" onclick="buyMarketItem('[Efsane] VIP Rozeti', 100)">SATIN AL</button>
                     </div>
 
-                    <!-- ÜRÜN 2 -->
                     <div class="market-item-card">
                         <div class="item-icon">✨</div>
                         <div class="item-title">Neon İsim Efekti</div>
@@ -399,16 +414,14 @@
                         <button class="buy-btn" onclick="buyMarketItem('Neon İsim Efekti', 150)">SATIN AL</button>
                     </div>
 
-                    <!-- ÜRÜN 3 -->
                     <div class="market-item-card">
                         <div class="item-icon">🛡️</div>
                         <div class="item-title">Görev Destek Kuponu</div>
-                        <div class="item-desc">Klan görevindeki altın/elmas yükümlülüğünün bir kısmı kasadan karşılanır.</div>
+                        <div class="item-desc">Klan görevindeki 200 altın veya 40 elmas indirim kasadan karşılanır.</div>
                         <div class="item-price">200 LK</div>
                         <button class="buy-btn" onclick="buyMarketItem('Görev Destek Kuponu', 200)">SATIN AL</button>
                     </div>
 
-                    <!-- ÜRÜN 4 -->
                     <div class="market-item-card">
                         <div class="item-icon">🐺</div>
                         <div class="item-title">Özel Profil İkonu</div>
@@ -417,7 +430,6 @@
                         <button class="buy-btn" onclick="buyMarketItem('Özel Profil İkonu', 60)">SATIN AL</button>
                     </div>
 
-                    <!-- ÜRÜN 5 -->
                     <div class="market-item-card">
                         <div class="item-icon">📻</div>
                         <div class="item-title">Klan Radyosu Müzik Seçimi</div>
@@ -425,6 +437,19 @@
                         <div class="item-price">50 LK</div>
                         <button class="buy-btn" onclick="buyMarketItem('Radyo Şarkı Seçimi', 50)">SATIN AL</button>
                     </div>
+                </div>
+            </div>
+
+            <!-- 💳 KLAN BAKİYE LİSTESİ -->
+            <div class="card">
+                <div class="card-title"><span>💳</span> LORİN KREDİ (LK) BAKİYELERİ</div>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Oyuncu</th><th style="text-align:right;">Bakiye (LK)</th></tr></thead>
+                        <tbody id="marketBalanceBody">
+                            <tr><td>Klan Üyesi Yükleniyor...</td><td style="text-align:right;">0 LK</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -465,18 +490,23 @@
         }
 
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
+        
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             element.classList.add('active');
             toggleSidebar();
-            if(tabId === 'tab-game') { loadLeaderboard(); }
-            if(tabId === 'tab-mines') { buildEmptyMinesGrid(); }
-            if(tabId === 'tab-hangman') { 
-                if(!hmCurrentWord) hmStartGame(); 
-                else renderKeyboard(); 
-            }
+            if(tabId === 'tab-games') { loadLeaderboard(); buildEmptyMinesGrid(); }
+            if(tabId === 'tab-market') { renderMarketBalances(); }
+        }
+
+        function switchGameSubtab(subId, btnElement) {
+            document.querySelectorAll('.game-subview').forEach(view => view.classList.remove('active'));
+            document.querySelectorAll('.game-nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(subId).classList.add('active');
+            btnElement.classList.add('active');
+            if(subId === 'sub-hangman' && !hmCurrentWord) hmStartGame();
         }
 
         function toggleFounder() { document.getElementById('founderPopup').classList.toggle('show'); }
@@ -487,7 +517,7 @@
             } 
         });
 
-        // KLAN MARKETİ SATIN ALMA SİSTEMİ
+        // MARKET SATIN ALMA SİSTEMİ
         function buyMarketItem(itemName, price) {
             const player = document.getElementById('marketPlayerSelect').value;
             const pin = document.getElementById('marketPinInput').value;
@@ -496,6 +526,18 @@
             if(pin.length < 4) { alert("Lütfen işlemi onaylamak için 4 haneli Klan PIN kodunuzu girin!"); return; }
 
             alert(`SİPARİŞ ALINDI!\n\nOyuncu: ${player}\nEşya: ${itemName}\nTutar: ${price} LK\n\nPIN doğrulandı. İşleminiz klan yönetimi tarafından incelenip aktif edilecektir.`);
+        }
+
+        function renderMarketBalances() {
+            const body = document.getElementById('marketBalanceBody');
+            body.innerHTML = '';
+            if(klanUyeleri.length === 0) {
+                body.innerHTML = '<tr><td colspan="2">Yükleniyor...</td></tr>';
+                return;
+            }
+            klanUyeleri.forEach(u => {
+                body.innerHTML += `<tr><td class="player-name">${u.name}</td><td style="text-align:right; color:gold; font-family:'Orbitron';">0 LK</td></tr>`;
+            });
         }
 
         const webAppUrl = "https://script.google.com/macros/s/AKfycbzAjxOUVihdQtPoxILQPXUYIZCNtVBGeocmGuFCLA5u5KIvSL1iqwT3qu39rVrAB2EX1A/exec";
@@ -534,12 +576,6 @@
                     minesSelect.innerHTML += `<option value="${u.name}">${u.name}</option>`;
                     marketSelect.innerHTML += `<option value="${u.name}">${u.name}</option>`;
                 });
-
-                select.onchange = () => {
-                    const btn = document.getElementById('startBtn');
-                    btn.innerText = select.value ? "OYUNA BAŞLA" : "OYUNCU SEÇİN";
-                    btn.disabled = !select.value;
-                };
 
                 let aylikSiralama = [...uyeler].sort((a, b) => b.month - a.month);
                 if (aylikSiralama.length >= 3) {
@@ -680,8 +716,14 @@
 
         function startMiniGame() {
             activePlayer = document.getElementById('gamePlayerSelect').value;
-            if(!activePlayer) return;
+            const pin = document.getElementById('kurtAviPinInput').value;
+
+            if(!activePlayer) { alert("Lütfen önce oyuncu adınızı seçin!"); return; }
+            if(pin.length < 4) { alert("Lütfen 4 haneli Klan PIN kodunuzu girin!"); return; }
+
             document.getElementById('gamePlayerSelect').disabled = true;
+            document.getElementById('kurtAviPinInput').disabled = true;
+            
             gameScore = 0; gameTimeLeft = 30; comboStreak = 0; updateComboUI();
             document.getElementById('gameScore').innerText = 'Skor: 0'; document.getElementById('gameTime').innerText = 'Süre: 30s';
             document.getElementById('gameSpeedState').innerHTML = 'FRENZY: %0'; document.getElementById('gameSpeedState').style.color = 'gold';
@@ -747,7 +789,9 @@
                 if(status.status === "success") { document.getElementById('substatus').innerText = "Kaydedildi!"; loadLeaderboard(); }
                 else { document.getElementById('substatus').innerText = "Kaydedilemedi."; }
             } catch(e) { document.getElementById('substatus').innerText = "Bağlantı kesildi."; }
-            document.getElementById('gamePlayerSelect').disabled = false; document.querySelector('#gameBoard .start-btn').disabled = false;
+            document.getElementById('gamePlayerSelect').disabled = false;
+            document.getElementById('kurtAviPinInput').disabled = false;
+            document.querySelector('#gameBoard .start-btn').disabled = false;
         }
 
         async function loadLeaderboard() {

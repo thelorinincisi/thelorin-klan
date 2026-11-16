@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- THELORİN OTONOM V17 (CANLI BAKIYE & SİSTEM ENTEGRASYONLU TAM SÜRÜM) -->
+<!-- THELORİN KOMUTA MERKEZİ V2.0 (TAM ENTEGRE SÜRÜM) -->
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -9,19 +9,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-color: #07070a; --card-bg: rgba(18, 14, 28, 0.75); --neon-purple: #9d00ff; --neon-cyan: #00f3ff; --text-main: #f0ebf8; --text-muted: #a399b5; --success: #00ff66; --danger: #ff0055; }
+        :root { --bg-color: #07070a; --card-bg: rgba(18, 14, 28, 0.78); --neon-purple: #9d00ff; --neon-cyan: #00f3ff; --text-main: #f0ebf8; --text-muted: #a399b5; --success: #00ff66; --danger: #ff0055; }
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-        body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Rajdhani', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; background-image: radial-gradient(circle at 50% 0%, rgba(157, 0, 255, 0.15), transparent 50%), radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.08), transparent 40%); background-attachment: fixed; }
+        body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Rajdhani', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 20px 30px 20px; background-image: radial-gradient(circle at 50% 0%, rgba(157, 0, 255, 0.15), transparent 50%), radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.08), transparent 40%); background-attachment: fixed; }
+
+        /* 📡 CANLI AKTİVİTE AKIŞI (LIVE TICKER) */
+        .live-ticker-bar { width: 100vw; background: linear-gradient(90deg, #0b0914 0%, #1c1433 50%, #0b0914 100%); border-bottom: 1px solid rgba(0, 243, 255, 0.35); color: #e2e8f0; padding: 8px 0; overflow: hidden; white-space: nowrap; position: relative; font-size: 0.95rem; font-weight: 600; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+        .ticker-track { display: inline-block; padding-left: 100%; animation: tickerScroll 35s linear infinite; }
+        .ticker-track:hover { animation-play-state: paused; }
+        .ticker-item { display: inline-block; margin-right: 55px; color: var(--neon-cyan); text-shadow: 0 0 8px rgba(0, 243, 255, 0.3); }
+        @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
         
-        /* UI Elementler & Top Bar */
-        .top-bar { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; position: relative; z-index: 100; gap: 10px; }
+        /* UI Elementler & Top Bar (1280px Genişletilmiş) */
+        .top-bar { width: 100%; max-width: 1280px; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; position: relative; z-index: 100; gap: 10px; }
         .menu-btn { font-size: 2rem; color: var(--neon-cyan); cursor: pointer; background: rgba(18, 14, 28, 0.8); border: 1px solid var(--neon-purple); padding: 5px 15px; border-radius: 12px; box-shadow: 0 0 15px rgba(157, 0, 255, 0.4); transition: all 0.3s ease; }
         .menu-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--neon-cyan); }
-        
-        /* 🎵 KLAN RADYOSU */
-        .radio-btn { display: flex; align-items: center; gap: 8px; background: rgba(18, 14, 28, 0.8); border: 1px solid var(--neon-cyan); padding: 8px 14px; border-radius: 20px; cursor: pointer; font-family: 'Orbitron', sans-serif; font-size: 0.85rem; color: #fff; box-shadow: 0 0 12px rgba(0, 243, 255, 0.3); transition: all 0.3s ease; }
-        .radio-btn:hover { transform: scale(1.05); box-shadow: 0 0 18px var(--neon-cyan); }
-        .radio-btn.playing { border-color: var(--success); box-shadow: 0 0 15px var(--success); color: var(--success); }
 
         /* Kurucu Butonu */
         .founder-btn-container { position: relative; }
@@ -46,34 +48,52 @@
         .overlay.show { display: block; }
         
         /* Header */
-        header { text-align: center; margin-top: 10px; margin-bottom: 35px; }
-        .clan-logo { width: 150px; height: 150px; margin: 0 auto 10px; position: relative; display: flex; align-items: center; justify-content: center; }
-        .logo-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 15px var(--neon-purple)) drop-shadow(0 0 25px var(--neon-cyan)); animation: pulse 3s infinite alternate; }
-        h1 { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; font-weight: 900; letter-spacing: 8px; text-transform: uppercase; background: linear-gradient(90deg, var(--neon-purple), #fff, var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(157, 0, 255, 0.5); }
+        header { text-align: center; margin-top: 5px; margin-bottom: 30px; }
+        .clan-logo { width: 130px; height: 130px; margin: 0 auto 10px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .logo-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 15px var(--neon-purple)) drop-shadow(0 0 25px var(--neon-cyan)); }
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 3.2rem; font-weight: 900; letter-spacing: 8px; text-transform: uppercase; background: linear-gradient(90deg, var(--neon-purple), #fff, var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(157, 0, 255, 0.5); }
         
-        /* Container & Cards */
-        .container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 30px; }
+        /* Container & Cards (1280px Genişlik) */
+        .container { width: 100%; max-width: 1280px; display: flex; flex-direction: column; gap: 25px; }
         .tab-content { display: none; animation: fadeIn 0.4s ease; }
-        .tab-content.active { display: flex; flex-direction: column; gap: 30px; }
+        .tab-content.active { display: flex; flex-direction: column; gap: 25px; }
         .card { background: var(--card-bg); border-radius: 16px; padding: 25px; border: 1px solid rgba(157, 0, 255, 0.3); box-shadow: 0 0 25px rgba(0, 0, 0, 0.8); position: relative; overflow: hidden; backdrop-filter: blur(8px); }
         .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--neon-purple), var(--neon-cyan), transparent); }
         .card-title { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: var(--neon-cyan); margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; letter-spacing: 2px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; }
+
+        /* 2'li Grid Düzeni (Ana Sayfa Üst Kartlar İçin) */
+        .top-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        @media (max-width: 900px) { .top-grid-2 { grid-template-columns: 1fr; } }
         
         /* Progress Bar */
         .progress-container { width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 5px; }
-        .progress-info { display: flex; justify-content: space-between; font-family: 'Orbitron'; font-size: 1.1rem; color: #fff; font-weight: bold; }
+        .progress-info { display: flex; justify-content: space-between; font-family: 'Orbitron'; font-size: 1.05rem; color: #fff; font-weight: bold; }
         .progress-bar-bg { width: 100%; height: 28px; background: rgba(0, 0, 0, 0.6); border-radius: 14px; border: 1px solid var(--neon-purple); overflow: hidden; position: relative; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
-        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #9d00ff, #00f3ff); width: 0%; border-radius: 14px; box-shadow: 0 0 15px var(--neon-cyan); transition: width 2s cubic-bezier(0.25, 1, 0.5, 1); display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; font-family: 'Orbitron'; color: #000; font-weight: 900; font-size: 0.9rem; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #9d00ff, #00f3ff); width: 0%; border-radius: 14px; box-shadow: 0 0 15px var(--neon-cyan); transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; font-family: 'Orbitron'; color: #000; font-weight: 900; font-size: 0.9rem; }
         
+        /* 📊 KOMUTA & ANALİZ PANELİ GRİD DÜZENİ */
+        .command-grid { display: grid; grid-template-columns: 330px 1fr; gap: 24px; align-items: start; margin-top: 10px; }
+        @media (max-width: 880px) { .command-grid { grid-template-columns: 1fr; } }
+        .profile-card-box { background: linear-gradient(160deg, rgba(28, 20, 48, 0.95) 0%, rgba(12, 9, 22, 0.95) 100%); border: 1px solid var(--neon-purple); border-radius: 16px; padding: 24px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+        .avatar-frame { width: 155px; height: 155px; margin: 0 auto 14px; border-radius: 50%; background: radial-gradient(circle, rgba(157,0,255,0.25) 0%, rgba(7,7,10,0.95) 75%); border: 2px solid var(--neon-cyan); display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 20px rgba(0, 243, 255, 0.3); }
+        .avatar-frame img { width: 140px; height: 140px; object-fit: contain; }
+        .role-badge { display: inline-block; padding: 5px 14px; border-radius: 99px; font-family: 'Orbitron', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 1px; background: rgba(157, 0, 255, 0.25); color: var(--neon-cyan); border: 1px solid var(--neon-purple); margin-bottom: 12px; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 15px; margin-bottom: 18px; }
+        .stat-card { background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(157, 0, 255, 0.3); border-radius: 12px; padding: 16px; }
+        .stat-label { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; }
+        .stat-value { font-family: 'Orbitron', sans-serif; font-size: 1.45rem; font-weight: 700; color: #fff; }
+        .intel-box { background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(0, 243, 255, 0.35); border-radius: 12px; padding: 18px; margin-bottom: 18px; }
+        .simulator-box { background: linear-gradient(135deg, rgba(157,0,255,0.14) 0%, rgba(0,243,255,0.12) 100%); border: 1px solid var(--neon-purple); border-radius: 12px; padding: 20px; }
+
         /* Oyunlar Alt Sekmeleri */
-        .game-nav-container { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .game-nav-container { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
         .game-nav-btn { flex: 1; min-width: 130px; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 0.95rem; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.2s; }
         .game-nav-btn.active, .game-nav-btn:hover { background: rgba(157, 0, 255, 0.3); border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: 0 0 12px rgba(0, 243, 255, 0.3); }
         .game-subview { display: none; }
         .game-subview.active { display: block; }
 
         /* Kürsü & Kurallar */
-        .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin: 10px auto 20px auto; max-width: 600px; height: 180px; }
+        .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin: 10px auto 10px auto; max-width: 650px; height: 180px; }
         .podium { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; width: 30%; border-radius: 10px 10px 0 0; padding-top: 15px; transition: transform 0.3s ease; }
         .podium:hover { transform: translateY(-10px); }
         .rank { font-size: 35px; margin-bottom: 5px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
@@ -90,19 +110,19 @@
         .highlight-diamond { color: #00ffff; font-weight: 700; }
         
         /* Tablolar */
-        .table-container { overflow-x: auto; max-height: 500px; }
+        .table-container { overflow-x: auto; max-height: 550px; }
         table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { font-family: 'Orbitron', sans-serif; color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; padding: 12px 15px; border-bottom: 1px solid rgba(157, 0, 255, 0.3); position: sticky; top: 0; background: var(--card-bg); z-index: 10; }
-        td { padding: 16px 15px; font-size: 1.15rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600; }
-        tr:hover td { background: rgba(0, 243, 255, 0.03); }
-        .player-name { font-size: 1.25rem; font-weight: 700; color: #fff; }
-        .status-badge { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; }
+        th { font-family: 'Orbitron', sans-serif; color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; padding: 12px 15px; border-bottom: 1px solid rgba(157, 0, 255, 0.3); position: sticky; top: 0; background: #120e1c; z-index: 10; }
+        td { padding: 14px 15px; font-size: 1.15rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600; }
+        tr:hover td { background: rgba(0, 243, 255, 0.04); }
+        .player-name { font-size: 1.2rem; font-weight: 700; color: #fff; }
+        .status-badge { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; font-weight: bold; }
         .status-success { background: rgba(0, 255, 102, 0.15); color: var(--success); border: 1px solid var(--success); }
         .status-danger { background: rgba(255, 0, 85, 0.15); color: var(--danger); border: 1px solid var(--danger); }
 
         /* Klan Marketi Grid */
-        .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 15px; }
-        .market-item-card { background: rgba(18, 14, 28, 0.9); border: 1px solid var(--neon-purple); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; gap: 12px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 15px; }
+        .market-item-card { background: rgba(18, 14, 28, 0.9); border: 1px solid var(--neon-purple); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; gap: 12px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .market-item-card:hover { border-color: var(--neon-cyan); transform: translateY(-5px); box-shadow: 0 0 20px rgba(0, 243, 255, 0.3); }
         .item-icon { font-size: 2.8rem; filter: drop-shadow(0 0 10px var(--neon-purple)); }
         .item-title { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; color: #fff; font-weight: bold; }
@@ -113,7 +133,7 @@
         .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* Oyunlar İç Kontroller */
-        .mines-controls { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .mines-controls { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; max-width: 550px; margin-left: auto; margin-right: auto; }
         .mines-pin-box { display: flex; gap: 10px; }
         .mines-input { padding: 12px; background: rgba(0,0,0,0.6); border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-family: 'Orbitron'; font-size: 1.1rem; width: 100%; text-align: center; outline: none; }
         .mines-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; max-width: 450px; margin: 0 auto; }
@@ -121,17 +141,17 @@
         .mine-tile:hover:not(.revealed) { background: rgba(157,0,255,0.2); border-color: var(--neon-cyan); transform: translateY(-2px); }
         .mine-tile.revealed-gem { background: rgba(0, 255, 102, 0.2); border-color: var(--success); cursor: default; }
         .mine-tile.revealed-bomb { background: rgba(255, 0, 85, 0.3); border-color: var(--danger); animation: shake 0.3s; cursor: default; }
-        .mines-action-panel { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); }
-        .cashout-btn { padding: 12px 25px; background: linear-gradient(90deg, #00ff66, #00b347); color: #000; font-family: 'Orbitron'; font-weight: 900; font-size: 1.1rem; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 0 15px rgba(0, 255, 102, 0.4); transition: all 0.2s; }
+        .mines-action-panel { display: flex; justify-content: space-between; align-items: center; margin: 20px auto 0 auto; max-width: 550px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); }
+        .cashout-btn { padding: 12px 25px; background: linear-gradient(90deg, #00ff66, #00b347); color: #000; font-family: 'Orbitron'; font-weight: 900; font-size: 1.05rem; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 0 15px rgba(0, 255, 102, 0.4); transition: all 0.2s; white-space: nowrap; }
         .cashout-btn:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(1); }
 
-        .player-selector-container { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; text-align: left; }
         .player-select { width: 100%; padding: 12px; background: rgba(18,14,28,0.9); border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-family: 'Rajdhani'; font-size: 1.2rem; font-weight: 600; cursor: pointer; outline: none; }
-        .game-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 15px; background: rgba(0,0,0,0.5); padding: 12px; border-radius: 8px; border: 1px solid rgba(157, 0, 255, 0.3); text-align: center; }
-        .game-board { width: 100%; height: 350px; background: rgba(0,0,0,0.6); border: 2px dashed var(--neon-purple); border-radius: 10px; position: relative; overflow: hidden; cursor: crosshair; }
+        .game-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; font-family: 'Orbitron', sans-serif; font-size: 1.05rem; margin-bottom: 15px; background: rgba(0,0,0,0.5); padding: 12px; border-radius: 8px; border: 1px solid rgba(157, 0, 255, 0.3); text-align: center; }
+        @media (max-width: 600px) { .game-stats { grid-template-columns: 1fr 1fr; } }
+        .game-board { width: 100%; height: 360px; background: rgba(0,0,0,0.6); border: 2px dashed var(--neon-purple); border-radius: 10px; position: relative; overflow: hidden; cursor: crosshair; }
         .target-entity { position: absolute; cursor: pointer; transition: transform 0.1s; user-select: none; width: 64px; height: 64px; object-fit: contain; }
         .target-entity:active { transform: scale(0.7); }
-        .start-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 40px; background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); color: white; border: none; font-family: 'Orbitron'; font-size: 1.5rem; border-radius: 10px; cursor: pointer; box-shadow: 0 0 20px rgba(157, 0, 255, 0.6); z-index: 10; }
+        .start-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 40px; background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); color: white; border: none; font-family: 'Orbitron'; font-size: 1.4rem; border-radius: 10px; cursor: pointer; box-shadow: 0 0 20px rgba(157, 0, 255, 0.6); z-index: 10; }
         .floating-score { position: absolute; font-weight: bold; font-family: 'Orbitron'; font-size: 20px; animation: floatUp 0.8s ease-out forwards; pointer-events: none; text-shadow: 0 0 8px rgba(0,0,0,1); white-space: nowrap; z-index: 100;}
         .frenzy-warn { color: var(--danger); font-weight: 900; animation: blink 0.5s infinite alternate; }
 
@@ -141,30 +161,25 @@
         .hm-lives { display: flex; gap: 6px; }
         .hm-life { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #fff; transition: all 0.3s; }
         .hm-life.lost { border-color: var(--danger); background: var(--danger); opacity: 0.5; }
-        
         .hm-visual { width: 150px; height: 150px; background: #ddd; border-radius: 50%; box-shadow: 0 0 40px rgba(255,255,255,0.2); margin-bottom: 25px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 4rem; opacity: 0.9; }
         .hm-visual::after { content: '🐺'; position: absolute; bottom: -10px; right: -20px; font-size: 2.5rem; filter: drop-shadow(0 0 5px rgba(0,0,0,0.8)); }
         .hm-visual::before { content: '🧑‍🌾'; position: absolute; bottom: -10px; left: -20px; font-size: 2.5rem; filter: drop-shadow(0 0 5px rgba(0,0,0,0.8)); }
-
         .hm-word-display { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 6px; margin-bottom: 25px; min-height: 45px; padding: 0 5px; width: 100%;}
         .hm-letter-box { width: 28px; height: 40px; border-bottom: 3px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-family: 'Orbitron'; font-weight: bold; color: #fff; text-transform: uppercase; }
         .hm-space-box { width: 12px; border-bottom: none; height: 40px;}
-        
         .hm-settings-btn { cursor: pointer; font-size: 1.5rem; transition: transform 0.2s; }
         .hm-settings-btn:hover { transform: rotate(90deg); }
         .hm-settings-modal { position: absolute; top: 50px; right: 15px; background: rgba(18,14,28,0.95); border: 1px solid var(--neon-purple); border-radius: 8px; padding: 15px; z-index: 200; display: none; flex-direction: column; gap: 10px; backdrop-filter: blur(10px); }
         .hm-settings-modal.show { display: flex; }
         .hm-settings-modal label { color: var(--neon-cyan); font-family: 'Orbitron'; font-size: 0.9rem; }
         .hm-settings-modal select { padding: 8px; background: #000; color: #fff; border: 1px solid var(--neon-purple); border-radius: 4px; outline: none; font-family: 'Rajdhani'; font-size: 1.1rem; }
-        
-        .hm-keyboard { display: flex; flex-direction: column; gap: 4px; width: 100%; max-width: 600px; padding: 0 2px; }
-        .hm-row { display: flex; justify-content: center; gap: 3px; width: 100%; }
+        .hm-keyboard { display: flex; flex-direction: column; gap: 4px; width: 100%; max-width: 650px; padding: 0 2px; }
+        .hm-row { display: flex; justify-content: center; gap: 4px; width: 100%; }
         .hm-key { background: #333440; border: none; color: #fff; font-family: 'Orbitron'; font-size: clamp(1rem, 4vw, 1.3rem); font-weight: bold; height: 48px; flex: 1; border-radius: 6px; cursor: pointer; transition: all 0.1s; box-shadow: 0 4px 0 #1b1b24; min-width: 8%; display: flex; align-items: center; justify-content: center;}
         .hm-key:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 0 0 #1b1b24; }
         .hm-key:disabled { cursor: not-allowed; transform: translateY(4px); box-shadow: 0 0 0 #1b1b24; }
         .hm-key.correct { background: var(--success); color: #000; }
         .hm-key.wrong { background: var(--danger); opacity: 0.3; }
-
         .hm-overlay-msg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; display: none; backdrop-filter: blur(5px); }
         .hm-msg-title { font-family: 'Orbitron'; font-size: 2rem; margin-bottom: 10px; text-transform: uppercase; text-align: center;}
         .hm-msg-word { font-size: 1.3rem; color: #fff; margin-bottom: 25px; text-align: center;}
@@ -173,7 +188,6 @@
         @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
         @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-40px) scale(1.2); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
         @media (max-width: 400px) {
             .hm-key { height: 42px; font-size: 1rem; }
             .hm-letter-box { width: 22px; font-size: 1.5rem; height: 35px; }
@@ -183,6 +197,13 @@
 </head>
 <body>
 
+    <!-- 📡 CANLI AKTİVİTE AKIŞI -->
+    <div class="live-ticker-bar">
+        <div class="ticker-track" id="liveTickerTrack">
+            <span class="ticker-item">⚡ Thelorin Komuta Merkezi V2.0 verileri yükleniyor...</span>
+        </div>
+    </div>
+
     <!-- Yan Menü -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -191,6 +212,7 @@
         </div>
         <ul class="nav-list">
             <li class="nav-item active" onclick="switchTab('tab-xp', this)">⚡ XP Takibi & Kurallar</li>
+            <li class="nav-item" onclick="switchTab('tab-command', this)">📊 Komuta & Analiz</li>
             <li class="nav-item" onclick="switchTab('tab-outfits', this)">👕 Wov. Kıyafetler</li>
             <li class="nav-item" onclick="switchTab('tab-games', this)">🎮 Oyunlar</li>
             <li class="nav-item" onclick="switchTab('tab-market', this)">🛒 Klan Marketi</li>
@@ -198,16 +220,10 @@
     </div>
     <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-    <!-- Top Bar -->
+    <!-- Top Bar (Radyo Kaldırıldı) -->
     <div class="top-bar">
         <div class="menu-btn" onclick="toggleSidebar()" title="Menüyü Aç">☰</div>
         
-        <div class="radio-btn" id="radioBtn" onclick="toggleMusic()" title="Klan Radyosunu Başlat/Durdur">
-            <span id="radioIcon">🎵</span>
-            <span id="radioText">RADYO</span>
-            <audio id="bgAudio" loop src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3"></audio>
-        </div>
-
         <div class="founder-btn-container">
             <div class="founder-btn" onclick="toggleFounder()" title="Kurucu Bilgisi">
                 <img src="kurucu_pp.jpg" alt="Founder" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -231,12 +247,12 @@
         <div id="tab-xp" class="tab-content active">
             <div class="card">
                 <div class="card-title">
-                    <div><span>🔥</span> KLAN HEDEFİ: 10 MİLYON XP</div>
+                    <div><span>🔥</span> HAFTALIK KLAN XP HEDEFİ (OTOMATİK)</div>
                 </div>
                 <div class="progress-container">
                     <div class="progress-info">
                         <span id="currentXpText">Mevcut: Yükleniyor...</span>
-                        <span>Hedef: 10.000.000 XP</span>
+                        <span id="targetXpText">Hedef: 100.000 XP</span>
                     </div>
                     <div class="progress-bar-bg">
                         <div class="progress-bar-fill" id="xpProgressBar">0%</div>
@@ -244,30 +260,108 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-title"><span>🛡️</span> GENEL KURALLAR</div>
-                <ul class="rules-list">
-                    <li class="rule-item"><span class="rule-icon">✧</span><div>Irkçılık ve siyaset yapmak kesinlikle yasaktır.</div></li>
-                    <li class="rule-item"><span class="rule-icon">✧</span><div>Haftalık minimum <strong>1000 XP</strong> sınırını geçmeyenler klan kasasına <span class="highlight-gold">300 Altın</span> atmak zorundadır.</div></li>
-                    <li class="rule-item"><span class="rule-icon">✧</span><div><strong>Görev Ücretleri:</strong> Altınlı görev <span class="highlight-gold">600 Altın</span>, Elmaslı görev <span class="highlight-diamond">170 Elmas</span>'tır.</div></li>
-                </ul>
+            <div class="top-grid-2">
+                <div class="card">
+                    <div class="card-title"><span>🛡️</span> GENEL KURALLAR</div>
+                    <ul class="rules-list">
+                        <li class="rule-item"><span class="rule-icon">✧</span><div>Irkçılık ve siyaset yapmak kesinlikle yasaktır.</div></li>
+                        <li class="rule-item"><span class="rule-icon">✧</span><div>Haftalık minimum <strong>1000 XP</strong> sınırını geçmeyenler klan kasasına <span class="highlight-gold">300 Altın</span> atmak zorundadır.</div></li>
+                        <li class="rule-item"><span class="rule-icon">✧</span><div><strong>Görev Ücretleri:</strong> Altınlı görev <span class="highlight-gold">600 Altın</span>, Elmaslı görev <span class="highlight-diamond">170 Elmas</span>'tır.</div></li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span>🏆</span> AYIN KAHRAMANLARI</div>
+                    <div class="podium-container" id="podium"><p style="color: var(--neon-cyan);">⚡ Veriler Klan Merkezinden Çekiliyor...</p></div>
+                </div>
             </div>
+
             <div class="card">
-                <div class="card-title"><span>🏆</span> AYIN KAHRAMANLARI</div>
-                <div class="podium-container" id="podium"><p style="color: var(--neon-cyan);">⚡ Veriler Klan Merkezinden Çekiliyor...</p></div>
-            </div>
-            <div class="card">
-                <div class="card-title"><span>⚡</span> HAFTALIK & AYLIK XP TAKİBİ</div>
+                <div class="card-title"><span>⚡</span> GÜNLÜK, HAFTALIK & AYLIK XP TAKİBİ</div>
                 <div class="table-container">
                     <table id="xpTable">
-                        <thead><tr><th>Oyuncu</th><th>Haftalık XP</th><th>Aylık XP</th><th style="text-align: center;">Durum</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Oyuncu</th>
+                                <th>Günlük XP</th>
+                                <th>Haftalık XP</th>
+                                <th>Aylık XP</th>
+                                <th style="text-align: center;">Durum</th>
+                            </tr>
+                        </thead>
                         <tbody id="tableBody"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- 👕 2. SEKME: WOV. KIYAFETLER -->
+        <!-- 📊 2. SEKME: KLAN KOMUTA & ANALİZ PANELİ -->
+        <div id="tab-command" class="tab-content">
+            <div class="card">
+                <div class="card-title"><span>📊</span> KLAN KOMUTA & OYUNCU ANALİZ MERKEZİ</div>
+                <div style="display:flex; gap:15px; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
+                    <label for="analyzerPlayerSelect" style="font-size:1.15rem; font-weight:700; color:var(--neon-cyan);">Analiz Edilecek Üyeyi Seçin:</label>
+                    <select id="analyzerPlayerSelect" class="player-select" style="max-width:320px;" onchange="renderPlayerAnalysis(this.value)">
+                        <option value="">Üyeler Yükleniyor...</option>
+                    </select>
+                </div>
+
+                <div class="command-grid" id="commandDashboardArea" style="display:none;">
+                    <!-- Sol Kart: Skin / Avatar & Profil -->
+                    <div class="profile-card-box">
+                        <div class="avatar-frame">
+                            <img id="analyzerAvatar" src="" alt="Oyuncu Skin">
+                        </div>
+                        <div class="role-badge" id="analyzerRole">KLAN ÜYESİ</div>
+                        <h2 id="analyzerName" style="font-family:'Orbitron'; font-size:1.6rem; color:#fff; margin-bottom:6px;">-</h2>
+                        <p style="color:var(--text-muted); font-size:1.1rem; margin-bottom:18px;">Haftalık Sıra: <strong id="analyzerRank" style="color:var(--neon-cyan); font-family:'Orbitron';">#-</strong></p>
+                        
+                        <div style="background:rgba(0,0,0,0.5); padding:14px; border-radius:12px; border:1px solid rgba(255,215,0,0.3);">
+                            <div style="font-size:0.9rem; color:var(--text-muted);">Cüzdan Bakiyesi</div>
+                            <div id="analyzerLK" style="font-family:'Orbitron'; font-size:1.45rem; font-weight:bold; color:gold;">0 LK</div>
+                        </div>
+                    </div>
+
+                    <!-- Sağ Alan: Metrikler, Gap Tracker & Etki Simülatörü -->
+                    <div>
+                        <div class="metrics-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">⚡ Günlük XP</div>
+                                <div class="stat-value" id="analyzerDailyXP" style="color:var(--neon-cyan);">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">📅 Haftalık XP</div>
+                                <div class="stat-value" id="analyzerWeeklyXP">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">🌕 Aylık XP</div>
+                                <div class="stat-value" id="analyzerMonthlyXP">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">🔥 İstikrar Skoru</div>
+                                <div class="stat-value" id="analyzerConsistency" style="color:var(--success);">0/7 Gün</div>
+                            </div>
+                        </div>
+
+                        <!-- Yakın Rekabet (Gap Tracker) -->
+                        <div class="intel-box">
+                            <h4 style="font-family:'Orbitron'; font-size:1.05rem; color:var(--neon-cyan); margin-bottom:10px;">⚔️ YAKIN REKABET (GAP TRACKER)</h4>
+                            <p id="gapAboveText" style="font-size:1.15rem; margin-bottom:8px;">-</p>
+                            <p id="gapBelowText" style="font-size:1.1rem; color:var(--text-muted);">-</p>
+                        </div>
+
+                        <!-- "Ben Olmasam Ne Olurdu?" Simülatörü -->
+                        <div class="simulator-box">
+                            <h4 style="font-family:'Orbitron'; font-size:1.05rem; color:#d8b4fe; margin-bottom:10px;">🔮 "BEN OLMASAM NE OLURDU?" (KLAN ETKİ SİMÜLATÖRÜ)</h4>
+                            <div id="impactSimulatorText" style="font-size:1.15rem; line-height:1.65; color:#f0ebf8;">
+                                Hesaplanıyor...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 👕 3. SEKME: WOV. KIYAFETLER -->
         <div id="tab-outfits" class="tab-content">
             <div class="card">
                 <div class="card-title"><span>👕</span> WOLVESVILLE KIYAFETLERİ</div>
@@ -277,11 +371,11 @@
             </div>
         </div>
 
-        <!-- 🎮 3. SEKME: OYUNLAR -->
+        <!-- 🎮 4. SEKME: OYUNLAR -->
         <div id="tab-games" class="tab-content">
             <div class="game-nav-container">
                 <button class="game-nav-btn active" onclick="switchGameSubtab('sub-kurtavi', this)">🎮 Kurt Avı</button>
-                <button class="game-nav-btn" onclick="switchGameSubtab('sub-mines', this)">💣 Mayın Tarlası</button>
+                <button class="game-nav-btn" onclick="switchGameSubtab('sub-mines', this)">💣 Mayın Tarlası (10 LK)</button>
                 <button class="game-nav-btn" onclick="switchGameSubtab('sub-hangman', this)">🔤 Suikastçi</button>
             </div>
 
@@ -317,17 +411,17 @@
                 </div>
             </div>
 
-            <!-- OYUN 2: LORİN MAYIN TARLASI -->
+            <!-- OYUN 2: LORİN MAYIN TARLASI (10 LK GİRİŞ ÜCRETLİ) -->
             <div id="sub-mines" class="game-subview">
                 <div class="card">
-                    <div class="card-title"><span>💣</span> LORİN MAYIN TARLASI (RİSK)</div>
-                    <p style="color: var(--text-muted); margin-bottom: 15px;">25 kutuda 3 mayın gizli! Kutuları açarak çarpanı katla. Bombaya basmadan kârını çekip tüymeyi başarabilecek misin?</p>
+                    <div class="card-title"><span>💣</span> LORİN MAYIN TARLASI (GİRİŞ: 10 LK)</div>
+                    <p style="color: var(--text-muted); margin-bottom: 15px; text-align:center;">Giriş ücreti <strong>10 LK</strong>'dır. 25 kutuda 3 mayın gizli! Kutuları açarak çarpanı katla ve bombaya basmadan kârını çek.</p>
                     
                     <div class="mines-controls">
                         <select id="minesPlayerSelect" class="player-select"><option value="">Klan Üyesi Seçin...</option></select>
                         <div class="mines-pin-box">
                             <input type="password" id="minesPinInput" class="mines-input" placeholder="4 Haneli Klan PIN Girin" maxlength="4">
-                            <button class="cashout-btn" style="background:var(--neon-purple); color:#fff;" onclick="startMinesGame()">BAŞLA</button>
+                            <button class="cashout-btn" id="startMinesBtn" style="background:var(--neon-purple); color:#fff;" onclick="startMinesGame()">BAŞLA (10 LK)</button>
                         </div>
                     </div>
 
@@ -387,7 +481,7 @@
             </div>
         </div>
 
-        <!-- 🛒 4. SEKME: KLAN MARKETİ -->
+        <!-- 🛒 5. SEKME: KLAN MARKETİ (Radyo ve İkon Kaldırıldı) -->
         <div id="tab-market" class="tab-content">
             <div class="card">
                 <div class="card-title"><span>🛒</span> KLAN MARKETİ</div>
@@ -422,22 +516,6 @@
                         <div class="item-price">200 LK</div>
                         <button class="buy-btn" onclick="buyMarketItem('Görev Destek Kuponu', 200, this)">SATIN AL</button>
                     </div>
-
-                    <div class="market-item-card">
-                        <div class="item-icon">🐺</div>
-                        <div class="item-title">Özel Profil İkonu</div>
-                        <div class="item-desc">Sitedeki adının soluna koyabileceğin özel klan simgesi (1 Hafta).</div>
-                        <div class="item-price">60 LK</div>
-                        <button class="buy-btn" onclick="buyMarketItem('Özel Profil İkonu', 60, this)">SATIN AL</button>
-                    </div>
-
-                    <div class="market-item-card">
-                        <div class="item-icon">📻</div>
-                        <div class="item-title">Klan Radyosu Müzik Seçimi</div>
-                        <div class="item-desc">Sitede çalan Klan Radyosu müziğini 1 gün boyunca sen belirlersin.</div>
-                        <div class="item-price">50 LK</div>
-                        <button class="buy-btn" onclick="buyMarketItem('Radyo Şarkı Seçimi', 50, this)">SATIN AL</button>
-                    </div>
                 </div>
             </div>
 
@@ -458,45 +536,31 @@
     </div>
 
     <script>
-        // 🔗 WEB APP URL (BURAYA KENDİ APPS SCRIPT URL'NİZİ YAPIŞTIRIN)
-        const webAppUrl = "https://script.google.com/macros/s/AKfycby8kTphPsCGyYUxe2USfa4-ohlcHm0wtixZO8lDwPDNXSdg91Lrjs9ZWnc2_PbOjOCvFw/exec";
-        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPoVetii7Ck-DcY03kidQzMjaC-Vc3qH51bK7kRWxJrkCoro1-aOgTpOpUjfKEWMlYyOZRxRp3A0bs/pub?output=csv";
+        // 🔗 GÜNCEL APPS SCRIPT WEB APP URL
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbzcBhrNQJ_Tq70sfO3Qm2qCqSdXsPvnm7s3fUfTp2KzpU1J36_f8D98Zp4mqXoep71v8g/exec";
         
-        const guncelKlanXP = 6150000; 
-        const hedefKlanXP = 10000000;
+        const HAFTALIK_KLAN_HEDEFI = 100000; // Haftalık Otomatik Hedef Barı Limiti (İstediğin gibi değiştirebilirsin)
         const XP_BARAJI = 1000;
         let klanUyeleri = [];
 
-        function updateProgressBar() {
-            const percentage = Math.min((guncelKlanXP / hedefKlanXP) * 100, 100).toFixed(1);
-            document.getElementById('currentXpText').innerText = `Mevcut: ${guncelKlanXP.toLocaleString('tr-TR')} XP`;
-            const bar = document.getElementById('xpProgressBar');
-            setTimeout(() => {
-                bar.style.width = percentage + "%";
-                bar.innerText = percentage + "%";
-            }, 500);
-        }
-
-        function toggleMusic() {
-            const audio = document.getElementById('bgAudio');
-            const btn = document.getElementById('radioBtn');
-            const icon = document.getElementById('radioIcon');
-            const text = document.getElementById('radioText');
-
-            if(audio.paused) {
-                audio.play();
-                btn.classList.add('playing');
-                icon.innerText = "🔊";
-                text.innerText = "ÇALINACAK";
-            } else {
-                audio.pause();
-                btn.classList.remove('playing');
-                icon.innerText = "🎵";
-                text.innerText = "RADYO";
+        // 📡 CANLI AKTİVİTE AKIŞINI ÇEKME
+        async function loadLiveTicker() {
+            try {
+                const res = await fetch(`${webAppUrl}?action=get_feed`);
+                const feeds = await res.json();
+                const track = document.getElementById('liveTickerTrack');
+                if (feeds && feeds.length > 0 && track) {
+                    track.innerHTML = feeds.map(item => `<span class="ticker-item">${item}</span>`).join('');
+                }
+            } catch (e) {
+                console.error("Canlı akış yüklenemedi:", e);
             }
         }
 
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        }
         
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
@@ -524,7 +588,157 @@
             } 
         });
 
-        // KLAN MARKETİ SATIN ALMA (VERİTABANI ENTEGRELİ)
+        // ⚡ ANA VERİ MOTORU (GÜNLÜK/HAFTALIK/AYLIK XP + OTOMATİK HEDEF BARI + ANALİZ VERİLERİ)
+        async function loadClanData() {
+            const tbody = document.getElementById('tableBody');
+            const podiumDiv = document.getElementById('podium');
+            try {
+                const response = await fetch(`${webAppUrl}?action=balances`);
+                const members = await response.json();
+                klanUyeleri = members;
+
+                // Otomatik Klan Hedef Barını Hesapla (Tüm üyelerin haftalık XP toplamı)
+                const toplamHaftalikXP = members.reduce((acc, m) => acc + (m.haftalikXp || 0), 0);
+                const percentage = Math.min((toplamHaftalikXP / HAFTALIK_KLAN_HEDEFI) * 100, 100).toFixed(1);
+                document.getElementById('currentXpText').innerText = `Mevcut: ${toplamHaftalikXP.toLocaleString('tr-TR')} XP`;
+                document.getElementById('targetXpText').innerText = `Hedef: ${HAFTALIK_KLAN_HEDEFI.toLocaleString('tr-TR')} XP`;
+                const bar = document.getElementById('xpProgressBar');
+                setTimeout(() => {
+                    bar.style.width = percentage + "%";
+                    bar.innerText = percentage + "%";
+                }, 300);
+
+                // Dropdown Menüleri Doldur
+                const select = document.getElementById('gamePlayerSelect');
+                const minesSelect = document.getElementById('minesPlayerSelect');
+                const marketSelect = document.getElementById('marketPlayerSelect');
+                const analyzerSelect = document.getElementById('analyzerPlayerSelect');
+
+                select.innerHTML = '<option value="">-- Bir İsim Seç --</option>';
+                minesSelect.innerHTML = '<option value="">Klan Üyesi Seçin...</option>';
+                marketSelect.innerHTML = '<option value="">Satın Alacak Oyuncuyu Seçin...</option>';
+                analyzerSelect.innerHTML = '<option value="">Üye seçin...</option>';
+
+                members.forEach(u => {
+                    select.innerHTML += `<option value="${u.oyuncu}">${u.oyuncu}</option>`;
+                    minesSelect.innerHTML += `<option value="${u.oyuncu}">${u.oyuncu}</option>`;
+                    marketSelect.innerHTML += `<option value="${u.oyuncu}">${u.oyuncu}</option>`;
+                    analyzerSelect.innerHTML += `<option value="${u.oyuncu}">${u.oyuncu}</option>`;
+                });
+
+                // Ayın Kahramanları Kürsüsü (Aylık XP'ye göre)
+                let aylikSiralama = [...members].sort((a, b) => b.aylikXp - a.aylikXp);
+                if (aylikSiralama.length >= 3) {
+                    podiumDiv.innerHTML = `
+                        <div class="podium p2"><div class="rank">🥈</div><div class="name">${aylikSiralama[1].oyuncu}</div><div class="xp">${aylikSiralama[1].aylikXp.toLocaleString('tr-TR')} XP</div></div>
+                        <div class="podium p1"><div class="rank">👑</div><div class="name">${aylikSiralama[0].oyuncu}</div><div class="xp">${aylikSiralama[0].aylikXp.toLocaleString('tr-TR')} XP</div></div>
+                        <div class="podium p3"><div class="rank">🥉</div><div class="name">${aylikSiralama[2].oyuncu}</div><div class="xp">${aylikSiralama[2].aylikXp.toLocaleString('tr-TR')} XP</div></div>
+                    `;
+                }
+
+                // Ana Tabloyu Doldur (Günlük XP dahil)
+                tbody.innerHTML = '';
+                members.forEach(uye => {
+                    const isPassed = uye.haftalikXp >= XP_BARAJI;
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><div class="player-name">${uye.oyuncu}</div></td>
+                            <td style="color: var(--neon-cyan);">${(uye.gunlukXp || 0).toLocaleString('tr-TR')}</td>
+                            <td style="color: ${isPassed ? '#fff' : 'var(--danger)'};">${(uye.haftalikXp || 0).toLocaleString('tr-TR')}</td>
+                            <td style="color: var(--text-muted);">${(uye.aylikXp || 0).toLocaleString('tr-TR')}</td>
+                            <td style="text-align: center;"><div class="status-badge ${isPassed ? 'status-success' : 'status-danger'}">${isPassed ? '✔' : '✖'}</div></td>
+                        </tr>
+                    `;
+                });
+
+                // Komuta Panelinde ilk sıradaki kişiyi otomatik seç
+                let haftalikSiralama = [...members].sort((a, b) => b.haftalikXp - a.haftalikXp);
+                if (haftalikSiralama.length > 0) {
+                    analyzerSelect.value = haftalikSiralama[0].oyuncu;
+                    renderPlayerAnalysis(haftalikSiralama[0].oyuncu);
+                }
+
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="5">Veriler yüklenirken bağlantı hatası oluştu.</td></tr>';
+            }
+        }
+
+        // 📊 KOMUTA & ANALİZ PANELİ RENDER FONKSİYONU
+        function renderPlayerAnalysis(playerName) {
+            const dashboard = document.getElementById('commandDashboardArea');
+            if (!playerName) {
+                dashboard.style.display = 'none';
+                return;
+            }
+
+            const sorted = [...klanUyeleri].sort((a, b) => b.haftalikXp - a.haftalikXp);
+            const rankIndex = sorted.findIndex(m => m.oyuncu.toLowerCase() === playerName.toLowerCase());
+            if (rankIndex === -1) return;
+
+            const player = sorted[rankIndex];
+            dashboard.style.display = 'grid';
+
+            // Sol Kart (Skin/Avatar, Rütbe, İsim, Sıra, LK)
+            const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(player.oyuncu)}&background=9d00ff&color=fff&size=150`;
+            document.getElementById('analyzerAvatar').src = player.avatarUrl || fallbackAvatar;
+            
+            const roleMap = { "LEADER": "👑 KLAN LİDERİ", "COLEADER": "⚔️ YARDIMCI LİDER", "MEMBER": "🛡️ KLAN ÜYESİ" };
+            document.getElementById('analyzerRole').innerText = roleMap[player.role] || "🛡️ KLAN ÜYESİ";
+            document.getElementById('analyzerName').innerText = player.oyuncu;
+            document.getElementById('analyzerRank').innerText = `#${rankIndex + 1} / ${sorted.length}`;
+            document.getElementById('analyzerLK').innerText = `${player.lk} LK`;
+
+            // Sağ Metrikler
+            document.getElementById('analyzerDailyXP').innerText = `${(player.gunlukXp || 0).toLocaleString('tr-TR')} XP`;
+            document.getElementById('analyzerWeeklyXP').innerText = `${(player.haftalikXp || 0).toLocaleString('tr-TR')} XP`;
+            document.getElementById('analyzerMonthlyXP').innerText = `${(player.aylikXp || 0).toLocaleString('tr-TR')} XP`;
+
+            const aktifGun = player.aktifGun || 0;
+            const istikrarYuzde = Math.round((aktifGun / 7) * 100);
+            document.getElementById('analyzerConsistency').innerText = `${aktifGun}/7 Gün (%${istikrarYuzde})`;
+
+            // Yakın Rekabet (Gap Tracker)
+            const gapAboveEl = document.getElementById('gapAboveText');
+            const gapBelowEl = document.getElementById('gapBelowText');
+
+            if (rankIndex === 0) {
+                gapAboveEl.innerHTML = `🏆 <strong>Zirvedesin!</strong> Şu an klanın haftalık XP liderisin.`;
+            } else {
+                const abovePlayer = sorted[rankIndex - 1];
+                const diffUp = (abovePlayer.haftalikXp - player.haftalikXp) + 1;
+                gapAboveEl.innerHTML = `🚀 <strong>${rankIndex}. sıradaki ${abovePlayer.oyuncu}</strong> adlı üyeyi geçmene sadece <strong style="color:var(--neon-cyan);">${diffUp.toLocaleString('tr-TR')} XP</strong> kaldı!`;
+            }
+
+            if (rankIndex === sorted.length - 1) {
+                gapBelowEl.innerHTML = `🛡️ Altında başka klan üyesi bulunmuyor.`;
+            } else {
+                const belowPlayer = sorted[rankIndex + 1];
+                const diffDown = player.haftalikXp - belowPlayer.haftalikXp;
+                gapBelowEl.innerHTML = `⚠️ Arkandaki <strong>${belowPlayer.oyuncu}</strong> ile arandaki güvenlik farkı: <strong style="color:gold;">${diffDown.toLocaleString('tr-TR')} XP</strong>.`;
+            }
+
+            // "Ben Olmasam Ne Olurdu?" (Klan Etki Simülatörü)
+            const totalWeeklyXP = sorted.reduce((sum, m) => sum + (m.haftalikXp || 0), 0);
+            const contributionPercent = totalWeeklyXP > 0 ? ((player.haftalikXp / totalWeeklyXP) * 100).toFixed(1) : 0;
+            
+            const currentGoalPct = ((totalWeeklyXP / HAFTALIK_KLAN_HEDEFI) * 100).toFixed(1);
+            const withoutPlayerXP = Math.max(0, totalWeeklyXP - player.haftalikXp);
+            const withoutGoalPct = ((withoutPlayerXP / HAFTALIK_KLAN_HEDEFI) * 100).toFixed(1);
+            const doubledGoalPct = (((totalWeeklyXP + player.haftalikXp) / HAFTALIK_KLAN_HEDEFI) * 100).toFixed(1);
+
+            const simTextEl = document.getElementById('impactSimulatorText');
+            if (player.haftalikXp === 0) {
+                simTextEl.innerHTML = `• <strong>${player.oyuncu}</strong> bu hafta henüz XP kasmadı.<br>• Eğer günde sadece <strong>2.000 XP</strong> kassaydı haftalık klan hedefine tek başına <strong style="color:var(--success);">+%14.0</strong> ek katkı sağlayacaktı.`;
+            } else {
+                simTextEl.innerHTML = `
+                    • <strong>${player.oyuncu}</strong> tek başına bu haftaki toplam klan XP'sinin <strong style="color:var(--success);">%${contributionPercent}</strong>'ini sırtlıyor.<br>
+                    • Eğer <strong>${player.oyuncu}</strong> bu hafta hiç oynamasaydı, klan hedef barı <strong>%${currentGoalPct}</strong> yerine <strong style="color:var(--danger);">%${withoutGoalPct}</strong> seviyesinde kalacaktı!<br>
+                    • Mevcut performansını 2 katına çıkarsaydı klan hedefi şimdiden <strong style="color:var(--neon-cyan);">%${doubledGoalPct}</strong> seviyesine ulaşmış olacaktı.
+                `;
+            }
+        }
+
+        // KLAN MARKETİ SATIN ALMA
         async function buyMarketItem(itemName, price, btnEl) {
             const player = document.getElementById('marketPlayerSelect').value;
             const pin = document.getElementById('marketPinInput').value;
@@ -545,6 +759,7 @@
                 if(data.status === "success") {
                     alert(`✅ BAŞARILI!\n\n${data.message}\nYeni Bakiye: ${data.newBalance} LK`);
                     renderMarketBalances();
+                    loadLiveTicker();
                 } else {
                     alert(`❌ HATA: ${data.message}`);
                 }
@@ -561,7 +776,7 @@
             const body = document.getElementById('marketBalanceBody');
             body.innerHTML = '<tr><td colspan="2">Bakiyeler Yükleniyor...</td></tr>';
             try {
-                const res = await fetch(webAppUrl + "?action=balances");
+                const res = await fetch(`${webAppUrl}?action=balances`);
                 const balances = await res.json();
                 body.innerHTML = '';
                 if(!balances || balances.length === 0) {
@@ -576,54 +791,14 @@
             }
         }
 
-        async function loadTableData() {
-            const tbody = document.getElementById('tableBody');
-            const podiumDiv = document.getElementById('podium');
-            try {
-                const response = await fetch(sheetUrl);
-                const data = await response.text();
-                const rows = data.split(/\r?\n/);
-                let uyeler = [];
-                for (let i = 0; i < rows.length; i++) {
-                    if (!rows[i].trim()) continue; 
-                    const cols = rows[i].split(',');
-                    if (cols.length < 3) continue; 
-                    const playerName = cols[0].trim();
-                    if (playerName.toLowerCase() === 'oyuncu' || playerName.toLowerCase() === 'üye adı' || playerName.toLowerCase() === 'haftalık xp') continue;
-                    uyeler.push({ name: playerName, week: parseInt(cols[1].replace(/\D/g, ''), 10) || 0, month: parseInt(cols[2].replace(/\D/g, ''), 10) || 0 });
-                }
-                
-                klanUyeleri = uyeler;
-                const select = document.getElementById('gamePlayerSelect');
-                const minesSelect = document.getElementById('minesPlayerSelect');
-                const marketSelect = document.getElementById('marketPlayerSelect');
+        window.onload = () => {
+            loadLiveTicker();
+            loadClanData();
+            loadLeaderboard();
+            buildEmptyMinesGrid();
+        };
 
-                select.innerHTML = '<option value="">-- Bir İsim Seç --</option>';
-                minesSelect.innerHTML = '<option value="">Klan Üyesi Seçin...</option>';
-                marketSelect.innerHTML = '<option value="">Satın Alacak Oyuncuyu Seçin...</option>';
-                
-                klanUyeleri.forEach(u => {
-                    select.innerHTML += `<option value="${u.name}">${u.name}</option>`;
-                    minesSelect.innerHTML += `<option value="${u.name}">${u.name}</option>`;
-                    marketSelect.innerHTML += `<option value="${u.name}">${u.name}</option>`;
-                });
-
-                let aylikSiralama = [...uyeler].sort((a, b) => b.month - a.month);
-                if (aylikSiralama.length >= 3) {
-                    podiumDiv.innerHTML = `<div class="podium p2"><div class="rank">🥈</div><div class="name">${aylikSiralama[1].name}</div><div class="xp">${aylikSiralama[1].month.toLocaleString('tr-TR')} XP</div></div><div class="podium p1"><div class="rank">👑</div><div class="name">${aylikSiralama[0].name}</div><div class="xp">${aylikSiralama[0].month.toLocaleString('tr-TR')} XP</div></div><div class="podium p3"><div class="rank">🥉</div><div class="name">${aylikSiralama[2].name}</div><div class="xp">${aylikSiralama[2].month.toLocaleString('tr-TR')} XP</div></div>`;
-                }
-                
-                tbody.innerHTML = ''; 
-                uyeler.forEach(uye => {
-                    const isPassed = uye.week >= XP_BARAJI;
-                    tbody.innerHTML += `<tr><td><div class="player-name">${uye.name}</div></td><td style="color: ${isPassed ? '#fff' : 'var(--danger)'};">${uye.week.toLocaleString('tr-TR')}</td><td style="color: var(--text-muted);">${uye.month.toLocaleString('tr-TR')}</td><td style="text-align: center;"><div class="status-badge ${isPassed ? 'status-success' : 'status-danger'}">${isPassed ? '✔' : '✖'}</div></td></tr>`;
-                });
-            } catch (error) { tbody.innerHTML = '<tr><td colspan="4">Bağlantı hatası.</td></tr>'; }
-        }
-
-        window.onload = () => { loadTableData(); loadLeaderboard(); updateProgressBar(); buildEmptyMinesGrid(); };
-
-        // MAYIN TARLASI MOTORU
+        // 💣 MAYIN TARLASI MOTORU (10 LK GİRİŞ ÜCRETLİ)
         const multipliers = [1.12, 1.28, 1.48, 1.72, 2.05, 2.48, 3.05, 3.82, 4.88, 6.35, 8.45, 11.5, 16.2, 23.5, 35.8, 57.0, 96.0, 175.0, 350.0, 800.0, 2200.0, 10000.0];
         let minesGameActive = false;
         let minePositions = new Set();
@@ -643,9 +818,10 @@
             }
         }
 
-        function startMinesGame() {
+        async function startMinesGame() {
             const player = document.getElementById('minesPlayerSelect').value;
             const pin = document.getElementById('minesPinInput').value;
+            const startBtn = document.getElementById('startMinesBtn');
 
             if(!player) { alert("Lütfen klan üyesi seçin!"); return; }
             if(pin.length < 4) { alert("Lütfen 4 haneli PIN kodunuzu girin!"); return; }
@@ -655,13 +831,41 @@
             let playedCount = parseInt(localStorage.getItem(storageKey) || "0", 10);
 
             if(playedCount >= 3) {
-                alert(`Bugünkü 3/3 oyun hakkınızı tamamladınız, ${player}! Gece 03:00'te yenilenecektir.`);
+                alert(`Bugünkü 3/3 oyun hakkınızı tamamladınız, ${player}! Gece yarısı yenilenecektir.`);
                 return;
             }
 
+            startBtn.disabled = true;
+            startBtn.innerText = "KONTROL EDİLİYOR...";
+
+            // SUNUCUDAN PIN DOĞRULAMA + 10 LK GİRİŞ ÜCRETİ KESİNTİSİ
+            try {
+                const res = await fetch(webAppUrl, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "start_mines", oyuncu: player, pin: pin })
+                });
+                const data = await res.json();
+
+                if(data.status !== "success") {
+                    alert(`❌ İŞLEM REDDEDİLDİ:\n${data.message}`);
+                    startBtn.disabled = false;
+                    startBtn.innerText = "BAŞLA (10 LK)";
+                    return;
+                }
+            } catch(e) {
+                alert("Bağlantı hatası! Giriş ücreti onaylanamadı.");
+                startBtn.disabled = false;
+                startBtn.innerText = "BAŞLA (10 LK)";
+                return;
+            }
+
+            startBtn.disabled = false;
+            startBtn.innerText = "BAŞLA (10 LK)";
+
             playedCount++;
             localStorage.setItem(storageKey, playedCount);
-            document.getElementById('minesDailyStatus').innerText = `Günlük Hak: ${3 - playedCount} / 3`;
+            document.getElementById('minesDailyStatus').innerText = `Günlük Hak: ${3 - playedCount} / 3 (10 LK Giriş Ödendi)`;
+            loadLiveTicker();
 
             activeMinesPlayer = player;
             activeMinesPin = pin;
@@ -738,6 +942,7 @@
                 const data = await res.json();
                 if(data.status === "success") {
                     alert(`TEBRİKLER ${activeMinesPlayer}!\n\n${wonLK} LK kâr hesabınıza eklendi!\nYeni Bakiye: ${data.newBalance} LK`);
+                    loadLiveTicker();
                 } else {
                     alert(`UYARI: ${data.message}`);
                 }
@@ -749,7 +954,7 @@
             document.getElementById('minesMultiplier').style.color = 'var(--success)';
         }
 
-        // KURT AVI MOTORU
+        // 🎮 KURT AVI MOTORU
         let gameScore = 0; let gameTimeLeft = 30; let gameInterval, spawnInterval;
         let activePlayer = ""; let activeKurtAviPin = ""; let comboStreak = 0; let comboMultiplier = 1;
         const roles = { vahsikurt: "vahsikurt.jpg", karanlikkurt: "karanlikkurt.jpg", goldkurt: "goldkurt.jpg", hemsire: "hemsire.png.png", dedektif: "dedektif.png.png" };
@@ -763,123 +968,55 @@
             comboEl.innerHTML = comboMultiplier > 1 ? `<span style="color:#ff9900; text-shadow:0 0 15px #ff9900;">🔥 KOMBO x${comboMultiplier}</span>` : `Kombo: x1`;
         }
 
-// 🎮 KURT AVI - CANLI PIN DOĞRULAMALI BAŞLATMA
-async function startMiniGame() {
-    activePlayer = document.getElementById('gamePlayerSelect').value;
-    activeKurtAviPin = document.getElementById('kurtAviPinInput').value;
+        async function startMiniGame() {
+            activePlayer = document.getElementById('gamePlayerSelect').value;
+            activeKurtAviPin = document.getElementById('kurtAviPinInput').value;
 
-    if(!activePlayer) { alert("Lütfen önce oyuncu adınızı seçin!"); return; }
-    if(activeKurtAviPin.length < 4) { alert("Lütfen 4 haneli Klan PIN kodunuzu girin!"); return; }
+            if(!activePlayer) { alert("Lütfen önce oyuncu adınızı seçin!"); return; }
+            if(activeKurtAviPin.length < 4) { alert("Lütfen 4 haneli Klan PIN kodunuzu girin!"); return; }
 
-    const startBtn = document.getElementById('startBtn');
-    startBtn.disabled = true;
-    startBtn.innerText = "KONTROL EDİLİYOR...";
+            const startBtn = document.getElementById('startBtn');
+            startBtn.disabled = true;
+            startBtn.innerText = "KONTROL EDİLİYOR...";
 
-    // SUNUCUDAN CANLI PIN DOĞRULAMA
-    try {
-        const res = await fetch(webAppUrl, {
-            method: 'POST',
-            body: JSON.stringify({ action: "verify_pin", oyuncu: activePlayer, pin: activeKurtAviPin })
-        });
-        const data = await res.json();
+            try {
+                const res = await fetch(webAppUrl, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "verify_pin", oyuncu: activePlayer, pin: activeKurtAviPin })
+                });
+                const data = await res.json();
 
-        if(data.status !== "success") {
-            alert(`❌ HATALI PIN: ${data.message || 'Girdiğiniz PIN kodu bu oyuncuya ait değil!'}`);
-            startBtn.disabled = false;
-            startBtn.innerText = "OYUNA BAŞLA";
-            return;
+                if(data.status !== "success") {
+                    alert(`❌ HATALI PIN: ${data.message || 'Girdiğiniz PIN kodu bu oyuncuya ait değil!'}`);
+                    startBtn.disabled = false;
+                    startBtn.innerText = "OYUNA BAŞLA";
+                    return;
+                }
+            } catch(e) {
+                alert("Bağlantı hatası! PIN doğrulanamadı.");
+                startBtn.disabled = false;
+                startBtn.innerText = "OYUNA BAŞLA";
+                return;
+            }
+
+            document.getElementById('gamePlayerSelect').disabled = true;
+            document.getElementById('kurtAviPinInput').disabled = true;
+            
+            gameScore = 0; gameTimeLeft = 30; comboStreak = 0; updateComboUI();
+            document.getElementById('gameScore').innerText = 'Skor: 0'; document.getElementById('gameTime').innerText = 'Süre: 30s';
+            document.getElementById('gameSpeedState').innerHTML = 'FRENZY: %0'; document.getElementById('gameSpeedState').style.color = 'gold';
+            startBtn.style.display = 'none'; document.getElementById('gameBoard').innerHTML = '';
+            
+            gameInterval = setInterval(() => {
+                gameTimeLeft--; document.getElementById('gameTime').innerText = 'Süre: ' + gameTimeLeft + 's';
+                if(gameTimeLeft <= 10 && gameTimeLeft > 0) {
+                    document.getElementById('gameSpeedState').innerHTML = '<span class="frenzy-warn">FRENZY!</span>';
+                    clearInterval(spawnInterval); spawnInterval = setInterval(spawnTarget, 400); 
+                }
+                if(gameTimeLeft <= 0) endMiniGame();
+            }, 1000);
+            spawnTarget(); spawnInterval = setInterval(spawnTarget, 750); 
         }
-    } catch(e) {
-        alert("Bağlantı hatası! PIN doğrulanamadı.");
-        startBtn.disabled = false;
-        startBtn.innerText = "OYUNA BAŞLA";
-        return;
-    }
-
-    // PIN DOĞRULANDI, OYUN BAŞLIYOR
-    document.getElementById('gamePlayerSelect').disabled = true;
-    document.getElementById('kurtAviPinInput').disabled = true;
-    
-    gameScore = 0; gameTimeLeft = 30; comboStreak = 0; updateComboUI();
-    document.getElementById('gameScore').innerText = 'Skor: 0'; document.getElementById('gameTime').innerText = 'Süre: 30s';
-    document.getElementById('gameSpeedState').innerHTML = 'FRENZY: %0'; document.getElementById('gameSpeedState').style.color = 'gold';
-    startBtn.style.display = 'none'; document.getElementById('gameBoard').innerHTML = '';
-    
-    gameInterval = setInterval(() => {
-        gameTimeLeft--; document.getElementById('gameTime').innerText = 'Süre: ' + gameTimeLeft + 's';
-        if(gameTimeLeft <= 10 && gameTimeLeft > 0) {
-            document.getElementById('gameSpeedState').innerHTML = '<span class="frenzy-warn">FRENZY!</span>';
-            clearInterval(spawnInterval); spawnInterval = setInterval(spawnTarget, 400); 
-        }
-        if(gameTimeLeft <= 0) endMiniGame();
-    }, 1000);
-    spawnTarget(); spawnInterval = setInterval(spawnTarget, 750); 
-}
-
-// 💣 MAYIN TARLASI - CANLI PIN DOĞRULAMALI BAŞLATMA
-async function startMinesGame() {
-    const player = document.getElementById('minesPlayerSelect').value;
-    const pin = document.getElementById('minesPinInput').value;
-
-    if(!player) { alert("Lütfen klan üyesi seçin!"); return; }
-    if(pin.length < 4) { alert("Lütfen 4 haneli PIN kodunuzu girin!"); return; }
-
-    const today = new Date().toISOString().split('T')[0];
-    const storageKey = `mines_limit_${player}_${today}`;
-    let playedCount = parseInt(localStorage.getItem(storageKey) || "0", 10);
-
-    if(playedCount >= 3) {
-        alert(`Bugünkü 3/3 oyun hakkınızı tamamladınız, ${player}! Gece 03:00'te yenilenecektir.`);
-        return;
-    }
-
-    // SUNUCUDAN CANLI PIN DOĞRULAMA
-    try {
-        const res = await fetch(webAppUrl, {
-            method: 'POST',
-            body: JSON.stringify({ action: "verify_pin", oyuncu: player, pin: pin })
-        });
-        const data = await res.json();
-
-        if(data.status !== "success") {
-            alert(`❌ HATALI PIN: Girdiğiniz PIN kodu ${player} kullanıcısına ait değil!`);
-            return;
-        }
-    } catch(e) {
-        alert("Bağlantı hatası! PIN doğrulanamadı.");
-        return;
-    }
-
-    // PIN DOĞRULANDI, OYUN BAŞLIYOR
-    playedCount++;
-    localStorage.setItem(storageKey, playedCount);
-    document.getElementById('minesDailyStatus').innerText = `Günlük Hak: ${3 - playedCount} / 3`;
-
-    activeMinesPlayer = player;
-    activeMinesPin = pin;
-    minesGameActive = true;
-    openedCount = 0;
-    currentMultiplier = 1.0;
-    minePositions.clear();
-
-    while(minePositions.size < 3) {
-        minePositions.add(Math.floor(Math.random() * 25));
-    }
-
-    const grid = document.getElementById('minesGrid');
-    grid.innerHTML = '';
-    for(let i=0; i<25; i++) {
-        const tile = document.createElement('div');
-        tile.className = 'mine-tile';
-        tile.innerText = '❓';
-        tile.onclick = () => revealTile(tile, i);
-        grid.appendChild(tile);
-    }
-
-    document.getElementById('minesMultiplier').innerText = '1.00x';
-    document.getElementById('minesCurrentProfit').innerText = '0 LK';
-    document.getElementById('cashoutBtn').disabled = true;
-}        
 
         function spawnTarget() {
             const board = document.getElementById('gameBoard');
@@ -930,7 +1067,7 @@ async function startMinesGame() {
                     body: JSON.stringify({ action: "save_score", oyuncu: activePlayer, skor: gameScore, pin: activeKurtAviPin }) 
                 });
                 const status = await res.json();
-                if(status.status === "success") { document.getElementById('substatus').innerText = "Kaydedildi!"; loadLeaderboard(); }
+                if(status.status === "success") { document.getElementById('substatus').innerText = "Kaydedildi!"; loadLeaderboard(); loadLiveTicker(); }
                 else { document.getElementById('substatus').innerText = "Hata: " + status.message; }
             } catch(e) { document.getElementById('substatus').innerText = "Bağlantı kesildi."; }
             document.getElementById('gamePlayerSelect').disabled = false;
@@ -941,13 +1078,15 @@ async function startMinesGame() {
         async function loadLeaderboard() {
             const body = document.getElementById('leaderboardBody');
             try {
-                const res = await fetch(webAppUrl); const scores = await res.json(); body.innerHTML = '';
-                if(scores.length === 0) { body.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-muted)">Henüz skor yok!</td></tr>'; return; }
+                const res = await fetch(`${webAppUrl}?action=scores`);
+                const scores = await res.json();
+                body.innerHTML = '';
+                if(!scores || scores.length === 0) { body.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-muted)">Henüz skor yok!</td></tr>'; return; }
                 scores.forEach((s, idx) => { body.innerHTML += `<tr><td><strong>${idx + 1}.</strong></td><td>${s.oyuncu}</td><td>${s.skor.toLocaleString('tr-TR')}</td></tr>`; });
             } catch (e) { body.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--danger)">Hata.</td></tr>'; }
         }
 
-        // ADAM ASMACA MOTORU
+        // 🔤 ADAM ASMACA MOTORU
         const rolePool = [
             "AYLAKÇI", "AYRIK KURT", "BALKABAĞI KRALI", "BARIŞSEVER", "BARIŞSEVER KURT", "BÜYÜCÜ", "CADI", 
             "CANAVAR AVCISI", "DENİZ KIZI", "DOKTOR", "FALCI", "FIRINCI", "GARDİYAN", "GECE BEKÇİSİ", "GEVEZE", 
@@ -988,9 +1127,7 @@ async function startMinesGame() {
         let hmTimerInterval = null;
         let isGameActive = false;
 
-        function toggleHmSettings() {
-            document.getElementById('hmSettingsModal').classList.toggle('show');
-        }
+        function toggleHmSettings() { document.getElementById('hmSettingsModal').classList.toggle('show'); }
 
         function changeLayout() {
             currentLayout = document.getElementById('layoutSelect').value;
@@ -1001,7 +1138,6 @@ async function startMinesGame() {
         function renderKeyboard() {
             const kbContainer = document.getElementById('hmKeyboardContainer');
             kbContainer.innerHTML = '';
-            
             const layout = layouts[currentLayout];
             layout.forEach(row => {
                 const rowDiv = document.createElement('div');
@@ -1010,22 +1146,17 @@ async function startMinesGame() {
                     const btn = document.createElement('button');
                     btn.className = 'hm-key';
                     btn.innerText = char;
-                    
                     if(hmGuessedChars.has(char)) {
                         btn.disabled = true;
                         if(hmCurrentWord.includes(char)) btn.classList.add('correct');
                         else btn.classList.add('wrong');
                     }
-                    
                     btn.onclick = () => hmGuess(char, btn);
                     rowDiv.appendChild(btn);
                 });
                 kbContainer.appendChild(rowDiv);
             });
-            
-            if(!isGameActive) {
-                document.querySelectorAll('.hm-key').forEach(btn => btn.disabled = true);
-            }
+            if(!isGameActive) document.querySelectorAll('.hm-key').forEach(btn => btn.disabled = true);
         }
 
         function hmStartGame() {
@@ -1035,10 +1166,8 @@ async function startMinesGame() {
             hmLives = 5;
             hmTime = 0.0;
             isGameActive = true;
-            
             renderKeyboard();
             updateHmLives();
-            
             clearInterval(hmTimerInterval);
             document.getElementById('hmTimerDisplay').innerText = "0.0s";
             document.getElementById('hmTimerDisplay').style.color = "var(--neon-cyan)";
@@ -1046,7 +1175,6 @@ async function startMinesGame() {
                 hmTime += 0.1;
                 document.getElementById('hmTimerDisplay').innerText = hmTime.toFixed(1) + "s";
             }, 100);
-
             renderHmWord();
         }
 
@@ -1054,7 +1182,6 @@ async function startMinesGame() {
             const container = document.getElementById('hmWordDisplay');
             container.innerHTML = "";
             let isWon = true;
-
             for(let i=0; i<hmCurrentWord.length; i++) {
                 const char = hmCurrentWord[i];
                 if(char === " ") {
@@ -1064,29 +1191,20 @@ async function startMinesGame() {
                 } else {
                     const box = document.createElement('div');
                     box.className = "hm-letter-box";
-                    if(hmGuessedChars.has(char)) {
-                        box.innerText = char;
-                    } else {
-                        box.innerHTML = "&nbsp;"; 
-                        isWon = false;
-                    }
+                    if(hmGuessedChars.has(char)) { box.innerText = char; }
+                    else { box.innerHTML = "&nbsp;"; isWon = false; }
                     container.appendChild(box);
                 }
             }
-
             if(isWon) hmGameOver(true);
         }
 
         function hmGuess(char, btnElement) {
             if(hmLives <= 0 || hmGuessedChars.has(char) || !isGameActive) return;
-            
             hmGuessedChars.add(char);
             btnElement.disabled = true;
-
-            if(hmCurrentWord.includes(char)) {
-                btnElement.classList.add('correct');
-                renderHmWord();
-            } else {
+            if(hmCurrentWord.includes(char)) { btnElement.classList.add('correct'); renderHmWord(); }
+            else {
                 btnElement.classList.add('wrong');
                 hmLives--;
                 updateHmLives();
@@ -1112,9 +1230,7 @@ async function startMinesGame() {
             const endTitle = document.getElementById('hmEndTitle');
             const endWord = document.getElementById('hmEndWord');
             const timerColor = document.getElementById('hmTimerDisplay');
-            
             document.querySelectorAll('.hm-key').forEach(btn => btn.disabled = true);
-            
             if(isWin) {
                 endTitle.innerText = "TEBRİKLER! 👑";
                 endTitle.style.color = "var(--success)";
@@ -1126,10 +1242,7 @@ async function startMinesGame() {
                 endWord.innerText = `Rol: ${hmCurrentWord}`;
                 timerColor.style.color = "var(--danger)";
             }
-            
-            setTimeout(() => {
-                endScreen.style.display = 'flex';
-            }, 800);
+            setTimeout(() => { endScreen.style.display = 'flex'; }, 800);
         }
     </script>
 </body>

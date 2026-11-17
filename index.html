@@ -1184,6 +1184,7 @@
                 document.getElementById('minesMultiplier').style.color = 'var(--danger)';
                 document.getElementById('minesCurrentProfit').innerText = '0 LK (Kayıp)';
                 document.getElementById('cashoutBtn').disabled = true;
+                syncMinesQuotaUI();
                 setTimeout(() => alert("BOMBA PATLADI! Biriken tüm kârınız sıfırlandı."), 300);
             } else {
                 openedCount++;
@@ -1227,6 +1228,7 @@
 
             document.getElementById('minesMultiplier').innerText = 'BOZDURULDU';
             document.getElementById('minesMultiplier').style.color = 'var(--success)';
+            syncMinesQuotaUI();
         }
 
         // 🎮 KURT AVI MOTORU
